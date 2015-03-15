@@ -1,0 +1,105 @@
+body
+{
+  font-family: fantasy;
+  margin: 0px;
+  padding: 0px;
+}
+
+article
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 640px;
+}
+
+header
+{
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+small
+{
+  font-weight: normal;
+}
+
+#playground
+{
+  width: 640px;
+  height: 480px;
+}
+
+#playgroundTop
+{
+  height: 54px;
+}
+
+#borderTop
+{
+  width: 640px;
+  height: 54px;
+  background-image: url('/resources/images/background_top.jpg');
+}
+
+#playgroundMiddle
+{
+  height: 406px;
+}
+
+#borderLeft
+{
+  float: left;
+  width: 20px;
+  height: 406px;
+  background-image: url('/resources/images/background_left.jpg');
+}
+
+#screen
+{
+  float: left;
+  background-color: black;
+}
+
+#borderRight
+{
+  float: left;
+  width: 20px;
+  height: 406px;
+  background-image: url('/resources/images/background_right.jpg');
+}
+
+#playgroundBottom
+{
+  height: 20px;
+}
+
+#borderBottom
+{
+  width: 640px;
+  height: 20px;
+  background-image: url('/resources/images/background_bottom.jpg');
+}
+
+#rules
+{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+hr
+{
+  border-top: 1px solid gray;
+  border-bottom: 0px;
+}
+
+a
+{
+  text-decoration: none;
+  color: navy;
+}
+
+footer
+{
+  padding-top: 20px;
+}
