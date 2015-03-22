@@ -48,6 +48,7 @@
                     <sourceIncludes>
                         <include>jquery/*.js</include>
                         <include>oop-js/*.js</include>
+                        <include>math.js</include>
                         <include>resource.js</include>
                     </sourceIncludes>
                     <jsTestSrcDir>spec</jsTestSrcDir>
