@@ -1,6 +1,6 @@
-oop.namespace("resource");
+oop.namespace("brickdest.resource");
 
-resource.Resource = oop.class({
+brickdest.resource.Resource = oop.class({
   __create__: function() {
     this.loaded = false;
   },
@@ -12,7 +12,7 @@ resource.Resource = oop.class({
   }
 });
 
-resource.Collection = oop.class({
+brickdest.resource.Collection = oop.class({
   __create__: function() {
     this.resources = {};
   },

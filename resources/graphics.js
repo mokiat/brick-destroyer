@@ -1,6 +1,6 @@
-oop.namespace("graphics");
+oop.namespace("brickdest.graphics");
 
-graphics.Image = oop.class(resource.Resource, {
+brickdest.graphics.Image = oop.class(brickdest.resource.Resource, {
   __create__: function(path) {
     this.__super__();
     this.img = new Image();
@@ -14,7 +14,7 @@ graphics.Image = oop.class(resource.Resource, {
   }
 });
 
-graphics.Renderer = oop.class({
+brickdest.graphics.Renderer = oop.class({
   __create__: function(canvas) {
     this.width = canvas.width;
     this.height = canvas.height;
