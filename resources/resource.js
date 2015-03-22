@@ -19,6 +19,9 @@ brickdest.resource.Collection = oop.class({
   register: function(name, resource) {
     this.resources[name] = resource;
   },
+  unregister: function(name) {
+    delete this.resources[name];
+  },
   find: function(name) {
     return this.resources[name];
   },
@@ -30,8 +33,5 @@ brickdest.resource.Collection = oop.class({
       }
     }
     return true;
-  },
-  isLoading: function() {
-    return !this.isLoaded();
   }
 });
