@@ -1,0 +1,6 @@
+[
+  ["grey",   "grey", "grey",  "grey", "grey",     "grey", "grey",    "grey"],
+  ["red",    "grey", "red",   "grey", "red",      "grey", "red",     "grey"],
+  ["bounce", "star", "ball",  "star", "friction", "star", "gravity", "star"],
+  ["green",  "grey", "green", "ball", "green",    "grey", "green",   "grey"]
+]

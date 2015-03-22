@@ -1,0 +1,6 @@
+[
+  ["none",  "green", "none",  "none", "red",  "none", "grey", "grey"],
+  ["green", "none",  "green", "red",  "none", "red",  "grey", "grey"],
+  ["green", "none",  "green", "red",  "none", "red",  "grey", "none"],
+  ["none",  "green", "none",  "none", "red",  "none", "grey", "none"]
+]
