@@ -51,6 +51,7 @@
                         <include>math.js</include>
                         <include>resource.js</include>
                         <include>level.js</include>
+                        <include>entity.js</include>
                     </sourceIncludes>
                     <jsTestSrcDir>spec</jsTestSrcDir>
                     <specIncludes>
