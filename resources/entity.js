@@ -18,3 +18,29 @@ brickdest.entity.LocationFeature = oop.class({
     return this.y;
   }
 });
+
+brickdest.entity.MotionFeature = oop.class({
+  __create__: function() {
+    this.speedX = 0.0;
+    this.speedY = 0.0;
+    this.mass = 1.0;
+  },
+  setSpeedX: function(speedX) {
+    this.speedX = speedX;
+  },
+  getSpeedX: function() {
+    return this.speedX;
+  },
+  setSpeedY: function(speedY) {
+    this.speedY = speedY;
+  },
+  getSpeedY: function() {
+    return this.speedY;
+  },
+  setMass: function(mass) {
+    this.mass = mass;
+  },
+  getMass: function() {
+    return this.mass;
+  }
+});
