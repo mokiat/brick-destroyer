@@ -45,6 +45,79 @@ brickdest.entity.MotionFeature = oop.class({
   }
 });
 
+brickdest.entity.RectangleCollisionFeature = oop.class({
+  __create__: function(entity) {
+    this.entity = entity;
+    this.width = 2.0;
+    this.height = 1.0;
+  },
+  setWidth: function(width) {
+    this.width = width;
+  },
+  getWidth: function() {
+    return this.width;
+  },
+  setHeight: function(height) {
+    this.height = height;
+  },
+  getHeight: function() {
+    return this.height;
+  },
+  getSurfacePenetration: function(a, b, d) {
+    var x = this.entity.locationFeature.getX();
+    var y = this.entity.locationFeature.getY();
+    var halfWidth = this.width / 2.0;
+    var halfHeight = this.height / 2.0;
+    var minDistance = 1000.0;
+    // top-left
+    var distance = a * (x - halfWidth) + b * (y - halfHeight) - d;
+    if (distance < minDistance) {
+      minDistance = distance;
+    }
+    // bottom-left
+    distance = a * (x - halfWidth) + b * (y + halfHeight) - d;
+    if (distance < minDistance) {
+      minDistance = distance;
+    }
+    // top-right
+    distance = a * (x + halfWidth) + b * (y - halfHeight) - d;
+    if (distance < minDistance) {
+      minDistance = distance;
+    }
+    // bottom-right
+    distance = a * (x + halfWidth) + b * (y + halfHeight) - d;
+    if (distance < minDistance) {
+      minDistance = distance;
+    }
+    return -minDistance;
+  },
+  getCollisionEstimate: function(feature) {
+    // TODO
+  }
+});
+
+brickdest.entity.CircleCollisionFeature = oop.class({
+  __create__: function(entity) {
+    this.entity = entity;
+    this.radius = 1.0;
+  },
+  setRadius: function(radius) {
+    this.radius = radius;
+  },
+  getRadius: function() {
+    return this.radius;
+  },
+  getSurfacePenetration: function(a, b, d) {
+    var x = this.entity.locationFeature.getX();
+    var y = this.entity.locationFeature.getY();
+    var distance = a * x + b * y - d;
+    return this.radius - distance;
+  },
+  getCollisionEstimate: function(feature) {
+    // TODO
+  }
+});
+
 brickdest.entity.Entity = oop.class({
   locationFeature: null,
   motionFeature: null,
@@ -66,14 +139,14 @@ brickdest.entity.MotionSystem = oop.class({
     if (!entity.motionFeature) {
       return;
     }
-    var speedX = entity.motionFeature.getSpeedX();
-    var speedY = entity.motionFeature.getSpeedY();
-    var newSpeedY = speedY + this.acceleration * elapsedSeconds;
+    var oldSpeedX = entity.motionFeature.getSpeedX();
+    var oldSpeedY = entity.motionFeature.getSpeedY();
+    var newSpeedY = oldSpeedY + this.acceleration * elapsedSeconds;
 
     var locationX = entity.locationFeature.getX();
     var locationY = entity.locationFeature.getY();
-    var newLocationX = locationX + speedX * elapsedSeconds;
-    var newLocationY = locationY + (speedY + newSpeedY) * elapsedSeconds / 2.0;
+    var newLocationX = locationX + oldSpeedX * elapsedSeconds;
+    var newLocationY = locationY + (oldSpeedY + newSpeedY) * elapsedSeconds / 2.0;
 
     entity.locationFeature.setX(newLocationX);
     entity.locationFeature.setY(newLocationY);
