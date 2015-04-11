@@ -210,9 +210,253 @@ describe("entity", function() {
     });
   });
 
-  // TODO: Test collision between circle and rectangle
-  // TODO: Test collision between rectangle and rectangle
-  // TODO: Test collision between circle and circle
+  describe("CollisionEvaluator", function() {
+    var evaluator;
+    var firstRect;
+    var secondRect;
+    var firstCircle;
+    var secondCircle;
+
+    beforeEach(function() {
+      evaluator = new brickdest.entity.CollisionEvaluator();
+
+      firstRect = new brickdest.entity.Entity();
+      firstRect.locationFeature = new brickdest.entity.LocationFeature();
+      firstRect.locationFeature.setX(10.0);
+      firstRect.locationFeature.setY(10.0);
+      firstRect.collisionFeature = new brickdest.entity.RectangleCollisionFeature(firstRect);
+      firstRect.collisionFeature.setWidth(2.0);
+      firstRect.collisionFeature.setHeight(2.0);
+
+      secondRect = new brickdest.entity.Entity();
+      secondRect.locationFeature = new brickdest.entity.LocationFeature();
+      secondRect.collisionFeature = new brickdest.entity.RectangleCollisionFeature(secondRect);
+      secondRect.collisionFeature.setWidth(2.0);
+      secondRect.collisionFeature.setHeight(2.0);
+
+      firstCircle = new brickdest.entity.Entity();
+      firstCircle.locationFeature = new brickdest.entity.LocationFeature();
+      firstCircle.locationFeature.setX(10.0);
+      firstCircle.locationFeature.setY(10.0);
+      firstCircle.collisionFeature = new brickdest.entity.CircleCollisionFeature(firstCircle);
+      firstCircle.collisionFeature.setRadius(1.0);
+
+      secondCircle = new brickdest.entity.Entity();
+      secondCircle.locationFeature = new brickdest.entity.LocationFeature();
+      secondCircle.locationFeature.setX(10.0);
+      secondCircle.locationFeature.setY(10.0);
+      secondCircle.collisionFeature = new brickdest.entity.CircleCollisionFeature(secondCircle);
+      secondCircle.collisionFeature.setRadius(1.0);
+    });
+
+    describe("rectangle<=>rectangle; displace towards the right", function() {
+      beforeEach(function() {
+        secondRect.locationFeature.setX(11.5);
+        secondRect.locationFeature.setY(9.0);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondRect);
+        expect(vector.x).toBeCloseTo(0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>rectangle; displace towards the top", function() {
+      beforeEach(function() {
+        secondRect.locationFeature.setX(9.0);
+        secondRect.locationFeature.setY(8.5);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondRect);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.5, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>rectangle; displace towards the left", function() {
+      beforeEach(function() {
+        secondRect.locationFeature.setX(8.5);
+        secondRect.locationFeature.setY(11.0);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondRect);
+        expect(vector.x).toBeCloseTo(-0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>rectangle; displace towards the bottom", function() {
+      beforeEach(function() {
+        secondRect.locationFeature.setX(11.0);
+        secondRect.locationFeature.setY(11.5);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondRect);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.5, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 0 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(11.5);
+        secondCircle.locationFeature.setY(10.0);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 45 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(11.0606601);
+        secondCircle.locationFeature.setY(11.0606601);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(0.35355339, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.35355339, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 90 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(10.0);
+        secondCircle.locationFeature.setY(11.5);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.5, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 135 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(8.9393399);
+        secondCircle.locationFeature.setY(11.0606601);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(-0.35355339, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.35355339, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 180 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(8.5);
+        secondCircle.locationFeature.setY(10.0);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(-0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 225 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(8.9393399);
+        secondCircle.locationFeature.setY(8.9393399);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(-0.35355339, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.35355339, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 270 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(10.0);
+        secondCircle.locationFeature.setY(8.5);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.5, decimalPoints);
+      });
+    });
+
+    describe("circle<=>circle; displace towards 315 degrees", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(11.0606601);
+        secondCircle.locationFeature.setY(8.9393399);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstCircle, secondCircle);
+        expect(vector.x).toBeCloseTo(0.35355339, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.35355339, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>circle; displace towards right", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(11.5);
+        secondCircle.locationFeature.setY(10.0);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondCircle);
+        expect(vector.x).toBeCloseTo(0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>circle; displace towards bottom", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(10.0);
+        secondCircle.locationFeature.setY(11.5);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondCircle);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.5, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>circle; displace towards bottom-right", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(11.3535533);
+        secondCircle.locationFeature.setY(11.3535533);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondCircle);
+        expect(vector.x).toBeCloseTo(0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.3535533, decimalPoints);
+      });
+    });
+
+    describe("rectangle<=>circle; displace towards top-left", function() {
+      beforeEach(function() {
+        secondCircle.locationFeature.setX(8.6464467);
+        secondCircle.locationFeature.setY(8.6464467);
+      });
+
+      it("should return proper collision vector", function() {
+        var vector = evaluator.getEscapeVector(firstRect, secondCircle);
+        expect(vector.x).toBeCloseTo(-0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.3535533, decimalPoints);
+      });
+    });
+  });
 
   describe("MotionSystem", function() {
     var system;
