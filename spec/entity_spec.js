@@ -72,12 +72,34 @@ describe("entity", function() {
       entity.collisionFeature = feature;
     });
 
+    it("has default elasticity of 1.0", function() {
+      expect(feature.getElasticity()).toBeCloseTo(1.0, decimalPoints);
+    });
+
+    it("can have its elasticity changed", function() {
+      feature.setElasticity(0.25);
+      expect(feature.getElasticity()).toBeCloseTo(0.25, decimalPoints);
+    });
+
+    it("has default friction of 0.0", function() {
+      expect(feature.getFriction()).toBeCloseTo(0.0, decimalPoints);
+    });
+
+    it("can have its friction changed", function() {
+      feature.setFriction(0.25);
+      expect(feature.getFriction()).toBeCloseTo(0.25, decimalPoints);
+    });
+
     it("is possible to get width", function() {
       expect(feature.getWidth()).toBeCloseTo(3.0, decimalPoints);
     });
 
     it("is possible to get height", function() {
       expect(feature.getHeight()).toBeCloseTo(2.0, decimalPoints);
+    });
+
+    it("is possible to get step size", function() {
+      expect(feature.getStepSize()).toBeCloseTo(0.5);
     });
 
     it("has default width of 2.0", function() {
@@ -168,6 +190,24 @@ describe("entity", function() {
       entity.collisionFeature = feature;
     });
 
+    it("has default elasticity of 1.0", function() {
+      expect(feature.getElasticity()).toBeCloseTo(1.0, decimalPoints);
+    });
+
+    it("can have its elasticity changed", function() {
+      feature.setElasticity(0.25);
+      expect(feature.getElasticity()).toBeCloseTo(0.25, decimalPoints);
+    });
+
+    it("has default friction of 0.0", function() {
+      expect(feature.getFriction()).toBeCloseTo(0.0, decimalPoints);
+    });
+
+    it("can have its friction changed", function() {
+      feature.setFriction(0.25);
+      expect(feature.getFriction()).toBeCloseTo(0.25, decimalPoints);
+    });
+
     it("has default radius of 1.0", function() {
       feature = new brickdest.entity.CircleCollisionFeature(entity);
       expect(feature.getRadius()).toBeCloseTo(1.0, decimalPoints);
@@ -175,6 +215,10 @@ describe("entity", function() {
 
     it("is possible to get radius", function() {
       expect(feature.getRadius()).toBeCloseTo(2.0, decimalPoints);
+    });
+
+    it("is possible to get step size", function() {
+      expect(feature.getStepSize()).toBeCloseTo(1.0);
     });
 
     describe("surface penetration", function() {
@@ -458,54 +502,175 @@ describe("entity", function() {
     });
   });
 
+  describe("LocationSystem", function() {
+    var system;
+
+    beforeEach(function() {
+      system = new brickdest.entity.LocationSystem();
+    });
+
+    it("has no entities initially", function() {
+      expect(system.getEntities()).toEqual([]);
+    });
+
+    describe("when entities are added", function() {
+      var entity;
+
+      beforeEach(function() {
+        entity = new brickdest.entity.Entity();
+        system.addEntity(entity);
+      });
+
+      it("contains the entities", function() {
+        expect(system.getEntities()).toEqual([entity]);
+      });
+    });
+  });
+
   describe("MotionSystem", function() {
+    var locationSystem;
     var system;
     var entity;
 
     beforeEach(function() {
-      system = new brickdest.entity.MotionSystem();
-      system.setAcceleration(3.4);
+      locationSystem = new brickdest.entity.LocationSystem();
+      system = new brickdest.entity.MotionSystem(locationSystem);
 
       entity = new brickdest.entity.Entity();
       entity.locationFeature = new brickdest.entity.LocationFeature();
       entity.locationFeature.setX(11.3);
       entity.locationFeature.setY(5.4);
-    });
-
-    it("is possible to change acceleration", function() {
-      expect(system.getAcceleration()).toBeCloseTo(3.4);
+      locationSystem.addEntity(entity);
     });
 
     describe("when a motionless entity is processed", function() {
       beforeEach(function() {
-        system.process(entity, 2.0);
+        system.process(2.0);
       });
 
-      it("the entity is not affected", function() {
+      it("the entity's location is not affected", function() {
         expect(entity.locationFeature.getX()).toBeCloseTo(11.3, decimalPoints);
         expect(entity.locationFeature.getY()).toBeCloseTo(5.4, decimalPoints);
       });
     });
 
-    describe("when a movable entity is processed", function() {
+    describe("motion in gravity", function() {
       beforeEach(function() {
+        system.setAcceleration(3.4);
+
         entity.motionFeature = new brickdest.entity.MotionFeature();
         entity.motionFeature.setSpeedX(1.0);
         entity.motionFeature.setSpeedY(-2.0);
-        system.process(entity, 2.0);
       });
 
-      it("the speed should have changed accordingly", function() {
-        // speed = v0 + a * t = -2.0 + 3.4 * 2.0
-        expect(entity.motionFeature.getSpeedX()).toBeCloseTo(1.0, decimalPoints);
-        expect(entity.motionFeature.getSpeedY()).toBeCloseTo(4.8, decimalPoints);
+      it("is possible to get gravity", function() {
+        expect(system.getAcceleration()).toBeCloseTo(3.4);
       });
 
-      it("the location should have changed accordingly", function() {
-        // distanceX = v0 * t = 2.0
-        // distanceY = (v0 + v1) * t / 2 = (-2.0 + 4.8) * 2.0 / 2 = 2.8
-        expect(entity.locationFeature.getX()).toBeCloseTo(13.3);
-        expect(entity.locationFeature.getY()).toBeCloseTo(8.2);
+      describe("when entity is processed", function() {
+        beforeEach(function() {
+          system.process(2.0);
+        });
+
+        it("the speed should have changed accordingly", function() {
+          // speed = v0 + a * t = -2.0 + 3.4 * 2.0
+          expect(entity.motionFeature.getSpeedX()).toBeCloseTo(1.0, decimalPoints);
+          expect(entity.motionFeature.getSpeedY()).toBeCloseTo(4.8, decimalPoints);
+        });
+
+        it("the location should have changed accordingly", function() {
+          // distanceX = v0 * t = 2.0
+          // distanceY = (v0 + v1) * t / 2 = (-2.0 + 4.8) * 2.0 / 2 = 2.8
+          expect(entity.locationFeature.getX()).toBeCloseTo(13.3);
+          expect(entity.locationFeature.getY()).toBeCloseTo(8.2);
+        });
+      });
+    });
+
+    describe("collision with thin motionless object", function() {
+      var obstacle;
+
+      beforeEach(function() {
+        system.setAcceleration(0.0);
+
+        entity.locationFeature.setX(-4.0);
+        entity.locationFeature.setY(-5.1);
+        entity.motionFeature = new brickdest.entity.MotionFeature();
+        entity.motionFeature.setSpeedX(1.0);
+        entity.motionFeature.setSpeedY(1.0);
+        entity.collisionFeature = new brickdest.entity.CircleCollisionFeature(entity);
+        entity.collisionFeature.setRadius(1.0);
+
+        obstacle = new brickdest.entity.Entity();
+        obstacle.locationFeature = new brickdest.entity.LocationFeature();
+        obstacle.locationFeature.setX(0.0);
+        obstacle.locationFeature.setY(0.0);
+        obstacle.collisionFeature = new brickdest.entity.RectangleCollisionFeature(obstacle);
+        obstacle.collisionFeature.setWidth(3.0);
+        obstacle.collisionFeature.setHeight(0.2);
+        locationSystem.addEntity(obstacle);
+      });
+
+      describe("when the entity is processed", function() {
+        beforeEach(function() {
+          system.process(8.0);
+        });
+
+        it("the object should have changed its speed accordingly", function() {
+          expect(entity.motionFeature.getSpeedX()).toBeCloseTo(1.0, decimalPoints);
+          expect(entity.motionFeature.getSpeedY()).toBeCloseTo(-1.0, decimalPoints);
+        });
+
+        it("the object should have changed its location accordingly", function() {
+          expect(entity.locationFeature.getX()).toBeCloseTo(4.0, decimalPoints);
+          expect(entity.locationFeature.getY()).toBeCloseTo(-5.1, decimalPoints);
+        });
+      });
+
+      describe("when elasticity of colliding entities is decreased", function() {
+        beforeEach(function() {
+          entity.collisionFeature.setElasticity(0.5);
+          obstacle.collisionFeature.setElasticity(0.5);
+        });
+
+        describe("when entity is processed", function() {
+          beforeEach(function() {
+            system.process(8.0);
+          });
+
+          it("the object should have changed its speed accordingly", function() {
+            expect(entity.motionFeature.getSpeedX()).toBeCloseTo(1.0, decimalPoints);
+            expect(entity.motionFeature.getSpeedY()).toBeCloseTo(-0.25, decimalPoints);
+          });
+
+          it("the object should have changed its location accordingly", function() {
+            expect(entity.locationFeature.getX()).toBeCloseTo(4.0, decimalPoints);
+            expect(entity.locationFeature.getY()).toBeCloseTo(-2.1, decimalPoints);
+          });
+        });
+      });
+
+      describe("when friction of colliding entities is increased", function() {
+        beforeEach(function() {
+          entity.collisionFeature.setFriction(0.5);
+          obstacle.collisionFeature.setFriction(0.5);
+        });
+
+        describe("when entity is processed", function() {
+          beforeEach(function() {
+            system.process(8.0);
+          });
+
+          it("the object should have changed its speed accordingly", function() {
+            expect(entity.motionFeature.getSpeedX()).toBeCloseTo(0.75, decimalPoints);
+            expect(entity.motionFeature.getSpeedY()).toBeCloseTo(-1.0, decimalPoints);
+          });
+
+          it("the object should have changed its location accordingly", function() {
+            expect(entity.locationFeature.getX()).toBeCloseTo(3.0, decimalPoints);
+            expect(entity.locationFeature.getY()).toBeCloseTo(-5.1, decimalPoints);
+          });
+        });
       });
     });
   });

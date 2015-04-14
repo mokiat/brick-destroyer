@@ -45,8 +45,28 @@ brickdest.entity.MotionFeature = oop.class({
   }
 });
 
-brickdest.entity.RectangleCollisionFeature = oop.class({
+brickdest.entity.CollisionFeature = oop.class({
+  __create__: function() {
+    this.elasticity = 1.0;
+    this.friction = 0.0;
+  },
+  setElasticity: function(elasticity) {
+    this.elasticity = elasticity;
+  },
+  getElasticity: function() {
+    return this.elasticity;
+  },
+  setFriction: function(friction) {
+    this.friction = friction;
+  },
+  getFriction: function() {
+    return this.friction;
+  }
+});
+
+brickdest.entity.RectangleCollisionFeature = oop.class(brickdest.entity.CollisionFeature, {
   __create__: function(entity) {
+    this.__super__();
     this.entity = entity;
     this.width = 2.0;
     this.height = 1.0;
@@ -62,6 +82,13 @@ brickdest.entity.RectangleCollisionFeature = oop.class({
   },
   getHeight: function() {
     return this.height;
+  },
+  getStepSize: function() {
+    if (this.width < this.height) {
+      return this.width / 4.0;
+    } else {
+      return this.height / 4.0;
+    }
   },
   getSurfacePenetration: function(a, b, d) {
     var x = this.entity.locationFeature.getX();
@@ -141,8 +168,9 @@ brickdest.entity.RectangleCollisionFeature = oop.class({
   }
 });
 
-brickdest.entity.CircleCollisionFeature = oop.class({
+brickdest.entity.CircleCollisionFeature = oop.class(brickdest.entity.CollisionFeature, {
   __create__: function(entity) {
+    this.__super__();
     this.entity = entity;
     this.radius = 1.0;
   },
@@ -151,6 +179,9 @@ brickdest.entity.CircleCollisionFeature = oop.class({
   },
   getRadius: function() {
     return this.radius;
+  },
+  getStepSize: function() {
+    return this.radius / 2.0;
   },
   getSurfacePenetration: function(a, b, d) {
     var x = this.entity.locationFeature.getX();
@@ -226,8 +257,22 @@ brickdest.entity.CollisionEvaluator = oop.class({
   }
 });
 
-brickdest.entity.MotionSystem = oop.class({
+brickdest.entity.LocationSystem = oop.class({
   __create__: function() {
+    this.entities = [];
+  },
+  addEntity: function(entity) {
+    this.entities.push(entity);
+  },
+  getEntities: function() {
+    return this.entities;
+  }
+});
+
+brickdest.entity.MotionSystem = oop.class({
+  __create__: function(locationSystem) {
+    this.collisionEvaluator = new brickdest.entity.CollisionEvaluator();
+    this.locationSystem = locationSystem;
     this.acceleration = 9.8;
   },
   setAcceleration: function(acceleration) {
@@ -236,7 +281,13 @@ brickdest.entity.MotionSystem = oop.class({
   getAcceleration: function() {
     return this.acceleration;
   },
-  process: function(entity, elapsedSeconds) {
+  process: function(elapsedSeconds) {
+    var entities = this.locationSystem.getEntities();
+    for (var i = 0; i < entities.length; i++) {
+      this.processEntity(entities[i], elapsedSeconds);
+    }
+  },
+  processEntity: function(entity, elapsedSeconds) {
     if (!entity.motionFeature) {
       return;
     }
@@ -249,8 +300,60 @@ brickdest.entity.MotionSystem = oop.class({
     var newLocationX = locationX + oldSpeedX * elapsedSeconds;
     var newLocationY = locationY + (oldSpeedY + newSpeedY) * elapsedSeconds / 2.0;
 
+    if (entity.collisionFeature != null) {
+      var absHorizontalMovement = Math.abs(newLocationX - locationX);
+      var absVerticalMovement = Math.abs(newLocationY - locationY);
+      var stepSize = entity.collisionFeature.getStepSize();
+      if ((absHorizontalMovement > stepSize) || (absVerticalMovement > stepSize)) {
+        // We have moved way too much for a proper collision detection.
+        // Do a two separate half-time moves instead.
+        this.processEntity(entity, elapsedSeconds / 2.0);
+        this.processEntity(entity, elapsedSeconds / 2.0);
+        return;
+      }
+    }
+
     entity.locationFeature.setX(newLocationX);
     entity.locationFeature.setY(newLocationY);
     entity.motionFeature.setSpeedY(newSpeedY);
+
+    if (entity.collisionFeature != null) {
+      this.checkEntityCollision(entity);
+    }
+  },
+  checkEntityCollision: function(movingEntity) {
+    var entities = this.locationSystem.getEntities();
+    for (var i = 0; i < entities.length; i++) {
+      var staticEntity = entities[i];
+      if ((staticEntity != movingEntity) && (staticEntity.collisionFeature != null)) {
+        this.checkCollisionBetween(staticEntity, movingEntity);
+      }
+    }
+  },
+  checkCollisionBetween: function(staticEntity, movingEntity) {
+    var vector = this.collisionEvaluator.getEscapeVector(staticEntity, movingEntity);
+    if (vector == null) {
+      return;
+    }
+    if (staticEntity.motionFeature != null) {
+      throw "Collision between two moving objects not supported!";
+    }
+
+    movingEntity.locationFeature.setX(movingEntity.locationFeature.getX() + vector.x);
+    movingEntity.locationFeature.setY(movingEntity.locationFeature.getY() + vector.y);
+
+    var totalElasticity = staticEntity.collisionFeature.getElasticity() * movingEntity.collisionFeature.getElasticity();
+    var totalFriction = staticEntity.collisionFeature.getFriction() * movingEntity.collisionFeature.getFriction();
+
+    var entitySpeed = new brickdest.math.Vector(movingEntity.motionFeature.getSpeedX(), movingEntity.motionFeature.getSpeedY());
+    var collisionNormal = vector.resize(1.0);
+    var penetrationVector = collisionNormal.mul(collisionNormal.dotProduct(entitySpeed));
+    var slideVector = entitySpeed.dec(penetrationVector);
+    slideVector = slideVector.mul(1.0 - totalFriction);
+    var bounceVector = penetrationVector.mul(-1.0);
+    bounceVector = bounceVector.mul(totalElasticity);
+    var newEntitySpeed = bounceVector.inc(slideVector);
+    movingEntity.motionFeature.setSpeedX(newEntitySpeed.x);
+    movingEntity.motionFeature.setSpeedY(newEntitySpeed.y);
   }
 });
