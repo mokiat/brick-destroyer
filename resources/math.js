@@ -55,6 +55,10 @@ brickdest.math.Vector = oop.class({
   getLength: function() {
     return Math.sqrt(this.getSquaredLength());
   },
+  resize: function(length) {
+    var scale = length / this.getLength();
+    return this.mul(scale);
+  },
   dotProduct: function(other) {
     return this.x * other.x + this.y * other.y;
   }

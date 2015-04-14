@@ -67,6 +67,11 @@ describe("Vector", function() {
     expect(result).toBeCloseTo(3.6055512, epsilon);
   });
 
+  it("is possible to get resized vector", function() {
+    var result = vector.resize(1.0);
+    assertVector(result, 0.55470020, 0.83205031);
+  });
+
   it("is possible to get dot product", function() {
     var other = new brickdest.math.Vector(4.2, 3.1);
     var result = vector.dotProduct(other);
