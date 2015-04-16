@@ -15,6 +15,12 @@ brickdest.ecs.MotionComponent = oop.class({
   }
 });
 
+brickdest.ecs.CollisionComponent = oop.class({
+  friction: 0.2,
+  deflection: 0.8,
+  shape: null
+});
+
 brickdest.ecs.SpriteComponent = oop.class({
   image: null,
   width: 0,

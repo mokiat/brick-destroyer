@@ -28,6 +28,24 @@ describe("Entity-Component-System Components", function() {
     });
   });
 
+  describe("CollisionComponent", function() {
+    beforeEach(function() {
+      component = new brickdest.ecs.CollisionComponent();
+    });
+
+    it("has default friction of 0.2", function() {
+      expect(component.friction).toBeCloseTo(0.2, decimalPoints);
+    });
+
+    it("has default deflection of 0.8", function() {
+      expect(component.deflection).toBeCloseTo(0.8, decimalPoints);
+    });
+
+    it("has no shape by default", function() {
+      expect(component.shape).toBeNull();
+    });
+  });
+
   describe("SpriteComponent", function() {
     beforeEach(function() {
       component = new brickdest.ecs.SpriteComponent();
