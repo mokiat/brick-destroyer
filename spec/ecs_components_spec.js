@@ -13,6 +13,21 @@ describe("Entity-Component-System Components", function() {
     });
   });
 
+  describe("MotionComponent", function() {
+    beforeEach(function() {
+      component = new brickdest.ecs.MotionComponent();
+    });
+
+    it("has default speed of 0.0/0.0", function() {
+      expect(component.speed.x).toBeCloseTo(0.0, decimalPoints);
+      expect(component.speed.y).toBeCloseTo(0.0, decimalPoints);
+    });
+
+    it("has default mass of 1.0", function() {
+      expect(component.mass).toBeCloseTo(1.0, decimalPoints);
+    });
+  });
+
   describe("SpriteComponent", function() {
     beforeEach(function() {
       component = new brickdest.ecs.SpriteComponent();

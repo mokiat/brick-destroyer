@@ -7,6 +7,14 @@ brickdest.ecs.LocationComponent = oop.class({
   }
 });
 
+brickdest.ecs.MotionComponent = oop.class({
+  speed: null,
+  mass: 1.0,
+  __create__: function() {
+    this.speed = new brickdest.math.Vector();
+  }
+});
+
 brickdest.ecs.SpriteComponent = oop.class({
   image: null,
   width: 0,
