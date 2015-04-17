@@ -42,6 +42,45 @@ describe("Entity-Component-System Core", function() {
         });
       });
     });
+
+    describe("entity filtration", function() {
+      var firstEntity;
+      var secondEntity;
+      var thirdEntity;
+      var firstComponent;
+      var secondComponent;
+
+      beforeEach(function() {
+        firstComponent = {"id": "first"};
+        secondComponent = {"id": "second"};
+
+        firstEntity = manager.createEntity();
+        firstEntity.addComponent("location", firstComponent);
+
+        secondEntity = manager.createEntity();
+        secondEntity.addComponent("motion", secondComponent);
+
+        thirdEntity = manager.createEntity();
+        thirdEntity.addComponent("location", firstComponent);
+        thirdEntity.addComponent("motion", secondComponent);
+      });
+
+      it("is possible to get only specific entities", function() {
+        var entities = manager.filterEntities(["location"]);
+        expect(entities.length).toEqual(2);
+        expect(entities).toContain(firstEntity);
+        expect(entities).toContain(thirdEntity);
+
+        entities = manager.filterEntities(["motion"]);
+        expect(entities.length).toEqual(2);
+        expect(entities).toContain(secondEntity);
+        expect(entities).toContain(thirdEntity);
+
+        entities = manager.filterEntities(["location", "motion"]);
+        expect(entities.length).toEqual(1);
+        expect(entities).toContain(thirdEntity);
+      });
+    });
   });
 
   describe("Entity", function() {
@@ -89,6 +128,32 @@ describe("Entity-Component-System Core", function() {
         it("other components are still accessible", function() {
           expect(entity.getComponent("motion")).toEqual(secondComponent);
         });
+      });
+    });
+  });
+
+  describe("System", function() {
+    var firstSystem;
+    var secondSystem;
+
+    beforeEach(function() {
+      firstSystem = new brickdest.ecs.ISystem();
+      spyOn(firstSystem, 'update');
+      manager.addSystem(firstSystem);
+
+      secondSystem = new brickdest.ecs.ISystem();
+      spyOn(secondSystem, 'update');
+      manager.addSystem(secondSystem);
+    });
+
+    describe("when EntityManager is updated", function() {
+      beforeEach(function() {
+        manager.update(1.5);
+      });
+
+      it("all systems are updated", function() {
+        expect(firstSystem.update).toHaveBeenCalledWith(1.5);
+        expect(secondSystem.update).toHaveBeenCalledWith(1.5);
       });
     });
   });
