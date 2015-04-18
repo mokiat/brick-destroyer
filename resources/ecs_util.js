@@ -11,6 +11,12 @@ brickdest.ecs.CollisionEvaluator = oop.class({
     if (this.isRectangle(staticEntity) && this.isRectangle(candidateEntity)) {
       return this.getEscapeVectorRectangleRectangle(staticEntity, candidateEntity);
     }
+    if (this.isRectangle(staticEntity) && this.isCircle(candidateEntity)) {
+      return this.getEscapeVectorRectangleCircle(staticEntity, candidateEntity);
+    }
+    if (this.isCircle(staticEntity) && this.isRectangle(candidateEntity)) {
+      return this.getEscapeVectorRectangleCircle(candidateEntity, staticEntity).mul(-1.0);
+    }
     return null;
   },
   areTooFar: function(staticEntity, candidateEntity) {
@@ -52,47 +58,103 @@ brickdest.ecs.CollisionEvaluator = oop.class({
     var candidateRight = candidateLocationComp.location.x + candidateCollisionComp.shape.getHalfWidth();
     var candidateTop = candidateLocationComp.location.y - candidateCollisionComp.shape.getHalfHeight();
     var candidateBottom = candidateLocationComp.location.y + candidateCollisionComp.shape.getHalfHeight();
-    var escapeVector = new brickdest.math.Vector();
-    var minEscape = 10000.0;
-    if ((staticRight < candidateLeft) || (staticLeft > candidateRight)) {
+
+    var horizontalEscape;
+    var horizontalOverlap = (candidateLeft < staticRight) && (candidateRight > staticLeft);
+    if (horizontalOverlap) {
+      if (candidateLocationComp.location.x > staticLocationComp.location.x) {
+        horizontalEscape = new brickdest.math.Vector(staticRight - candidateLeft, 0.0);
+      } else {
+        horizontalEscape = new brickdest.math.Vector(staticLeft - candidateRight, 0.0);
+      }
+    } else {
       return null;
     }
-    if ((staticBottom < candidateTop) || (staticTop > candidateBottom)) {
+
+    var verticalEscape;
+    var verticalOverlap = (candidateTop < staticBottom) && (candidateBottom > staticTop);
+    if (verticalOverlap) {
+      if (candidateLocationComp.location.y > staticLocationComp.location.y) {
+        verticalEscape = new brickdest.math.Vector(0.0, staticBottom - candidateTop);
+      } else {
+        verticalEscape = new brickdest.math.Vector(0.0, staticTop - candidateBottom);
+      }
+    } else {
       return null;
     }
-    if (candidateLeft < staticRight) {
-      var escape = staticRight - candidateLeft;
-      if (escape < minEscape) {
-        minEscape = escape;
-        escapeVector.x = escape;
-        escapeVector.y = 0.0;
-      }
+
+    if (verticalEscape.getSquaredLength() < horizontalEscape.getSquaredLength()) {
+      return verticalEscape;
+    } else {
+      return horizontalEscape;
     }
-    if (candidateBottom > staticTop) {
-      var escape = candidateBottom - staticTop;
-      if (escape < minEscape) {
-        minEscape = escape;
-        escapeVector.x = 0.0;
-        escapeVector.y = -escape;
+  },
+  getEscapeVectorRectangleCircle: function(staticEntity, candidateEntity) {
+    var staticLocationComp = staticEntity.getComponent("location");
+    var staticCollisionComp = staticEntity.getComponent("collision");
+    var candidateLocationComp = candidateEntity.getComponent("location");
+    var candidateCollisionComp = candidateEntity.getComponent("collision");
+    var staticLeft = staticLocationComp.location.x - staticCollisionComp.shape.getHalfWidth();
+    var staticRight = staticLocationComp.location.x + staticCollisionComp.shape.getHalfWidth();
+    var staticTop = staticLocationComp.location.y - staticCollisionComp.shape.getHalfHeight();
+    var staticBottom = staticLocationComp.location.y + staticCollisionComp.shape.getHalfHeight();
+    var candidateLeft = candidateLocationComp.location.x - candidateCollisionComp.shape.radius;
+    var candidateRight = candidateLocationComp.location.x + candidateCollisionComp.shape.radius;
+    var candidateTop = candidateLocationComp.location.y - candidateCollisionComp.shape.radius;
+    var candidateBottom = candidateLocationComp.location.y + candidateCollisionComp.shape.radius;
+
+    var horizontalEscape;
+    var horizontalOverlap = (candidateLeft < staticRight) && (candidateRight > staticLeft);
+    if (horizontalOverlap) {
+      if (candidateLocationComp.location.x > staticLocationComp.location.x) {
+        horizontalEscape = new brickdest.math.Vector(staticRight - candidateLeft, 0.0);
+      } else {
+        horizontalEscape = new brickdest.math.Vector(staticLeft - candidateRight, 0.0);
       }
+    } else {
+      return null;
     }
-    if (candidateRight > staticLeft) {
-      var escape = candidateRight - staticLeft;
-      if (escape < minEscape) {
-        minEscape = escape;
-        escapeVector.x = -escape;
-        escapeVector.y = 0.0;
+
+    var verticalEscape;
+    var verticalOverlap = (candidateTop < staticBottom) && (candidateBottom > staticTop);
+    if (verticalOverlap) {
+      if (candidateLocationComp.location.y > staticLocationComp.location.y) {
+        verticalEscape = new brickdest.math.Vector(0.0, staticBottom - candidateTop);
+      } else {
+        verticalEscape = new brickdest.math.Vector(0.0, staticTop - candidateBottom);
       }
+    } else {
+      return null;
     }
-    if (candidateTop < staticBottom) {
-      var escape = staticBottom - candidateTop;
-      if (escape < minEscape) {
-        minEscape = escape;
-        escapeVector.x = 0.0;
-        escapeVector.y = escape;
+
+    var cornerEscape;
+    var cornerOverlapPossible =
+          ((candidateLocationComp.location.x < staticLeft) || (candidateLocationComp.location.x > staticRight)) &&
+          ((candidateLocationComp.location.y < staticTop) || (candidateLocationComp.location.y > staticBottom));
+    if (cornerOverlapPossible) {
+      var cornerDistance = new brickdest.math.Vector();
+      if (candidateLocationComp.location.x < staticLeft) {
+        cornerDistance.x = (candidateLocationComp.location.x - staticLeft);
+      } else {
+        cornerDistance.x = (candidateLocationComp.location.x - staticRight);
       }
+      if (candidateLocationComp.location.y < staticTop) {
+        cornerDistance.y = (candidateLocationComp.location.y - staticTop);
+      } else {
+        cornerDistance.y = (candidateLocationComp.location.y - staticBottom);
+      }
+      var distanceLength = cornerDistance.getLength();
+      if (distanceLength > candidateCollisionComp.shape.radius) {
+        return null;
+      }
+      return cornerDistance.resize(candidateCollisionComp.shape.radius - distanceLength);
     }
-    return escapeVector;
+
+    if (verticalEscape.getSquaredLength() < horizontalEscape.getSquaredLength()) {
+      return verticalEscape;
+    } else {
+      return horizontalEscape;
+    }
   },
   isCircle: function(entity) {
     var collisionComp = entity.getComponent("collision");

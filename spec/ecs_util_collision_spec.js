@@ -233,4 +233,150 @@ describe("CollisionEvaluator", function() {
       });
     });
   });
+
+  describe("when circle and rectangle collide", function() {
+    describe("when candidate collides with the right edge", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(11.5, 10.0);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(-0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the bottom edge", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(10.0, 11.5);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.5, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.5, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the left edge", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(8.5, 10.0);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(-0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(0.5, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.0, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the top edge", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(10.0, 8.5);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.5, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(0.0, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.5, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the bottom-right corner", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(11.3535533, 11.3535533);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.3535533, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(-0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.3535533, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the bottom-left corner", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(8.6464467, 11.3535533);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(-0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.3535533, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.3535533, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the top-left corner", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(8.6464467, 8.6464467);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(-0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.3535533, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.3535533, decimalPoints);
+      });
+    });
+
+    describe("when candidate collides with the top-right corner", function() {
+      beforeEach(function() {
+        setCandidateCircleLocation(11.3535533, 8.6464467);
+      });
+
+      it("should return correct escape vector", function() {
+        var vector = evaluator.getEscapeVector(staticRect, candidateCircle);
+        expect(vector.x).toBeCloseTo(0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(-0.3535533, decimalPoints);
+      });
+
+      it("should return opposite escape vector when flipped", function() {
+        var vector = evaluator.getEscapeVector(candidateCircle, staticRect);
+        expect(vector.x).toBeCloseTo(-0.3535533, decimalPoints);
+        expect(vector.y).toBeCloseTo(0.3535533, decimalPoints);
+      });
+    });
+  });
 });
