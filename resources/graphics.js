@@ -1,5 +1,9 @@
 oop.namespace("brickdest.graphics");
 
+brickdest.graphics.IImage = oop.interface({
+  getImg: function() {}
+});
+
 brickdest.graphics.Image = oop.class(brickdest.resource.Resource, {
   __create__: function(path) {
     this.__super__();
@@ -12,6 +16,12 @@ brickdest.graphics.Image = oop.class(brickdest.resource.Resource, {
   getImg: function() {
     return this.img;
   }
+});
+
+brickdest.graphics.IRenderer = oop.interface({
+  clear: function() {},
+  drawImage: function(image, x, y) {},
+  drawScaledImage: function(image, left, top, width, height) {}
 });
 
 brickdest.graphics.Renderer = oop.class({
@@ -27,5 +37,8 @@ brickdest.graphics.Renderer = oop.class({
     var width = image.getImg().width;
     var height = image.getImg().height;
     this.context.drawImage(image.getImg(), x - width / 2, y - height / 2, width, height);
+  },
+  drawScaledImage: function(image, left, top, width, height) {
+    this.context.drawImage(image.getImg(), left, top, width, height);
   }
 });
