@@ -21,15 +21,14 @@ describe("Entity-Component-System Systems", function() {
       system = new brickdest.ecs.SpriteRenderSystem(manager, renderer);
       manager.addSystem(system);
 
-      var location = new brickdest.ecs.LocationComponent();
-      location.location = new brickdest.math.Vector(5.4, 4.6);
-      entity.addComponent("location", location);
-
-      var sprite = new brickdest.ecs.SpriteComponent();
-      sprite.width = 64;
-      sprite.height = 32;
-      sprite.image = image;
-      entity.addComponent("sprite", sprite);
+      entity.addComponent("location", new brickdest.ecs.LocationComponent({
+        location: new brickdest.math.Vector(5.4, 4.6)
+      }));
+      entity.addComponent("sprite", new brickdest.ecs.SpriteComponent({
+        width: 64,
+        height: 32,
+        image: image
+      }));
     });
 
     describe("when updated", function() {

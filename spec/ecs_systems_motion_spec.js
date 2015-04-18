@@ -21,14 +21,12 @@ describe("MotionSystem", function() {
       system.gravity = new brickdest.math.Vector(1.2, 3.4);
 
       entity = manager.createEntity();
-
-      var location = new brickdest.ecs.LocationComponent();
-      location.location = new brickdest.math.Vector(11.3, 5.4);
-      entity.addComponent("location", location);
-
-      var motion = new brickdest.ecs.MotionComponent();
-      motion.speed = new brickdest.math.Vector(1.0, -2.0);
-      entity.addComponent("motion", motion);
+      entity.addComponent("location", new brickdest.ecs.LocationComponent({
+        location: new brickdest.math.Vector(11.3, 5.4)
+      }));
+      entity.addComponent("motion", new brickdest.ecs.MotionComponent({
+        speed: new brickdest.math.Vector(1.0, -2.0)
+      }));
 
       manager.update(2.0);
     });
