@@ -22,8 +22,7 @@ describe("Entity-Component-System Systems", function() {
       manager.addSystem(system);
 
       var location = new brickdest.ecs.LocationComponent();
-      location.x = 5.3;
-      location.y = 4.6;
+      location.location = new brickdest.math.Vector(5.4, 4.6);
       entity.addComponent("location", location);
 
       var sprite = new brickdest.ecs.SpriteComponent();
