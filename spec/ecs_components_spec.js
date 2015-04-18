@@ -23,14 +23,15 @@ describe("Entity-Component-System Components", function() {
       expect(component.speed.y).toBeCloseTo(0.0, decimalPoints);
     });
 
-    it("has default mass of 1.0", function() {
-      expect(component.mass).toBeCloseTo(1.0, decimalPoints);
-    });
   });
 
   describe("CollisionComponent", function() {
     beforeEach(function() {
       component = new brickdest.ecs.CollisionComponent();
+    });
+
+    it("has default mass of 1.0", function() {
+      expect(component.mass).toBeCloseTo(1.0, decimalPoints);
     });
 
     it("has default friction of 0.2", function() {
