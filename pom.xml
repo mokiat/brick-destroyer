@@ -49,6 +49,7 @@
                         <include>jquery/*.js</include>
                         <include>oop-js/*.js</include>
                         <include>math.js</include>
+                        <include>shape.js</include>
                         <include>resource.js</include>
                         <include>graphics.js</include>
                         <include>level.js</include>
