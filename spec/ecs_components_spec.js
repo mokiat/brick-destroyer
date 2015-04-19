@@ -86,7 +86,7 @@ describe("Entity-Component-System Components", function() {
         });
         component = new brickdest.ecs.CollisionComponent({
           mass: 8.9,
-          friction: 0.5,
+          friction: 0.0,
           deflection: 0.1,
           shape: shape
         });
@@ -97,7 +97,7 @@ describe("Entity-Component-System Components", function() {
       });
 
       it("has friction set accordingly", function() {
-        expect(component.friction).toBeCloseTo(0.5, decimalPoints);
+        expect(component.friction).toBeCloseTo(0.0, decimalPoints);
       });
 
       it("has deflection set accordingly", function() {
