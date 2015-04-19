@@ -58,10 +58,13 @@ brickdest.ecs.Entity = oop.class({
   getComponent: function(type) {
     return this.components[type];
   },
+  hasComponent: function(type) {
+    return !!this.components[type];
+  },
   hasComponents: function(listOfComponents) {
     for (var i = 0; i < listOfComponents.length; i++) {
       var type = listOfComponents[i];
-      if (!this.components[type]) {
+      if (!this.hasComponent(type)) {
         return false;
       }
     }

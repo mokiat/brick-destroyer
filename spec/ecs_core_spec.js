@@ -111,6 +111,12 @@ describe("Entity-Component-System Core", function() {
         entity.addComponent("motion", secondComponent);
       });
 
+      it("is possible to check whether it has given components", function() {
+        expect(entity.hasComponent("location")).toBeTruthy();
+        expect(entity.hasComponent("motion")).toBeTruthy();
+        expect(entity.hasComponent("missing")).toBeFalsy();
+      });
+
       it("is possible to access these components", function() {
         expect(entity.getComponent("location")).toEqual(firstComponent);
         expect(entity.getComponent("motion")).toEqual(secondComponent);
