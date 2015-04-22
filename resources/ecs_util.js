@@ -1,5 +1,116 @@
 oop.namespace("brickdest.ecs");
 
+brickdest.ecs.EntityFactory = oop.class({
+  __create__: function(manager, resourceCollection) {
+    this.manager = manager;
+    this.resourceCollection = resourceCollection;
+  },
+  createBorder: function(x, y, width, height) {
+    var entity = this.manager.createEntity();
+    entity.addComponent("location", new brickdest.ecs.LocationComponent({
+      location: new brickdest.math.Vector(x, y)
+    }));
+    entity.addComponent("collision", new brickdest.ecs.CollisionComponent({
+      shape: new brickdest.shape.Rectangle({
+        width: width,
+        height: height
+      }),
+      deflection: 1.0,
+      friction: 0.0
+    }));
+    return entity;
+  },
+  createBall: function(x, y) {
+    var entity = this.manager.createEntity();
+    entity.addComponent("location", new brickdest.ecs.LocationComponent({
+      location: new brickdest.math.Vector(x, y)
+    }));
+    entity.addComponent("motion", new brickdest.ecs.MotionComponent());
+    entity.addComponent("collision", new brickdest.ecs.CollisionComponent({
+      shape: new brickdest.shape.Circle({
+        radius: 13.5
+      }),
+      deflection: 0.8,
+      friction: 0.4
+    }));
+    var ballImage = this.resourceCollection.find("ball");
+    entity.addComponent("sprite", new brickdest.ecs.SpriteComponent({
+      width: 28,
+      height: 28,
+      image: ballImage
+    }));
+    return entity;
+  },
+  createBrick: function(x, y, type) {
+    var entity = this.manager.createEntity();
+    entity.addComponent("location", new brickdest.ecs.LocationComponent({
+      location: new brickdest.math.Vector(x, y)
+    }));
+    entity.addComponent("collision", new brickdest.ecs.CollisionComponent({
+      shape: new brickdest.shape.Rectangle({
+        width: 75.0,
+        height: 40.0
+      }),
+      deflection: 1.0,
+      friction: 0.0
+    }));
+    var brickImage;
+    switch (type) {
+      case brickdest.level.BRICK_GREEN:
+        brickImage = this.resourceCollection.find("brick_green");
+        break;
+      case brickdest.level.BRICK_RED:
+        brickImage = this.resourceCollection.find("brick_red");
+        break;
+      case brickdest.level.BRICK_GREY:
+        brickImage = this.resourceCollection.find("brick_grey");
+        break;
+      case brickdest.level.BRICK_STAR:
+        brickImage = this.resourceCollection.find("brick_star");
+        break;
+      case brickdest.level.BRICK_BALL:
+        brickImage = this.resourceCollection.find("brick_ball");
+        break;
+      case brickdest.level.BRICK_GRAVITY:
+        brickImage = this.resourceCollection.find("brick_gravity");
+        break;
+      case brickdest.level.BRICK_FRICTION:
+        brickImage = this.resourceCollection.find("brick_friction");
+        break;
+      case brickdest.level.BRICK_BOUNCE:
+        brickImage = this.resourceCollection.find("brick_bounce");
+        break;
+    }
+    entity.addComponent("sprite", new brickdest.ecs.SpriteComponent({
+      width: 75,
+      height: 40,
+      image: brickImage
+    }));
+    return entity;
+  },
+  createSlider: function(x, y) {
+    var entity = this.manager.createEntity();
+    entity.addComponent("location", new brickdest.ecs.LocationComponent({
+      location: new brickdest.math.Vector(x, y)
+    }));
+    entity.addComponent("collision", new brickdest.ecs.CollisionComponent({
+      shape: new brickdest.shape.Rectangle({
+        width: 110.0,
+        height: 18.0
+      }),
+      deflection: 1.0,
+      friction: 0.0
+    }));
+    var sliderImage = this.resourceCollection.find("slider_inactive");
+    entity.addComponent("sprite", new brickdest.ecs.SpriteComponent({
+      width: 110,
+      height: 18,
+      image: sliderImage
+    }));
+    return entity;
+  }
+});
+
 brickdest.ecs.CollisionEvaluator = oop.class({
   getEscapeVector: function(staticEntity, candidateEntity) {
     if (this.areTooFar(staticEntity, candidateEntity)) {
