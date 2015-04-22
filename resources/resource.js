@@ -12,6 +12,21 @@ brickdest.resource.Resource = oop.class({
   }
 });
 
+brickdest.resource.RemoteJSONResource = oop.class(brickdest.resource.Resource, {
+  __create__: function(path) {
+    this.__super__();
+    this.data = null;
+    $.get(path, $.proxy(this.onDataReceived, this), "json");
+  },
+  onDataReceived: function(data) {
+    this.data = data;
+    this.setLoaded(true);
+  },
+  getData: function() {
+    return this.data;
+  }
+});
+
 brickdest.resource.Collection = oop.class({
   __create__: function() {
     this.resources = {};

@@ -20,6 +20,28 @@ describe("Resource", function() {
   });
 });
 
+describe("RemoteJSONResource", function() {
+  var resource;
+
+  beforeEach(function() {
+    resource = new brickdest.resource.RemoteJSONResource("spec/resources/example_json_resource.json");
+  });
+
+  describe("when loaded", function() {
+    beforeEach(function() {
+      waitsFor(function() {
+        return resource.isLoaded();
+      }, "The resource should be loaded.", 2000);
+    });
+
+    it("should have the proper data", function() {
+      expect(resource.getData()).toEqual({
+        hello : "world"
+      });
+    });
+  });
+});
+
 describe("Collection", function() {
   var collection;
 
