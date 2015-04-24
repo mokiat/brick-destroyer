@@ -52,8 +52,6 @@
                         <include>shape.js</include>
                         <include>resource.js</include>
                         <include>graphics.js</include>
-                        <include>level.js</include>
-                        <include>entity.js</include>
                         <include>ecs_core.js</include>
                         <include>ecs_components.js</include>
                         <include>ecs_util.js</include>
