@@ -9,6 +9,7 @@ game.Game = oop.class({
     this.gameState = game.StateStopped;
     this.wasLoading = true;
     this.currentLevel = 0;
+    this.currentLevelName = "";
 
     this.renderer = renderer;
 
@@ -24,17 +25,16 @@ game.Game = oop.class({
     this.resourceCollection.register("brick_friction", new brickdest.graphics.Image("/resources/images/brick_friction.jpg"));
     this.resourceCollection.register("brick_gravity", new brickdest.graphics.Image("/resources/images/brick_gravity.jpg"));
     this.resourceCollection.register("brick_star", new brickdest.graphics.Image("/resources/images/brick_star.jpg"));
-
-    this.resourceCollection.register("level0", new brickdest.level.JSONLevel("/resources/levels/level0.json"));
-    this.resourceCollection.register("level1", new brickdest.level.JSONLevel("/resources/levels/level1.json"));
-    this.resourceCollection.register("level2", new brickdest.level.JSONLevel("/resources/levels/level2.json"));
-    this.resourceCollection.register("level3", new brickdest.level.JSONLevel("/resources/levels/level3.json"));
+    this.resourceCollection.register("level0", new brickdest.resource.RemoteJSONResource("/resources/levels/level0.json"));
 
     this.entityManager = new brickdest.ecs.EntityManager();
+    this.levelFactory = new brickdest.ecs.LevelFactory(this.entityManager, this.resourceCollection);
 
     var spriteSystem = new brickdest.ecs.SpriteRenderSystem(this.entityManager, this.renderer);
     this.entityManager.addSystem(spriteSystem);
+
     var motionSystem = new brickdest.ecs.MotionSystem(this.entityManager);
+    motionSystem.gravity = new brickdest.math.Vector(0.0, 435);
     this.entityManager.addSystem(motionSystem);
   },
   isLoading: function() {
@@ -43,8 +43,8 @@ game.Game = oop.class({
   isPaused: function() {
     return (this.gameState == game.StatePaused);
   },
-  getLevelNumber: function() {
-    return this.currentLevel;
+  getLevelName: function() {
+    return this.currentLevelName;
   },
   update: function(elapsedSeconds) {
     this.renderer.clear();
@@ -61,9 +61,14 @@ game.Game = oop.class({
     this.entityManager.update(elapsedSeconds);
   },
   initializeLevel: function(number) {
-    this.currentLevel = number;
     console.log("Changing to level: " + number);
-    // TODO: Through the usage of a level system
+    this.currentLevel = number;
+    var levelResourceName = "level" + (number - 1);
+    var levelResource = this.resourceCollection.find(levelResourceName);
+    var level = levelResource.getData();
+    this.currentLevelName = level.name;
+    // this.levelFactory.cleanUp();
+    this.levelFactory.applyLevel(level);
   },
   startLevel: function() {
     if (this.isLoading()) {

@@ -45,7 +45,7 @@ brickdest.app.Application = oop.class({
     } else if (this.brickGame.isPaused()) {
       this.setTitle("Paused!");
     } else {
-      this.setTitle("Level: " + this.brickGame.getLevelNumber());
+      this.setTitle("Level: " + this.brickGame.getLevelName());
     }
   },
   setTitle: function(text) {
