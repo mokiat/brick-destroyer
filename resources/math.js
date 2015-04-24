@@ -1,9 +1,9 @@
 oop.namespace("brickdest.math")
 
 brickdest.math.Vector = oop.class({
-  x: 0.0,
-  y: 0.0,
   __create__: function() {
+    this.x = 0.0;
+    this.y = 0.0;
     if (arguments.length == 1) {
       this.x = arguments[0].x;
       this.y = arguments[0].y;

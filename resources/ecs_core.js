@@ -44,7 +44,6 @@ brickdest.ecs.EntityManager = oop.class({
 });
 
 brickdest.ecs.Entity = oop.class({
-  id: null,
   __create__: function(id) {
     this.id = id;
     this.components = {};

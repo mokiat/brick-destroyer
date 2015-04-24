@@ -23,9 +23,9 @@ brickdest.ecs.SpriteRenderSystem = oop.class({
 });
 
 brickdest.ecs.MotionSystem = oop.class({
-  gravity: new brickdest.math.Vector(),
   __create__: function(manager) {
     this.manager = manager;
+    this.gravity = new brickdest.math.Vector();
     this.collisionEvaluator = new brickdest.ecs.CollisionEvaluator();
   },
   update: function(elapsedSeconds) {

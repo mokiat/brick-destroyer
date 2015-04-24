@@ -1,8 +1,8 @@
 oop.namespace("brickdest.ecs");
 
 brickdest.ecs.LocationComponent = oop.class({
-  location: new brickdest.math.Vector(),
   __create__: function(config) {
+    this.location = new brickdest.math.Vector();
     if (config) {
       if (typeof config.location !== 'undefined') {
         this.location = config.location;
@@ -12,8 +12,8 @@ brickdest.ecs.LocationComponent = oop.class({
 });
 
 brickdest.ecs.MotionComponent = oop.class({
-  speed: new brickdest.math.Vector(),
   __create__: function(config) {
+    this.speed = new brickdest.math.Vector();
     if (config) {
       if (typeof config.speed !== 'undefined') {
         this.speed = config.speed;
@@ -23,11 +23,11 @@ brickdest.ecs.MotionComponent = oop.class({
 });
 
 brickdest.ecs.CollisionComponent = oop.class({
-  mass: 1.0,
-  friction: 0.2,
-  deflection: 0.8,
-  shape: null,
   __create__: function(config) {
+    this.mass = 1.0;
+    this.friction = 0.2;
+    this.deflection = 0.8;
+    this.shape = null;
     if (config) {
       if (typeof config.mass !== 'undefined') {
         this.mass = config.mass;
@@ -46,10 +46,10 @@ brickdest.ecs.CollisionComponent = oop.class({
 });
 
 brickdest.ecs.SpriteComponent = oop.class({
-  image: null,
-  width: 0,
-  height: 0,
   __create__: function(config) {
+    this.image = null;
+    this.width = 0;
+    this.height = 0;
     if (config) {
       if (typeof config.image !== 'undefined') {
         this.image = config.image;

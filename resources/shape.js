@@ -15,8 +15,8 @@ brickdest.shape.IShape = oop.interface({
 });
 
 brickdest.shape.Circle = oop.class({
-  radius: 1.0,
   __create__: function(config) {
+    this.radius = 1.0;
     if (config && config.radius) {
       this.radius = config.radius;
     }
@@ -30,9 +30,9 @@ brickdest.shape.Circle = oop.class({
 });
 
 brickdest.shape.Rectangle = oop.class({
-  width: 2.0,
-  height: 1.0,
   __create__: function(config) {
+    this.width = 2.0;
+    this.height = 1.0;
     if (config) {
       if (config.width) {
         this.width = config.width;
