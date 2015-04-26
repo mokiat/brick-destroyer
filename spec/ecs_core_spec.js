@@ -41,6 +41,17 @@ describe("Entity-Component-System Core", function() {
           expect(entities).toContain(secondEntity);
         });
       });
+
+      describe("when all entities are deleted", function() {
+        beforeEach(function() {
+          manager.deleteAllEntities();
+        });
+
+        it("manager holds zero entities", function() {
+          var entities = manager.listEntities();
+          expect(entities.length).toEqual(0);
+        });
+      });
     });
 
     describe("entity filtration", function() {

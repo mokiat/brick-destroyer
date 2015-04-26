@@ -16,6 +16,9 @@ brickdest.ecs.EntityManager = oop.class({
   deleteEntity: function(entity) {
     delete this.entities[entity.id];
   },
+  deleteAllEntities: function() {
+    this.entities = {};
+  },
   listEntities: function() {
     var result = [];
     for (var id in this.entities) {
