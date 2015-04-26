@@ -190,6 +190,33 @@ describe("LevelFactory", function() {
       });
     });
 
+    describe("when entity has locationBound", function() {
+      beforeEach(function() {
+        system.applyLevel({
+          "entities" : [
+            {
+              "locationBound" : {
+                "minX": -1.1,
+                "maxX": 2.2,
+                "minY": -3.3,
+                "maxY": 4.4
+              }
+            }
+          ]
+        });
+      });
+
+      it("entity should have locationBound component", function() {
+        var entity = manager.listEntities()[0];
+        expect(entity.hasComponent("locationBound")).toBeTruthy();
+        var component = entity.getComponent("locationBound");
+        expect(component.minX).toBeCloseTo(-1.1, decimalPoints);
+        expect(component.maxX).toBeCloseTo(2.2, decimalPoints);
+        expect(component.minY).toBeCloseTo(-3.3, decimalPoints);
+        expect(component.maxY).toBeCloseTo(4.4, decimalPoints);
+      });
+    });
+
     describe("when entity references types", function() {
       beforeEach(function() {
         system.applyLevel({

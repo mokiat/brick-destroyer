@@ -47,6 +47,9 @@ brickdest.ecs.LevelFactory = oop.class({
     if (typeof definition.mouseBound !== 'undefined') {
       this.applyMouseBound(entity, definition.mouseBound);
     }
+    if (typeof definition.locationBound !== 'undefined') {
+      this.applyLocationBound(entity, definition.locationBound);
+    }
   },
   applyLocation: function(entity, locationData) {
     var component = new brickdest.ecs.LocationComponent();
@@ -128,6 +131,22 @@ brickdest.ecs.LevelFactory = oop.class({
       component.axisYBound = mouseBoundData.axisY;
     }
     entity.addComponent("mouseBound", component);
+  },
+  applyLocationBound: function(entity, locationBoundData) {
+    var component = new brickdest.ecs.LocationBoundComponent();
+    if (typeof locationBoundData.minX !== 'undefined') {
+      component.minX = locationBoundData.minX;
+    }
+    if (typeof locationBoundData.maxX !== 'undefined') {
+      component.maxX = locationBoundData.maxX;
+    }
+    if (typeof locationBoundData.minY !== 'undefined') {
+      component.minY = locationBoundData.minY;
+    }
+    if (typeof locationBoundData.maxY !== 'undefined') {
+      component.maxY = locationBoundData.maxY;
+    }
+    entity.addComponent("locationBound", component);
   }
 });
 

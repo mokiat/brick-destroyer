@@ -78,3 +78,26 @@ brickdest.ecs.MouseBoundComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.LocationBoundComponent = oop.class({
+  __create__: function(config) {
+    this.minX = -5000.0;
+    this.maxX = 5000.0;
+    this.minY = -5000.0;
+    this.maxY = 5000.0;
+    if (typeof config !== 'undefined') {
+      if (typeof config.minX !== 'undefined') {
+        this.minX = config.minX;
+      }
+      if (typeof config.maxX !== 'undefined') {
+        this.maxX = config.maxX;
+      }
+      if (typeof config.minY !== 'undefined') {
+        this.minY = config.minY;
+      }
+      if (typeof config.maxY !== 'undefined') {
+        this.maxY = config.maxY;
+      }
+    }
+  }
+});

@@ -187,4 +187,55 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("LocationBoundComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.LocationBoundComponent();
+      });
+
+      it("has a very negative min X", function() {
+        expect(component.minX).toBeCloseTo(-5000.0, decimalPoints);
+      });
+
+      it("has a very positive max X", function() {
+        expect(component.maxX).toBeCloseTo(5000.0, decimalPoints);
+      });
+
+      it("has a very negative min Y", function() {
+        expect(component.minY).toBeCloseTo(-5000.0, decimalPoints);
+      });
+
+      it("has a very positive max Y", function() {
+        expect(component.maxY).toBeCloseTo(5000.0, decimalPoints);
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.LocationBoundComponent({
+          minX: -13.2,
+          maxX: 15.8,
+          minY: -8.5,
+          maxY: 3.9
+        });
+      });
+
+      it("has min X set accordingly", function() {
+        expect(component.minX).toBeCloseTo(-13.2);
+      });
+
+      it("has max X set accordingly", function() {
+        expect(component.maxX).toBeCloseTo(15.8);
+      });
+
+      it("has min Y set accordingly", function() {
+        expect(component.minY).toBeCloseTo(-8.5);
+      });
+
+      it("has max Y set accordingly", function() {
+        expect(component.maxY).toBeCloseTo(3.9);
+      });
+    });
+  });
 });

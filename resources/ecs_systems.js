@@ -136,3 +136,31 @@ brickdest.ecs.MouseBoundSystem = oop.class({
     }
   }
 });
+
+brickdest.ecs.LocationBoundSystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+  },
+  update: function(elapsedSeconds) {
+    var entities = this.manager.filterEntities(["location", "locationBound"]);
+    for (var i = 0; i < entities.length; i++) {
+      this.checkEntityLocation(entities[i]);
+    }
+  },
+  checkEntityLocation: function(entity) {
+    var locationComp = entity.getComponent("location");
+    var locationBoundComp = entity.getComponent("locationBound");
+    if (locationComp.location.x < locationBoundComp.minX) {
+      locationComp.location.x = locationBoundComp.minX;
+    }
+    if (locationComp.location.x > locationBoundComp.maxX) {
+      locationComp.location.x = locationBoundComp.maxX;
+    }
+    if (locationComp.location.y < locationBoundComp.minY) {
+      locationComp.location.y = locationBoundComp.minY;
+    }
+    if (locationComp.location.y > locationBoundComp.maxY) {
+      locationComp.location.y = locationBoundComp.maxY;
+    }
+  }
+});
