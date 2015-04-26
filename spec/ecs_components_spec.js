@@ -154,4 +154,37 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("MouseBoundComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.MouseBoundComponent();
+      });
+
+      it("has axis X bound by default", function() {
+        expect(component.axisXBound).toBeTruthy();
+      });
+
+      it("has axis Y bound by default", function() {
+        expect(component.axisYBound).toBeTruthy();
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.MouseBoundComponent({
+          axisXBound: false,
+          axisYBound: false
+        });
+      });
+
+      it("has axis X bound set accordingly", function() {
+        expect(component.axisXBound).toBeFalsy();
+      });
+
+      it("has axis Y bound set accordingly", function() {
+        expect(component.axisYBound).toBeFalsy();
+      });
+    });
+  });
 });

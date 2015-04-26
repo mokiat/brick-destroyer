@@ -61,6 +61,10 @@
         "width" : 110,
         "height" : 18,
         "image" : "slider_inactive"
+      },
+      "mouseBound" : {
+        "axisX" : true,
+        "axisY" : false
       }
     }
   },

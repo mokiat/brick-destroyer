@@ -63,3 +63,18 @@ brickdest.ecs.SpriteComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.MouseBoundComponent = oop.class({
+  __create__: function(config) {
+    this.axisXBound = true;
+    this.axisYBound = true;
+    if (typeof config !== 'undefined') {
+      if (typeof config.axisXBound !== 'undefined') {
+        this.axisXBound = config.axisXBound;
+      }
+      if (typeof config.axisYBound !== 'undefined') {
+        this.axisYBound = config.axisYBound;
+      }
+    }
+  }
+});

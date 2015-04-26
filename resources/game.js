@@ -33,6 +33,9 @@ game.Game = oop.class({
     var spriteSystem = new brickdest.ecs.SpriteRenderSystem(this.entityManager, this.renderer);
     this.entityManager.addSystem(spriteSystem);
 
+    this.mouseBoundSystem = new brickdest.ecs.MouseBoundSystem(this.entityManager);
+    this.entityManager.addSystem(this.mouseBoundSystem);
+
     var motionSystem = new brickdest.ecs.MotionSystem(this.entityManager);
     motionSystem.gravity = new brickdest.math.Vector(0.0, 435);
     this.entityManager.addSystem(motionSystem);
@@ -76,7 +79,7 @@ game.Game = oop.class({
       return;
     }
     if (this.gameState == game.StateStopped) {
-      console.log("Level started: " + this.getLevelNumber());
+      console.log("Level started: " + this.getLevelName());
       this.gameState = game.StateRunning;
     }
   },
@@ -88,11 +91,8 @@ game.Game = oop.class({
     console.log("SLIDER OFF");
     // TODO
   },
-  moveSlider: function(x) {
-    if (!this.isPaused()) {
-      console.log("MOVE SLIDER: " + x);
-      // TODO
-    }
+  onMouseMove: function(x, y) {
+    this.mouseBoundSystem.onMouseMove(x, y);
   },
   togglePaused: function() {
     switch (this.gameState) {

@@ -167,6 +167,29 @@ describe("LevelFactory", function() {
       });
     });
 
+    describe("when entity has mouseBound", function() {
+      beforeEach(function() {
+        system.applyLevel({
+          "entities" : [
+            {
+              "mouseBound" : {
+                "axisX": false,
+                "axisY": true
+              }
+            }
+          ]
+        });
+      });
+
+      it("entity should have mouseBound component", function() {
+        var entity = manager.listEntities()[0];
+        expect(entity.hasComponent("mouseBound")).toBeTruthy();
+        var component = entity.getComponent("mouseBound");
+        expect(component.axisXBound).toBeFalsy();
+        expect(component.axisYBound).toBeTruthy();
+      });
+    });
+
     describe("when entity references types", function() {
       beforeEach(function() {
         system.applyLevel({

@@ -44,6 +44,9 @@ brickdest.ecs.LevelFactory = oop.class({
     if (typeof definition.sprite !== 'undefined') {
       this.applySprite(entity, definition.sprite);
     }
+    if (typeof definition.mouseBound !== 'undefined') {
+      this.applyMouseBound(entity, definition.mouseBound);
+    }
   },
   applyLocation: function(entity, locationData) {
     var component = new brickdest.ecs.LocationComponent();
@@ -115,6 +118,16 @@ brickdest.ecs.LevelFactory = oop.class({
       component.image = this.resourceCollection.find(spriteData.image);
     }
     entity.addComponent("sprite", component);
+  },
+  applyMouseBound: function(entity, mouseBoundData) {
+    var component = new brickdest.ecs.MouseBoundComponent();
+    if (typeof mouseBoundData.axisX !== 'undefined') {
+      component.axisXBound = mouseBoundData.axisX;
+    }
+    if (typeof mouseBoundData.axisY !== 'undefined') {
+      component.axisYBound = mouseBoundData.axisY;
+    }
+    entity.addComponent("mouseBound", component);
   }
 });
 

@@ -105,3 +105,34 @@ brickdest.ecs.MotionSystem = oop.class({
     movingMotionComp.speed = bounceVector.inc(slideVector);
   }
 });
+
+brickdest.ecs.MouseBoundSystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+    this.mouseX = null;
+    this.mouseY = null;
+  },
+  update: function(elapsedSeconds) {
+    if (this.mouseX == null || this.mouseY == null) {
+      return;
+    }
+    var entities = this.manager.filterEntities(["location", "mouseBound"]);
+    for (var i = 0; i < entities.length; i++) {
+      this.placeEntityAt(entities[i], this.mouseX, this.mouseY);
+    }
+  },
+  onMouseMove: function(x, y) {
+    this.mouseX = x;
+    this.mouseY = y;
+  },
+  placeEntityAt: function(entity, x, y) {
+    var locationComp = entity.getComponent("location");
+    var mouseBoundComp = entity.getComponent("mouseBound");
+    if (mouseBoundComp.axisXBound) {
+      locationComp.location.x = x;
+    }
+    if (mouseBoundComp.axisYBound) {
+      locationComp.location.y = y;
+    }
+  }
+});

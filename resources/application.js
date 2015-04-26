@@ -30,7 +30,8 @@ brickdest.app.Application = oop.class({
   },
   onMouseMove: function(event) {
     var x = event.pageX - Math.round(this.canvasPosition.left);
-    this.brickGame.moveSlider(x);
+    var y = event.pageY - Math.round(this.canvasPosition.top);
+    this.brickGame.onMouseMove(x, y);
   },
   onMouseClick: function(event) {
     this.brickGame.startLevel();
