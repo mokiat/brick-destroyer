@@ -1,6 +1,14 @@
 {
   "name" : "ECS",
   "types" : {
+    "border" : {
+      "location" : {},
+      "collision" : {
+        "deflection" : 1.0,
+        "friction" : 0.0,
+        "shape_rectangle" : {}
+      }
+    },
     "brick" : {
       "location" : {},
       "collision" : {
@@ -73,6 +81,58 @@
     }
   },
   "entities" : [
+    {
+      "types" : ["border"],
+      "location" : {
+        "x" : 300,
+        "y" : -10
+      },
+      "collision" : {
+        "shape_rectangle" : {
+          "width" : 600,
+          "height" : 20
+        }
+      }
+    },
+    {
+      "types" : ["border"],
+      "location" : {
+        "x" : 300,
+        "y" : 418
+      },
+      "collision" : {
+        "shape_rectangle" : {
+          "width" : 600,
+          "height" : 20
+        }
+      }
+    },
+    {
+      "types" : ["border"],
+      "location" : {
+        "x" : -10,
+        "y" : 204
+      },
+      "collision" : {
+        "shape_rectangle" : {
+          "width" : 20,
+          "height" : 408
+        }
+      }
+    },
+    {
+      "types" : ["border"],
+      "location" : {
+        "x" : 610,
+        "y" : 204
+      },
+      "collision" : {
+        "shape_rectangle" : {
+          "width" : 20,
+          "height" : 408
+        }
+      }
+    },
     {
       "types" : ["brick", "green_brick"],
       "location" : {
