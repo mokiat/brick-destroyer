@@ -99,6 +99,27 @@ describe("Entity-Component-System Core", function() {
       expect(otherEntity.id).not.toEqual(entity.id);
     });
 
+    it("is not destroyed by default", function() {
+      expect(entity.isDestroyed()).toBeFalsy();
+    });
+
+    describe("when entity is destroyed", function() {
+      beforeEach(function() {
+        entity.destroy();
+      });
+
+      it("entity is destroyed", function() {
+        expect(entity.isDestroyed()).toBeTruthy();
+      });
+
+      it("is no longer registered in the manager", function() {
+        var entities = manager.listEntities();
+        expect(entities).not.toContain(entity);
+      });
+
+      // TODO: Verify that a destroy event is thrown.
+    });
+
     describe("when components are added", function() {
       var firstComponent;
       var secondComponent;

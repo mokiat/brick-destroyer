@@ -9,7 +9,7 @@ brickdest.ecs.EntityManager = oop.class({
   createEntity: function() {
     var id = this.entityIdCounter;
     this.entityIdCounter++;
-    var entity = new brickdest.ecs.Entity(id)
+    var entity = new brickdest.ecs.Entity(this, id);
     this.entities[id] = entity;
     return entity;
   },
@@ -44,9 +44,11 @@ brickdest.ecs.EntityManager = oop.class({
 });
 
 brickdest.ecs.Entity = oop.class({
-  __create__: function(id) {
+  __create__: function(manager, id) {
+    this.manager = manager;
     this.id = id;
     this.components = {};
+    this.destroyed = false;
   },
   addComponent: function(type, component) {
     this.components[type] = component;
@@ -68,6 +70,13 @@ brickdest.ecs.Entity = oop.class({
       }
     }
     return true;
+  },
+  isDestroyed: function() {
+    return this.destroyed;
+  },
+  destroy: function() {
+    this.destroyed = true;
+    this.manager.deleteEntity(this);
   }
 });
 
