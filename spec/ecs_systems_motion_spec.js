@@ -44,6 +44,18 @@ describe("MotionSystem", function() {
       expect(location.location.x).toBeCloseTo(15.7);
       expect(location.location.y).toBeCloseTo(8.2);
     });
+
+    describe("when entity accelerates for a vely long period of time", function() {
+      beforeEach(function() {
+        manager.update(10.0 * 60.0);
+      });
+
+      // This limitation is so that processing is not too much
+      it("the speed should not be bigger than 1000", function() {
+        var motion = entity.getComponent("motion");
+        expect(motion.speed.getLength()).toBeCloseTo(1000.0, decimalPoints);
+      });
+    });
   });
 
   describe("when entity collides with a very thin obstacle", function() {

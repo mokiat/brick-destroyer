@@ -22,6 +22,8 @@ brickdest.ecs.SpriteRenderSystem = oop.class({
   }
 });
 
+brickdest.ecs.MaxSpeed = 1000.0;
+
 brickdest.ecs.MotionSystem = oop.class({
   __create__: function(manager) {
     this.manager = manager;
@@ -41,6 +43,9 @@ brickdest.ecs.MotionSystem = oop.class({
     var speedDelta = this.gravity.mul(elapsedSeconds);
     var oldSpeed = motionComp.speed;
     var newSpeed = oldSpeed.inc(speedDelta);
+    if (newSpeed.getSquaredLength() > brickdest.ecs.MaxSpeed * brickdest.ecs.MaxSpeed) {
+      newSpeed = newSpeed.resize(brickdest.ecs.MaxSpeed);
+    }
     var deltaLocation = oldSpeed.inc(newSpeed).mul(elapsedSeconds * 0.5);
     var oldLocation = locationComp.location;
     var newLocation = oldLocation.inc(deltaLocation);
