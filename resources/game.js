@@ -68,12 +68,17 @@ game.Game = oop.class({
   },
   initializeLevel: function(number) {
     console.log("Changing to level: " + number);
+    this.entityManager.deleteAllEntities();
+
     this.currentLevel = number;
     var levelResourceName = "level" + (number - 1);
     var levelResource = this.resourceCollection.find(levelResourceName);
+    if (levelResource == null) {
+      this.currentLevelName = "Congratulations, you have passed all levels!";
+      return;
+    }
     var level = levelResource.getData();
     this.currentLevelName = level.name;
-    // this.levelFactory.cleanUp();
     this.levelFactory.applyLevel(level);
   },
   startLevel: function() {
