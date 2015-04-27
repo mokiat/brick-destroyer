@@ -11,6 +11,68 @@ describe("Entity-Component-System Core", function() {
       expect(entity).toBeDefined();
     });
 
+    describe("when a listener is subscribed for events", function() {
+      var matchingEntity;
+      var nonmatchingEntity;
+      var listener;
+      var event;
+
+      beforeEach(function() {
+        matchingEntity = manager.createEntity();
+        matchingEntity.addComponent("location", {});
+        matchingEntity.addComponent("motion", {});
+
+        nonmatchingEntity = manager.createEntity();
+        nonmatchingEntity.addComponent("location", {});
+
+        listener = {
+          onEvent: function(entity, event) {
+          }
+        }
+        spyOn(listener, 'onEvent');
+
+        manager.subscribe(["location", "motion"], listener.onEvent);
+
+        event = new brickdest.ecs.IEvent();
+      });
+
+      describe("when a listener is no longer subscribed", function() {
+        beforeEach(function() {
+          manager.unsubscribe(listener.onEvent);
+        });
+
+        describe("when a previously matching entity throws an event", function() {
+          beforeEach(function() {
+            matchingEntity.throwEvent(event);
+          });
+
+          it("the listener should not have been notified", function() {
+            expect(listener.onEvent).not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe("when a matching entity throws an event", function() {
+        beforeEach(function() {
+          matchingEntity.throwEvent(event);
+        });
+
+        it("the listener should have been called", function() {
+          expect(listener.onEvent).toHaveBeenCalledWith(matchingEntity, event);
+        });
+      });
+
+      describe("when a non-matching entity throws an event", function() {
+        beforeEach(function() {
+          nonmatchingEntity.throwEvent(event);
+        });
+
+        it("the listener should not have been notified", function() {
+          expect(listener.onEvent).not.toHaveBeenCalled();
+        });
+      });
+    });
+
     describe("when multiple entities are created", function() {
       var firstEntity;
       var secondEntity;

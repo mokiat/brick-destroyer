@@ -5,6 +5,7 @@ brickdest.ecs.EntityManager = oop.class({
     this.entityIdCounter = 0;
     this.entities = {};
     this.systems = [];
+    this.subscriptions = [];
   },
   createEntity: function() {
     var id = this.entityIdCounter;
@@ -39,11 +40,41 @@ brickdest.ecs.EntityManager = oop.class({
   addSystem: function(system) {
     this.systems.push(system);
   },
+  subscribe: function(requiredComponents, callback) {
+    this.subscriptions.push({
+      callback: callback,
+      requiredComponents: requiredComponents
+    });
+  },
+  unsubscribe: function(callback) {
+    var listenerIndex = -1;
+    for (var i = 0; i < this.subscriptions.length; i++) {
+      var subscription = this.subscriptions[i];
+      if (subscription.callback === callback) {
+        listenerIndex = i;
+        break;
+      }
+    }
+    if (listenerIndex != -1) {
+      this.subscriptions.splice(i, 1);
+    }
+  },
+  notify: function(entity, event) {
+    for (var i = 0; i < this.subscriptions.length; i++) {
+      var subscription = this.subscriptions[i];
+      if (entity.hasComponents(subscription.requiredComponents)) {
+        subscription.callback(entity, event);
+      }
+    }
+  },
   update: function(elapsedSeconds) {
     for (var i = 0; i < this.systems.length; i++) {
       this.systems[i].update(elapsedSeconds);
     }
   }
+});
+
+brickdest.ecs.IEvent = oop.interface({
 });
 
 brickdest.ecs.Entity = oop.class({
@@ -73,6 +104,9 @@ brickdest.ecs.Entity = oop.class({
       }
     }
     return true;
+  },
+  throwEvent: function(event) {
+    this.manager.notify(this, event);
   },
   isDestroyed: function() {
     return this.destroyed;
