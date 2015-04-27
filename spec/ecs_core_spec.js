@@ -177,7 +177,18 @@ describe("Entity-Component-System Core", function() {
     });
 
     describe("when entity is destroyed", function() {
+      var listenerEntity;
+      var listenerEvent;
+
       beforeEach(function() {
+        var listener = {
+          onEvent: function(entity, event) {
+            listenerEntity = entity;
+            listenerEvent = event;
+          }
+        }
+        manager.subscribe([], listener.onEvent);
+
         entity.destroy();
       });
 
@@ -190,7 +201,10 @@ describe("Entity-Component-System Core", function() {
         expect(entities).not.toContain(entity);
       });
 
-      // TODO: Verify that a destroy event is thrown.
+      it("a destroy event has been thrown", function() {
+        expect(listenerEntity).toEqual(entity);
+        expect(listenerEvent instanceof brickdest.ecs.DestroyedEvent).toBeTruthy();
+      });
     });
 
     describe("when components are added", function() {

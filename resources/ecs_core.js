@@ -77,6 +77,8 @@ brickdest.ecs.EntityManager = oop.class({
 brickdest.ecs.IEvent = oop.interface({
 });
 
+brickdest.ecs.DestroyedEvent = oop.class({});
+
 brickdest.ecs.Entity = oop.class({
   __create__: function(manager, id) {
     this.manager = manager;
@@ -114,6 +116,7 @@ brickdest.ecs.Entity = oop.class({
   destroy: function() {
     this.destroyed = true;
     this.manager.deleteEntity(this);
+    this.throwEvent(new brickdest.ecs.DestroyedEvent());
   }
 });
 
