@@ -24,6 +24,13 @@ brickdest.ecs.SpriteRenderSystem = oop.class({
 
 brickdest.ecs.MaxSpeed = 1000.0;
 
+brickdest.ecs.CollisionEvent = oop.class({
+  __create__: function(data) {
+    this.obstacle = data.obstacle;
+    this.collisionNormal = data.collisionNormal;
+  }
+});
+
 brickdest.ecs.MotionSystem = oop.class({
   __create__: function(manager) {
     this.manager = manager;
@@ -108,6 +115,15 @@ brickdest.ecs.MotionSystem = oop.class({
     bounceVector = bounceVector.mul(totalDeflection);
 
     movingMotionComp.speed = bounceVector.inc(slideVector);
+
+    movingEntity.throwEvent(new brickdest.ecs.CollisionEvent({
+      obstacle: staticEntity,
+      collisionNormal: new brickdest.math.Vector(collisionNormal)
+    }));
+    staticEntity.throwEvent(new brickdest.ecs.CollisionEvent({
+      obstacle: movingEntity,
+      collisionNormal: collisionNormal.mul(-1.0)
+    }));
   }
 });
 

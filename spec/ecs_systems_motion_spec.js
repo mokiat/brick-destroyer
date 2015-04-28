@@ -4,11 +4,18 @@ describe("MotionSystem", function() {
   var system;
   var entity;
   var obstacle;
+  var listener;
 
   beforeEach(function() {
     manager = new brickdest.ecs.EntityManager();
     system = new brickdest.ecs.MotionSystem(manager);
     manager.addSystem(system);
+    listener = {
+      onEvent: function(entity, event) {
+      }
+    };
+    spyOn(listener, 'onEvent');
+    manager.subscribe([], listener.onEvent);
   });
 
   it("has default gravity equal to 0.0/0.0", function() {
@@ -97,6 +104,26 @@ describe("MotionSystem", function() {
     describe("when there is no friction and maximum deflection", function() {
       beforeEach(function() {
         manager.update(8.0);
+      });
+
+      it("a collision event should be reported for the moving entity", function() {
+        expect(listener.onEvent.calls.length).toBeGreaterThan(0);
+        expect(listener.onEvent.calls[0].args[0]).toEqual(entity);
+        var event = listener.onEvent.calls[0].args[1];
+        expect(event instanceof brickdest.ecs.CollisionEvent).toBeTruthy();
+        expect(event.obstacle).toEqual(obstacle);
+        expect(event.collisionNormal.x).toBeCloseTo(0.0, decimalPoints);
+        expect(event.collisionNormal.y).toBeCloseTo(-1.0, decimalPoints);
+      });
+
+      it("a collision event should be reported for the obstacle entity", function() {
+        expect(listener.onEvent.calls.length).toEqual(2);
+        expect(listener.onEvent.calls[1].args[0]).toEqual(obstacle);
+        var event = listener.onEvent.calls[1].args[1];
+        expect(event instanceof brickdest.ecs.CollisionEvent).toBeTruthy();
+        expect(event.obstacle).toEqual(entity);
+        expect(event.collisionNormal.x).toBeCloseTo(0.0, decimalPoints);
+        expect(event.collisionNormal.y).toBeCloseTo(1.0, decimalPoints);
       });
 
       it("the object should have changed its speed accordingly", function() {

@@ -177,16 +177,13 @@ describe("Entity-Component-System Core", function() {
     });
 
     describe("when entity is destroyed", function() {
-      var listenerEntity;
-      var listenerEvent;
+      var listener;
 
       beforeEach(function() {
-        var listener = {
-          onEvent: function(entity, event) {
-            listenerEntity = entity;
-            listenerEvent = event;
-          }
+        listener = {
+          onEvent: function(entity, event) {}
         }
+        spyOn(listener, 'onEvent');
         manager.subscribe([], listener.onEvent);
 
         entity.destroy();
@@ -202,8 +199,10 @@ describe("Entity-Component-System Core", function() {
       });
 
       it("a destroy event has been thrown", function() {
-        expect(listenerEntity).toEqual(entity);
-        expect(listenerEvent instanceof brickdest.ecs.DestroyedEvent).toBeTruthy();
+        expect(listener.onEvent.calls.length).toEqual(1);
+        expect(listener.onEvent.calls[0].args[0]).toEqual(entity);
+        var event = listener.onEvent.calls[0].args[1];
+        expect(event instanceof brickdest.ecs.DestroyedEvent).toBeTruthy();
       });
     });
 
