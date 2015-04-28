@@ -27,12 +27,14 @@
     "green_brick" : {
       "sprite" : {
         "image" : "brick_green"
-      }
+      },
+      "destroyOnHit" : {}
     },
     "red_brick" : {
       "sprite" : {
         "image" : "brick_red"
-      }
+      },
+      "destroyOnHit" : {}
     },
     "grey_brick" : {
       "sprite" : {

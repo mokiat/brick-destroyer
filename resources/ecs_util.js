@@ -50,6 +50,9 @@ brickdest.ecs.LevelFactory = oop.class({
     if (typeof definition.locationBound !== 'undefined') {
       this.applyLocationBound(entity, definition.locationBound);
     }
+    if (typeof definition.destroyOnHit !== 'undefined') {
+      this.applyDestroyOnHit(entity, definition.destroyOnHit);
+    }
   },
   applyLocation: function(entity, locationData) {
     var component = new brickdest.ecs.LocationComponent();
@@ -147,6 +150,10 @@ brickdest.ecs.LevelFactory = oop.class({
       component.maxY = locationBoundData.maxY;
     }
     entity.addComponent("locationBound", component);
+  },
+  applyDestroyOnHit: function(entity, destroyOnHitData) {
+    var component = new brickdest.ecs.DestroyOnHitComponent();
+    entity.addComponent("destroyOnHit", component);
   }
 });
 

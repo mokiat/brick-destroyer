@@ -217,6 +217,23 @@ describe("LevelFactory", function() {
       });
     });
 
+    describe("when entity has destroyOnHit", function() {
+      beforeEach(function() {
+        system.applyLevel({
+          "entities" : [
+            {
+              "destroyOnHit" : {}
+            }
+          ]
+        });
+      });
+
+      it("entity should have destroyOnHit component", function() {
+        var entity = manager.listEntities()[0];
+        expect(entity.hasComponent("destroyOnHit")).toBeTruthy();
+      });
+    });
+
     describe("when entity references types", function() {
       beforeEach(function() {
         system.applyLevel({

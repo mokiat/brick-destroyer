@@ -39,6 +39,8 @@ game.Game = oop.class({
     this.locationBoundSystem = new brickdest.ecs.LocationBoundSystem(this.entityManager);
     this.entityManager.addSystem(this.locationBoundSystem);
 
+    new brickdest.ecs.DestroyOnHitSystem(this.entityManager);
+
     var motionSystem = new brickdest.ecs.MotionSystem(this.entityManager);
     motionSystem.gravity = new brickdest.math.Vector(0.0, 435);
     this.entityManager.addSystem(motionSystem);

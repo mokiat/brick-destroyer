@@ -185,3 +185,18 @@ brickdest.ecs.LocationBoundSystem = oop.class({
     }
   }
 });
+
+brickdest.ecs.DestroyOnHitSystem = oop.class({
+  __create__: function(manager) {
+    manager.subscribe(["collision", "destroyOnHit"], $.proxy(this.onEntityEvent, this));
+  },
+  onEntityEvent: function(entity, event) {
+    if (event instanceof brickdest.ecs.CollisionEvent) {
+      this.onEntityCollision(entity, event);
+    }
+  },
+  onEntityCollision: function(entity, collisionEvent) {
+    entity.destroy();
+  },
+  update: function(elapsedSeconds) {}
+});

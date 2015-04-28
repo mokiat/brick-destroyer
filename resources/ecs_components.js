@@ -101,3 +101,6 @@ brickdest.ecs.LocationBoundComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.DestroyOnHitComponent = oop.class({
+});
