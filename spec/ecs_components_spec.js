@@ -270,4 +270,60 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("BounceTogglableComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.BounceTogglableComponent();
+      });
+
+      it("has no active image", function() {
+        expect(component.activeImage).toBeNull();
+      });
+
+      it("has no inactive image", function() {
+        expect(component.inactiveImage).toBeNull();
+      });
+
+      it("has horizontal deflection set to 0.1 by default", function() {
+        expect(component.deflection.x).toBeCloseTo(0.1, decimalPoints);
+      });
+
+      it("has vertical deflection set to 0.1 by default", function() {
+        expect(component.deflection.y).toBeCloseTo(0.1, decimalPoints);
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      var activeImage;
+      var inactiveImage;
+
+      beforeEach(function() {
+        activeImage = new brickdest.graphics.IImage();
+        inactiveImage = new brickdest.graphics.IImage();
+
+        component = new brickdest.ecs.BounceTogglableComponent({
+          activeImage : activeImage,
+          inactiveImage : inactiveImage,
+          deflection: new brickdest.math.Vector(7.6, 5.3)
+        });
+      });
+
+      it("has active image set accordingly", function() {
+        expect(component.activeImage).toBe(activeImage);
+      });
+
+      it("has inactive image set accordingly", function() {
+        expect(component.inactiveImage).toBe(inactiveImage);
+      });
+
+      it("has horizontal deflection set accordingly", function() {
+        expect(component.deflection.x).toBeCloseTo(7.6, decimalPoints);
+      });
+
+      it("has vertical deflection set accordingly", function() {
+        expect(component.deflection.y).toBeCloseTo(5.3, decimalPoints);
+      });
+    });
+  });
 });

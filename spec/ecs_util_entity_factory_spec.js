@@ -216,4 +216,37 @@ describe("EntityFactory", function() {
       });
     });
   });
+
+  describe("when definition has bounceTogglable", function() {
+    var sliderOnImage;
+    var sliderOffImage;
+
+    beforeEach(function() {
+      sliderOnImage = new brickdest.graphics.IImage();
+      resourceCollection.register("slider_on", sliderOnImage);
+
+      sliderOffImage = new brickdest.graphics.IImage();
+      resourceCollection.register("slider_off", sliderOffImage);
+
+      entity = factory.createEntity({
+        "bounceTogglable" : {
+          "activeImage" : "slider_on",
+          "inactiveImage" : "slider_off",
+          "deflection" : {
+            "x" : 0.3,
+            "y" : 0.4
+          }
+        }
+      });
+    });
+
+    it("an entity with bounceTogglable component should have been created", function() {
+      expect(entity.hasComponent("bounceTogglable")).toBeTruthy();
+      var component = entity.getComponent("bounceTogglable");
+      expect(component.activeImage).toBe(sliderOnImage);
+      expect(component.inactiveImage).toBe(sliderOffImage);
+      expect(component.deflection.x).toBeCloseTo(0.3, decimalPoints);
+      expect(component.deflection.y).toBeCloseTo(0.4, decimalPoints);
+    });
+  });
 });

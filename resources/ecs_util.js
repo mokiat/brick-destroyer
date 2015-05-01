@@ -35,6 +35,9 @@ brickdest.ecs.EntityFactory = oop.class({
     if (typeof definition.spawnOnDestroy !== 'undefined') {
       this.applySpawnOnDestroy(entity, definition.spawnOnDestroy);
     }
+    if (typeof definition.bounceTogglable !== 'undefined') {
+      this.applyBounceTogglable(entity, definition.bounceTogglable);
+    }
     return entity;
   },
   applyLocation: function(entity, locationData) {
@@ -144,6 +147,25 @@ brickdest.ecs.EntityFactory = oop.class({
       component.definition = spawnOnDestoryData.definition;
     }
     entity.addComponent("spawnOnDestroy", component);
+  },
+  applyBounceTogglable: function(entity, bounceTogglableData) {
+    var component = new brickdest.ecs.BounceTogglableComponent();
+    if (typeof bounceTogglableData.activeImage !== 'undefined') {
+      component.activeImage = this.resourceCollection.find(bounceTogglableData.activeImage);
+    }
+    if (typeof bounceTogglableData.inactiveImage !== 'undefined') {
+      component.inactiveImage = this.resourceCollection.find(bounceTogglableData.inactiveImage);
+    }
+    if (typeof bounceTogglableData.deflection !== 'undefined') {
+      var deflection = bounceTogglableData.deflection;
+      if (typeof deflection.x !== 'undefined') {
+        component.deflection.x = deflection.x;
+      }
+      if (typeof deflection.y !== 'undefined') {
+        component.deflection.y = deflection.y;
+      }
+    }
+    entity.addComponent("bounceTogglable", component);
   }
 });
 

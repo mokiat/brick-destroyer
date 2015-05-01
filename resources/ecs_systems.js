@@ -225,3 +225,59 @@ brickdest.ecs.SpawnOnDestroySystem = oop.class({
     this.entityFactory.createEntity(definition);
   }
 });
+
+brickdest.ecs.BounceTogglableSystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+    this.manager.subscribe(["location", "collision", "bounceTogglable"], $.proxy(this.onEntityEvent, this));
+    this.toggled = false;
+  },
+  isToggled: function() {
+    return this.toggled;
+  },
+  setToggled: function(toggled) {
+    this.toggled = toggled;
+  },
+  update: function(elapsedSeconds) {
+    var entities = this.manager.filterEntities(["sprite", "bounceTogglable"]);
+    for (var i = 0; i < entities.length; i++) {
+      this.updateEntityImage(entities[i]);
+    }
+  },
+  updateEntityImage: function(entity) {
+    var spriteComp = entity.getComponent("sprite");
+    var bounceTogglableComp = entity.getComponent("bounceTogglable");
+    if (this.isToggled()) {
+      spriteComp.image = bounceTogglableComp.activeImage;
+    } else {
+      spriteComp.image = bounceTogglableComp.inactiveImage;
+    }
+  },
+  onEntityEvent: function(entity, event) {
+    if (event instanceof brickdest.ecs.CollisionEvent) {
+      this.onEntityCollision(entity, event);
+    }
+  },
+  onEntityCollision: function(entity, collisionEvent) {
+    var otherEntity = collisionEvent.obstacle;
+    if (!otherEntity.hasComponent("location") || !otherEntity.hasComponent("motion")) {
+      return;
+    }
+    var locationComp = entity.getComponent("location");
+    var bounceTogglableComp = entity.getComponent("bounceTogglable");
+    var deflection = bounceTogglableComp.deflection;
+
+    var otherLocationComp = otherEntity.getComponent("location");
+    var otherMotionComp = otherEntity.getComponent("motion");
+
+    var delta = otherLocationComp.location.dec(locationComp.location);
+    var deltaSpeed = new brickdest.math.Vector();
+    deltaSpeed.x = delta.x * deflection.x;
+    deltaSpeed.y = delta.y * deflection.y;
+    if (!this.isToggled()) {
+      deltaSpeed.y = 0.0;
+    }
+
+    otherMotionComp.speed = otherMotionComp.speed.inc(deltaSpeed);
+  }
+});

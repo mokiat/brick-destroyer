@@ -115,3 +115,22 @@ brickdest.ecs.SpawnOnDestroyComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.BounceTogglableComponent = oop.class({
+  __create__: function(config) {
+    this.activeImage = null;
+    this.inactiveImage = null;
+    this.deflection = new brickdest.math.Vector(0.1, 0.1);
+    if (typeof config !== 'undefined') {
+      if (typeof config.activeImage !== 'undefined') {
+        this.activeImage = config.activeImage;
+      }
+      if (typeof config.inactiveImage !== 'undefined') {
+        this.inactiveImage = config.inactiveImage;
+      }
+      if (typeof config.deflection !== 'undefined') {
+        this.deflection = config.deflection;
+      }
+    }
+  }
+});
