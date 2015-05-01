@@ -1,37 +1,16 @@
 oop.namespace("brickdest.ecs");
 
-brickdest.ecs.LevelFactory = oop.class({
+brickdest.ecs.IEntityFactory = oop.interface({
+  createEntity: function(definition) {}
+});
+
+brickdest.ecs.EntityFactory = oop.class({
   __create__: function(manager, resourceCollection) {
     this.manager = manager;
     this.resourceCollection = resourceCollection;
   },
-  applyLevel: function(level) {
-    if (typeof level.types !== 'undefined') {
-      this.types = level.types;
-    } else {
-      this.types = {}
-    }
-    if (typeof level.entities !== 'undefined') {
-      this.createEntities(level.entities);
-    }
-  },
-  createEntities: function(entityDefinitions) {
-    for (var i = 0; i < entityDefinitions.length; i++) {
-      var definition = entityDefinitions[i];
-      var finalDefinition = {};
-      if (typeof definition.types !== 'undefined') {
-        for (var j = 0; j < definition.types.length; j++) {
-          var type = definition.types[j];
-          var typeDefinition = this.types[type];
-          $.extend(true, finalDefinition, typeDefinition);
-        }
-      }
-      $.extend(true, finalDefinition, definition);
-      var entity = this.manager.createEntity();
-      this.applyComponents(entity, finalDefinition);
-    }
-  },
-  applyComponents: function(entity, definition) {
+  createEntity: function(definition) {
+    var entity = this.manager.createEntity();
     if (typeof definition.location !== 'undefined') {
       this.applyLocation(entity, definition.location);
     }
@@ -53,6 +32,7 @@ brickdest.ecs.LevelFactory = oop.class({
     if (typeof definition.destroyOnHit !== 'undefined') {
       this.applyDestroyOnHit(entity, definition.destroyOnHit);
     }
+    return entity;
   },
   applyLocation: function(entity, locationData) {
     var component = new brickdest.ecs.LocationComponent();
@@ -154,6 +134,58 @@ brickdest.ecs.LevelFactory = oop.class({
   applyDestroyOnHit: function(entity, destroyOnHitData) {
     var component = new brickdest.ecs.DestroyOnHitComponent();
     entity.addComponent("destroyOnHit", component);
+  }
+});
+
+brickdest.ecs.LevelFactory = oop.class({
+  __create__: function(entityFactory) {
+    this.entityFactory = entityFactory;
+  },
+  applyLevel: function(level) {
+    var types = this.getTypesFromLevel(level);
+    for (var name in types) {
+      var typeDefinition = types[name];
+      types[name] = this.expandDefinition(typeDefinition, types);
+    }
+
+    var entities = this.getEntitiesFromLevel(level);
+    for (var index in entities) {
+      var entityDefinition = entities[index];
+      entityDefinition = this.expandDefinition(entityDefinition, types);
+      this.entityFactory.createEntity(entityDefinition);
+    }
+  },
+  getTypesFromLevel: function(level) {
+    if (typeof level.types !== 'undefined') {
+      return level.types;
+    }
+    return {}
+  },
+  getEntitiesFromLevel: function(level) {
+    if (typeof level.entities !== 'undefined') {
+      return level.entities;
+    }
+    return [];
+  },
+  expandDefinition: function(definition, types) {
+    var resultDefinition = {};
+    if (typeof definition.types !== 'undefined') {
+      for (var j = 0; j < definition.types.length; j++) {
+        var typeName = definition.types[j];
+        $.extend(true, resultDefinition, types[typeName]);
+      }
+    }
+    $.extend(true, resultDefinition, definition);
+    for (var key in resultDefinition) {
+      var property = resultDefinition[key];
+      if (typeof property === 'object') {
+        resultDefinition[key] = this.expandDefinition(property, types);
+      }
+    }
+    if (typeof resultDefinition.types !== 'undefined') {
+      delete resultDefinition['types'];
+    }
+    return resultDefinition;
   }
 });
 

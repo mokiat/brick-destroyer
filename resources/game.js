@@ -28,7 +28,8 @@ game.Game = oop.class({
     this.resourceCollection.register("level0", new brickdest.resource.RemoteJSONResource("/resources/levels/level0.json"));
 
     this.entityManager = new brickdest.ecs.EntityManager();
-    this.levelFactory = new brickdest.ecs.LevelFactory(this.entityManager, this.resourceCollection);
+    var entityFactory = new brickdest.ecs.EntityFactory(this.entityManager, this.resourceCollection);
+    this.levelFactory = new brickdest.ecs.LevelFactory(entityFactory);
 
     var spriteSystem = new brickdest.ecs.SpriteRenderSystem(this.entityManager, this.renderer);
     this.entityManager.addSystem(spriteSystem);

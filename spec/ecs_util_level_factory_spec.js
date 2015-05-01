@@ -1,274 +1,178 @@
 describe("LevelFactory", function() {
   var decimalPoints = 4;
-  var manager;
-  var resourceCollection;
-  var system;
-  var level;
+  var entityFactory;
+  var factory;
 
   beforeEach(function() {
-    manager = new brickdest.ecs.EntityManager();
-    resourceCollection = new brickdest.resource.Collection();
-    system = new brickdest.ecs.LevelFactory(manager, resourceCollection);
+    entityFactory = new brickdest.ecs.IEntityFactory();
+    spyOn(entityFactory, 'createEntity');
+
+    factory = new brickdest.ecs.LevelFactory(entityFactory);
   });
 
-  describe("when a level with an entity is loaded", function() {
-    describe("when entity is empty", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities": [
-            {}
-          ]
-        });
-      });
-
-      it("should have been created", function() {
-        var entities = manager.listEntities();
-        expect(entities.length).toEqual(1);
+  describe("when an empty level is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
       });
     });
 
-    describe("when entity has location", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "location" : {
-                "x" : 21.3,
-                "y" : 36.7
-              }
-            }
-          ]
-        });
-      });
+    it("EntityManager is not used", function() {
+      expect(entityFactory.createEntity).not.toHaveBeenCalled();
+    });
+  });
 
-      it("entity should have location component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("location")).toBeTruthy();
-        var component = entity.getComponent("location");
-        expect(component.location.x).toBeCloseTo(21.3, decimalPoints);
-        expect(component.location.y).toBeCloseTo(36.7, decimalPoints);
+  describe("when a level with an empty entity is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "entities" : [
+          {}
+        ]
       });
     });
 
-    describe("when entity has motion", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "motion" : {
-                "speed" : {
-                  "x" : 1.2,
-                  "y" : 3.4
-                }
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have motion component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("motion")).toBeTruthy();
-        var component = entity.getComponent("motion");
-        expect(component.speed.x).toBeCloseTo(1.2, decimalPoints);
-        expect(component.speed.y).toBeCloseTo(3.4, decimalPoints);
-      });
+    it("EntityManager is called with an empty definition", function() {
+      expect(entityFactory.createEntity.calls.length).toEqual(1);
+      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({});
     });
+  });
 
-    describe("when entity has circle collision", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "collision" : {
-                "deflection" : 0.6,
-                "friction" : 0.4,
-                "mass" : 0.5,
-                "shape_circle" : {
-                  "radius" : 0.3
-                }
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have circle collision component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("collision")).toBeTruthy();
-        var component = entity.getComponent("collision");
-        expect(component.deflection).toBeCloseTo(0.6, decimalPoints);
-        expect(component.friction).toBeCloseTo(0.4, decimalPoints);
-        expect(component.mass).toBeCloseTo(0.5, decimalPoints);
-        expect(component.shape instanceof brickdest.shape.Circle).toBeTruthy();
-        var shape = component.shape;
-        expect(shape.radius).toBeCloseTo(0.3, decimalPoints);
-      });
-    });
-
-    describe("when entity has rectangle collision", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "collision" : {
-                "deflection" : 0.6,
-                "friction" : 0.4,
-                "mass" : 0.5,
-                "shape_rectangle" : {
-                  "width" : 81.3,
-                  "height" : 35.2
-                }
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have circle collision component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("collision")).toBeTruthy();
-        var component = entity.getComponent("collision");
-        expect(component.deflection).toBeCloseTo(0.6, decimalPoints);
-        expect(component.friction).toBeCloseTo(0.4, decimalPoints);
-        expect(component.mass).toBeCloseTo(0.5, decimalPoints);
-        expect(component.shape instanceof brickdest.shape.Rectangle).toBeTruthy();
-        var shape = component.shape;
-        expect(shape.width).toBeCloseTo(81.3, decimalPoints);
-        expect(shape.height).toBeCloseTo(35.2, decimalPoints);
-      });
-    });
-
-    describe("when entity has sprite", function() {
-      var image;
-      beforeEach(function() {
-        image = new brickdest.graphics.IImage();
-        resourceCollection.register("some_image", image);
-        system.applyLevel({
-          "entities" : [
-            {
-              "sprite" : {
-                "width": 32,
-                "height": 64,
-                "image": "some_image"
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have sprite component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("sprite")).toBeTruthy();
-        var component = entity.getComponent("sprite");
-        expect(component.width).toEqual(32);
-        expect(component.height).toEqual(64);
-        expect(component.image).toEqual(image);
-      });
-    });
-
-    describe("when entity has mouseBound", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "mouseBound" : {
-                "axisX": false,
-                "axisY": true
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have mouseBound component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("mouseBound")).toBeTruthy();
-        var component = entity.getComponent("mouseBound");
-        expect(component.axisXBound).toBeFalsy();
-        expect(component.axisYBound).toBeTruthy();
-      });
-    });
-
-    describe("when entity has locationBound", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "locationBound" : {
-                "minX": -1.1,
-                "maxX": 2.2,
-                "minY": -3.3,
-                "maxY": 4.4
-              }
-            }
-          ]
-        });
-      });
-
-      it("entity should have locationBound component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("locationBound")).toBeTruthy();
-        var component = entity.getComponent("locationBound");
-        expect(component.minX).toBeCloseTo(-1.1, decimalPoints);
-        expect(component.maxX).toBeCloseTo(2.2, decimalPoints);
-        expect(component.minY).toBeCloseTo(-3.3, decimalPoints);
-        expect(component.maxY).toBeCloseTo(4.4, decimalPoints);
-      });
-    });
-
-    describe("when entity has destroyOnHit", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "entities" : [
-            {
-              "destroyOnHit" : {}
-            }
-          ]
-        });
-      });
-
-      it("entity should have destroyOnHit component", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("destroyOnHit")).toBeTruthy();
-      });
-    });
-
-    describe("when entity references types", function() {
-      beforeEach(function() {
-        system.applyLevel({
-          "types" : {
-            "locatable" : {
-              "location" : {
-                "x" : 13.0,
-                "y" : 23.0
-              }
+  describe("when a level with an entity with components is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "entities" : [
+          {
+            "location" : {
+              "x" : 1.2,
+              "y" : 7.4
             },
-            "movable" : {
-              "motion" : {
-                "speed" : {
-                  "x" : 1.0,
-                  "y" : -1.0
-                }
-              }
+            "solid" : {
+            }
+          }
+        ]
+      });
+    });
+
+    it("EntityManager is called with the correct definition", function() {
+      expect(entityFactory.createEntity.calls.length).toEqual(1);
+      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+        "location" : {
+          "x" : 1.2,
+          "y" : 7.4
+        },
+        "solid" : {
+        }
+      });
+    });
+  });
+
+  describe("when a level with multiple entities is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "entities" : [
+          {
+            "location" : {
+              "x" : 1.2,
+              "y" : 7.4
             }
           },
-          "entities" : [
-            {
-              "types" : ["locatable", "movable"]
+          {
+            "sprite" : {
+              "image" : "monkey"
             }
-          ]
-        });
+          }
+        ]
       });
+    });
 
-      it("entity should have all of the components from the types", function() {
-        var entity = manager.listEntities()[0];
-        expect(entity.hasComponent("location")).toBeTruthy();
-        expect(entity.getComponent("location").location.x).toBeCloseTo(13.0, decimalPoints);
-        expect(entity.getComponent("location").location.y).toBeCloseTo(23.0, decimalPoints);
-        expect(entity.hasComponent("motion")).toBeTruthy();
-        expect(entity.getComponent("motion").speed.x).toBeCloseTo(1.0, decimalPoints);
-        expect(entity.getComponent("motion").speed.y).toBeCloseTo(-1.0, decimalPoints);
+    it("EntityManager is called multiple times with the correct definitions", function() {
+      expect(entityFactory.createEntity.calls.length).toEqual(2);
+      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+        "location" : {
+          "x" : 1.2,
+          "y" : 7.4
+        }
+      });
+      expect(entityFactory.createEntity.calls[1].args[0]).toEqual({
+        "sprite" : {
+          "image" : "monkey"
+        }
+      });
+    });
+  });
+
+  describe("when a level with an entity with types is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "types" : {
+          "locatable" : {
+            "location" : {
+              "x" : 1.2,
+              "y" : 7.4
+            }
+          },
+          "drawable" : {
+            "sprite" : {
+              "image" : "donkey"
+            }
+          }
+        },
+        "entities" : [
+          {
+            "types" : ["locatable", "drawable"]
+          }
+        ]
+      });
+    });
+
+    it("EntityManager is called with the correct definitions", function() {
+      expect(entityFactory.createEntity.calls.length).toEqual(1);
+      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+        "location" : {
+          "x" : 1.2,
+          "y" : 7.4
+        },
+        "sprite" : {
+          "image" : "donkey"
+        }
+      });
+    });
+  });
+
+  describe("when a level with an entity with transitive types is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "types" : {
+          "base" : {
+            "location" : {
+              "x" : 1.2,
+              "y" : 7.4
+            }
+          },
+          "derived" : {
+            "types" : ["base"],
+            "sprite" : {
+              "image" : "donkey"
+            }
+          }
+        },
+        "entities" : [
+          {
+            "types" : ["derived"]
+          }
+        ]
+      });
+    });
+
+    it("EntityManager is called with the correct definitions", function() {
+      expect(entityFactory.createEntity.calls.length).toEqual(1);
+      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+        "location" : {
+          "x" : 1.2,
+          "y" : 7.4
+        },
+        "sprite" : {
+          "image" : "donkey"
+        }
       });
     });
   });
