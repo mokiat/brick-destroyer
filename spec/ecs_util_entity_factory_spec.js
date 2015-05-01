@@ -190,4 +190,30 @@ describe("EntityFactory", function() {
       expect(entity.hasComponent("destroyOnHit")).toBeTruthy();
     });
   });
+
+  describe("when definition has spawnOnDestroy", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "spawnOnDestroy" : {
+          "definition" : {
+            "location" : {
+              "x" : 6.5,
+              "y" : 3.4
+            }
+          }
+        }
+      });
+    });
+
+    it("an entity with spawnOnDestory component should have been created", function() {
+      expect(entity.hasComponent("spawnOnDestroy")).toBeTruthy();
+      var component = entity.getComponent("spawnOnDestroy");
+      expect(component.definition).toEqual({
+        "location" : {
+          "x" : 6.5,
+          "y" : 3.4
+        }
+      });
+    });
+  });
 });

@@ -200,3 +200,28 @@ brickdest.ecs.DestroyOnHitSystem = oop.class({
   },
   update: function(elapsedSeconds) {}
 });
+
+brickdest.ecs.SpawnOnDestroySystem = oop.class({
+  __create__: function(manager, entityFactory) {
+    this.entityFactory = entityFactory;
+    this.manager = manager;
+    this.manager.subscribe(["location", "spawnOnDestroy"], $.proxy(this.onEntityEvent, this));
+  },
+  onEntityEvent: function(entity, event) {
+    if (event instanceof brickdest.ecs.DestroyedEvent) {
+      this.onEntityDestroyed(entity, event);
+    }
+  },
+  onEntityDestroyed: function(entity, event) {
+    var locationComp = entity.getComponent("location");
+    var locationDef = {
+      "location" : {
+        "x" : locationComp.location.x,
+        "y" : locationComp.location.y
+      }
+    }
+    var spawnComp = entity.getComponent("spawnOnDestroy");
+    var definition = $.extend(true, {}, spawnComp.definition, locationDef);
+    this.entityFactory.createEntity(definition);
+  }
+});

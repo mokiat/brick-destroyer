@@ -34,7 +34,12 @@
       "sprite" : {
         "image" : "brick_red"
       },
-      "destroyOnHit" : {}
+      "destroyOnHit" : {},
+      "spawnOnDestroy" : {
+        "definition" : {
+          "types" : ["brick", "green_brick"]
+        }
+      }
     },
     "grey_brick" : {
       "sprite" : {

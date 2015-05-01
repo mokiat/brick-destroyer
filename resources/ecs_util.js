@@ -32,6 +32,9 @@ brickdest.ecs.EntityFactory = oop.class({
     if (typeof definition.destroyOnHit !== 'undefined') {
       this.applyDestroyOnHit(entity, definition.destroyOnHit);
     }
+    if (typeof definition.spawnOnDestroy !== 'undefined') {
+      this.applySpawnOnDestroy(entity, definition.spawnOnDestroy);
+    }
     return entity;
   },
   applyLocation: function(entity, locationData) {
@@ -134,6 +137,13 @@ brickdest.ecs.EntityFactory = oop.class({
   applyDestroyOnHit: function(entity, destroyOnHitData) {
     var component = new brickdest.ecs.DestroyOnHitComponent();
     entity.addComponent("destroyOnHit", component);
+  },
+  applySpawnOnDestroy: function(entity, spawnOnDestoryData) {
+    var component = new brickdest.ecs.SpawnOnDestroyComponent();
+    if (typeof spawnOnDestoryData.definition !== 'undefined') {
+      component.definition = spawnOnDestoryData.definition;
+    }
+    entity.addComponent("spawnOnDestroy", component);
   }
 });
 

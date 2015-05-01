@@ -104,3 +104,14 @@ brickdest.ecs.LocationBoundComponent = oop.class({
 
 brickdest.ecs.DestroyOnHitComponent = oop.class({
 });
+
+brickdest.ecs.SpawnOnDestroyComponent = oop.class({
+  __create__: function(config) {
+    this.definition = {};
+    if (typeof config !== 'undefined') {
+      if (typeof config.definition !== 'undefined') {
+        this.definition = config.definition;
+      }
+    }
+  }
+});

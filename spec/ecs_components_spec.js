@@ -238,4 +238,36 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("SpawnOnDestroyComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.SpawnOnDestroyComponent();
+      });
+
+      it("has an empty definition", function() {
+        expect(component.definition).toEqual({});
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.SpawnOnDestroyComponent({
+          "definition" : {
+            "some_component" : {
+              "some_key" : "some_value"
+            }
+          }
+        });
+      });
+
+      it("has a definition accordingly", function() {
+        expect(component.definition).toEqual({
+          "some_component" : {
+            "some_key" : "some_value"
+          }
+        });
+      });
+    });
+  });
 });
