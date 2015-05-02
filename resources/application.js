@@ -13,7 +13,7 @@ brickdest.app.Application = oop.class({
     this.canvasPosition = $(canvas).position();
 
     var renderer = new brickdest.graphics.Renderer(canvas);
-    this.brickGame = new game.Game(renderer);
+    this.brickGame = new game.Game(renderer, "/resources/levels/level0.json");
   },
   onKeyDown: function(event) {
     if (event.which == brickdest.app.KEY_SHIFT) {
@@ -41,12 +41,24 @@ brickdest.app.Application = oop.class({
     this.updateGame();
   },
   updateTitle: function() {
-    if (this.brickGame.isLoading()) {
-      this.setTitle("Loading...");
-    } else if (this.brickGame.isPaused()) {
-      this.setTitle("Paused!");
-    } else {
-      this.setTitle("Level: " + this.brickGame.getLevelName());
+    switch (this.brickGame.getGameState()) {
+      case game.StateLoadingLevel:
+        this.setTitle("Loading level...");
+        break;
+      case game.StateLoadingContent:
+        this.setTitle("Loading data...");
+        break;
+      case game.StatePaused:
+        this.setTitle("Paused!");
+        break;
+      case game.StateVictory:
+        this.setTitle("Congratulations, you have successfully completed all levels!");
+        break;
+      case game.StateGameOver:
+        this.setTitle("Game Over!");
+        break;
+      default:
+        this.setTitle("Level: " + this.brickGame.getLevelName());
     }
   },
   setTitle: function(text) {

@@ -184,10 +184,18 @@ brickdest.ecs.EntityFactory = oop.class({
 });
 
 brickdest.ecs.LevelFactory = oop.class({
-  __create__: function(entityFactory) {
+  __create__: function(entityFactory, resourceCollection) {
     this.entityFactory = entityFactory;
+    this.resourceCollection = resourceCollection;
   },
   applyLevel: function(level) {
+    var images = this.getImagesFromLevel(level);
+    for (var name in images) {
+      var path = images[name];
+      var image = new brickdest.graphics.Image(path);
+      this.resourceCollection.register(name, image);
+    }
+
     var types = this.getTypesFromLevel(level);
     for (var name in types) {
       var typeDefinition = types[name];
@@ -200,6 +208,12 @@ brickdest.ecs.LevelFactory = oop.class({
       entityDefinition = this.expandDefinition(entityDefinition, types);
       this.entityFactory.createEntity(entityDefinition);
     }
+  },
+  getImagesFromLevel: function(level) {
+    if (typeof level.images !== 'undefined') {
+      return level.images;
+    }
+    return {}
   },
   getTypesFromLevel: function(level) {
     if (typeof level.types !== 'undefined') {

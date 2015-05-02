@@ -7,11 +7,15 @@ brickdest.graphics.IImage = oop.interface({
 brickdest.graphics.Image = oop.class(brickdest.resource.Resource, {
   __create__: function(path) {
     this.__super__();
+    this.path = path;
     this.img = new Image();
     this.img.src = path;
     this.img.onload = $.proxy(function() {
       this.setLoaded(true);
     }, this);
+  },
+  getPath: function() {
+    return this.path;
   },
   getImg: function() {
     return this.img;

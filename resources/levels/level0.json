@@ -1,5 +1,14 @@
 {
   "name" : "ECS",
+  "next" : "/resources/levels/level1.json",
+  "images" : {
+    "slider_inactive" : "/resources/images/slider_inactive.jpg",
+    "slider_active" : "/resources/images/slider_active.jpg",
+    "ball" : "/resources/images/ball.png",
+    "brick_green" : "/resources/images/brick_green.jpg",
+    "brick_red" : "/resources/images/brick_red.jpg",
+    "brick_grey" : "/resources/images/brick_grey.jpg"
+  },
   "types" : {
     "border" : {
       "location" : {},

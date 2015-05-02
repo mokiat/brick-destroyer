@@ -1,13 +1,16 @@
 describe("LevelFactory", function() {
   var decimalPoints = 4;
   var entityFactory;
+  var resourceCollection;
   var factory;
 
   beforeEach(function() {
     entityFactory = new brickdest.ecs.IEntityFactory();
     spyOn(entityFactory, 'createEntity');
 
-    factory = new brickdest.ecs.LevelFactory(entityFactory);
+    resourceCollection = new brickdest.resource.Collection();
+
+    factory = new brickdest.ecs.LevelFactory(entityFactory,resourceCollection);
   });
 
   describe("when an empty level is applied", function() {
@@ -18,6 +21,29 @@ describe("LevelFactory", function() {
 
     it("EntityManager is not used", function() {
       expect(entityFactory.createEntity).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("when a level with images is applied", function() {
+    beforeEach(function() {
+      factory.applyLevel({
+        "images" : {
+          "ball" : "/resources/img/ball",
+          "brick" : "/resources/img/brick"
+        }
+      });
+    });
+
+    it("the images should have been registered in the resource collection", function() {
+      var ballImage = resourceCollection.find("ball");
+      expect(ballImage).toBeDefined();
+      expect(ballImage).not.toBeNull();
+      expect(ballImage.getPath()).toEqual("/resources/img/ball");
+
+      var brickImage = resourceCollection.find("brick");
+      expect(brickImage).toBeDefined();
+      expect(brickImage).not.toBeNull();
+      expect(brickImage.getPath()).toEqual("/resources/img/brick");
     });
   });
 

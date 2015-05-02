@@ -1,35 +1,28 @@
 oop.namespace("game");
 
+game.StateLoadingLevel = "loadingLevel";
+game.StateLoadingContent = "loadingContent";
+game.StateGameOver = "gameOver";
+game.StateVictory = "gameVictory";
 game.StateStopped = "stopped";
 game.StateRunning = "running";
 game.StatePaused = "paused";
 
 game.Game = oop.class({
-  __create__: function(renderer) {
-    this.gameState = game.StateStopped;
-    this.wasLoading = true;
-    this.currentLevel = 0;
-    this.currentLevelName = "";
-
+  __create__: function(renderer, levelURL) {
     this.renderer = renderer;
 
-    this.resourceCollection = new brickdest.resource.Collection();
-    this.resourceCollection.register("slider_inactive", new brickdest.graphics.Image("/resources/images/slider_inactive.jpg"));
-    this.resourceCollection.register("slider_active", new brickdest.graphics.Image("/resources/images/slider_active.jpg"));
-    this.resourceCollection.register("ball", new brickdest.graphics.Image("/resources/images/ball.png"));
-    this.resourceCollection.register("brick_green", new brickdest.graphics.Image("/resources/images/brick_green.jpg"));
-    this.resourceCollection.register("brick_red", new brickdest.graphics.Image("/resources/images/brick_red.jpg"));
-    this.resourceCollection.register("brick_grey", new brickdest.graphics.Image("/resources/images/brick_grey.jpg"));
-    this.resourceCollection.register("brick_ball", new brickdest.graphics.Image("/resources/images/brick_ball.jpg"));
-    this.resourceCollection.register("brick_bounce", new brickdest.graphics.Image("/resources/images/brick_bounce.jpg"));
-    this.resourceCollection.register("brick_friction", new brickdest.graphics.Image("/resources/images/brick_friction.jpg"));
-    this.resourceCollection.register("brick_gravity", new brickdest.graphics.Image("/resources/images/brick_gravity.jpg"));
-    this.resourceCollection.register("brick_star", new brickdest.graphics.Image("/resources/images/brick_star.jpg"));
-    this.resourceCollection.register("level0", new brickdest.resource.RemoteJSONResource("/resources/levels/level0.json"));
+    this.currentLevelName = "";
+    this.nextLevelURL = null;
+    this.loadLevel(levelURL);
 
+    this.createSystems();
+  },
+  createSystems: function() {
+    this.resourceCollection = new brickdest.resource.Collection();
     this.entityManager = new brickdest.ecs.EntityManager();
     var entityFactory = new brickdest.ecs.EntityFactory(this.entityManager, this.resourceCollection);
-    this.levelFactory = new brickdest.ecs.LevelFactory(entityFactory);
+    this.levelFactory = new brickdest.ecs.LevelFactory(entityFactory, this.resourceCollection);
 
     var spriteSystem = new brickdest.ecs.SpriteRenderSystem(this.entityManager, this.renderer);
     this.entityManager.addSystem(spriteSystem);
@@ -58,54 +51,73 @@ game.Game = oop.class({
   getGameState: function() {
     return this.gameState;
   },
-  isLoading: function() {
-    return !this.resourceCollection.isLoaded();
-  },
-  isPaused: function() {
-    return (this.gameState == game.StatePaused);
-  },
   getLevelName: function() {
     return this.currentLevelName;
   },
   update: function(elapsedSeconds) {
     this.renderer.clear();
-    if (this.isLoading()) {
+
+    if (this.gameState === game.StateVictory) {
       return;
     }
-    if (this.wasLoading) {
-      this.wasLoading = false;
-      this.initializeLevel(1);
+
+    if (this.gameState === game.StateLoadingLevel) {
+      if (this.currentLevelResource.isLoaded()) {
+        this.gameState = game.StateLoadingContent;
+      } else {
+        return;
+      }
     }
+
+    if (this.gameState === game.StateLoadingContent) {
+      if (this.resourceCollection.isLoaded()) {
+        this.gameState = game.StateStopped;
+        this.initializeLevel();
+      } else {
+        return;
+      }
+    }
+
     if (this.gameState !== game.StateRunning) {
       elapsedSeconds = 0.0;
     }
     this.entityManager.update(elapsedSeconds);
-  },
-  initializeLevel: function(number) {
-    console.log("Changing to level: " + number);
-    this.entityManager.deleteAllEntities();
 
-    this.currentLevel = number;
-    var levelResourceName = "level" + (number - 1);
-    var levelResource = this.resourceCollection.find(levelResourceName);
-    if (levelResource == null) {
-      this.currentLevelName = "Congratulations, you have passed all levels!";
+    if (this.victorySystem.isTriggered()) {
+      if (this.nextLevelURL) {
+        this.loadLevel(this.nextLevelURL);
+      } else {
+        this.gameState = game.StateVictory;
+        return;
+      }
+    }
+    if (this.defeatSystem.isTriggered()) {
+      this.gameState = game.StateGameOver;
       return;
     }
-    var level = levelResource.getData();
+  },
+  loadLevel: function(levelURL) {
+    this.gameState = game.StateLoadingLevel;
+    this.currentLevelResource = new brickdest.resource.RemoteJSONResource(levelURL)
+  },
+  initializeLevel: function() {
+    this.entityManager.deleteAllEntities();
+
+    var level = this.currentLevelResource.getData();
     this.currentLevelName = level.name;
+    this.nextLevelURL = (level.next || null);
     this.levelFactory.applyLevel(level);
+
     this.victorySystem.reset();
     this.defeatSystem.reset();
   },
   startLevel: function() {
-    if (this.isLoading()) {
-      console.log("Cannot start level: still loading...");
-      return;
-    }
-    if (this.gameState == game.StateStopped) {
-      console.log("Level started: " + this.getLevelName());
+    if (this.gameState === game.StateStopped) {
       this.gameState = game.StateRunning;
+    }
+    if (this.gameState === game.StateGameOver) {
+      this.gameState = game.StateStopped;
+      this.initializeLevel();
     }
   },
   enableSlider: function() {
@@ -120,11 +132,9 @@ game.Game = oop.class({
   togglePaused: function() {
     switch (this.gameState) {
       case game.StatePaused:
-        console.log("Game resumed.");
         this.gameState = game.StateRunning;
         break;
       case game.StateRunning:
-        console.log("Game paused.");
         this.gameState = game.StatePaused;
         break;
     }
