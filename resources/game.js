@@ -49,6 +49,14 @@ game.Game = oop.class({
 
     this.bounceTogglableSystem = new brickdest.ecs.BounceTogglableSystem(this.entityManager);
     this.entityManager.addSystem(this.bounceTogglableSystem);
+
+    this.victorySystem = new brickdest.ecs.VictorySystem(this.entityManager);
+    this.entityManager.addSystem(this.victorySystem);
+
+    this.defeatSystem = new brickdest.ecs.DefeatSystem(this.entityManager);
+  },
+  getGameState: function() {
+    return this.gameState;
   },
   isLoading: function() {
     return !this.resourceCollection.isLoaded();
@@ -87,6 +95,8 @@ game.Game = oop.class({
     var level = levelResource.getData();
     this.currentLevelName = level.name;
     this.levelFactory.applyLevel(level);
+    this.victorySystem.reset();
+    this.defeatSystem.reset();
   },
   startLevel: function() {
     if (this.isLoading()) {

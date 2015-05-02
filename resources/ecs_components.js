@@ -134,3 +134,9 @@ brickdest.ecs.BounceTogglableComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.ShouldDestroyComponent = oop.class({
+});
+
+brickdest.ecs.ShouldNotDestroyComponent = oop.class({
+});

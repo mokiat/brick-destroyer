@@ -28,13 +28,15 @@
       "sprite" : {
         "image" : "brick_green"
       },
-      "destroyOnHit" : {}
+      "destroyOnHit" : {},
+      "shouldDestroy" : {}
     },
     "red_brick" : {
       "sprite" : {
         "image" : "brick_red"
       },
       "destroyOnHit" : {},
+      "shouldDestroy" : {},
       "spawnOnDestroy" : {
         "definition" : {
           "types" : ["brick", "green_brick"]
@@ -115,6 +117,8 @@
         "x" : 300,
         "y" : 418
       },
+      "destroyOnHit" : {},
+      "shouldNotDestroy" : {},
       "collision" : {
         "shape_rectangle" : {
           "width" : 600,

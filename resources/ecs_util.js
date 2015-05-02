@@ -38,6 +38,12 @@ brickdest.ecs.EntityFactory = oop.class({
     if (typeof definition.bounceTogglable !== 'undefined') {
       this.applyBounceTogglable(entity, definition.bounceTogglable);
     }
+    if (typeof definition.shouldDestroy !== 'undefined') {
+      this.applyShouldDestroy(entity, definition.shouldDestroy);
+    }
+    if (typeof definition.shouldNotDestroy !== 'undefined') {
+      this.applyShouldNotDestroy(entity, definition.shouldNotDestroy);
+    }
     return entity;
   },
   applyLocation: function(entity, locationData) {
@@ -166,6 +172,14 @@ brickdest.ecs.EntityFactory = oop.class({
       }
     }
     entity.addComponent("bounceTogglable", component);
+  },
+  applyShouldDestroy: function(entity, shouldDestroyData) {
+    var component = new brickdest.ecs.ShouldDestroyComponent();
+    entity.addComponent("shouldDestroy", component);
+  },
+  applyShouldNotDestroy: function(entity, shouldNotDestroyData) {
+    var component = new brickdest.ecs.ShouldNotDestroyComponent();
+    entity.addComponent("shouldNotDestroy", component);
   }
 });
 

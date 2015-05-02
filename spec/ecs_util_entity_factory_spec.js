@@ -249,4 +249,28 @@ describe("EntityFactory", function() {
       expect(component.deflection.y).toBeCloseTo(0.4, decimalPoints);
     });
   });
+
+  describe("when definition has shouldDestroy", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "shouldDestroy" : {}
+      });
+    });
+
+    it("an entity with shouldDestroy component should have been created", function() {
+      expect(entity.hasComponent("shouldDestroy")).toBeTruthy();
+    });
+  });
+
+  describe("when definition has shouldNotDestroy", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "shouldNotDestroy" : {}
+      });
+    });
+
+    it("an entity with shouldNotDestroy component should have been created", function() {
+      expect(entity.hasComponent("shouldNotDestroy")).toBeTruthy();
+    });
+  });
 });

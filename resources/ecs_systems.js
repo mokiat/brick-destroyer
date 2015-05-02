@@ -281,3 +281,44 @@ brickdest.ecs.BounceTogglableSystem = oop.class({
     otherMotionComp.speed = otherMotionComp.speed.inc(deltaSpeed);
   }
 });
+
+brickdest.ecs.VictorySystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+    this.triggered = false;
+  },
+  update: function(elapsedSeconds) {
+    var entities = this.manager.filterEntities(["shouldDestroy"]);
+    this.triggered = (entities.length == 0);
+  },
+  isTriggered: function() {
+    return this.triggered;
+  },
+  reset: function() {
+    this.triggered = false;
+  }
+});
+
+brickdest.ecs.DefeatSystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+    this.manager.subscribe(["shouldNotDestroy"], $.proxy(this.onEntityEvent, this));
+    this.triggered = false;
+  },
+  update: function(elapsedSeconds) {
+  },
+  isTriggered: function() {
+    return this.triggered;
+  },
+  reset: function() {
+    this.triggered = false;
+  },
+  onEntityEvent: function(entity, event) {
+    if (event instanceof brickdest.ecs.DestroyedEvent) {
+      this.onEntityDestroyed(entity, event);
+    }
+  },
+  onEntityDestroyed: function(entity, collisionEvent) {
+    this.triggered = true;
+  }
+});
