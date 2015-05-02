@@ -12,8 +12,13 @@ brickdest.app.Application = oop.class({
     var canvas = document.getElementById("screen");
     this.canvasPosition = $(canvas).position();
 
+    var levelURL = "/resources/levels/level0.json";
+    if (window.location.hash) {
+      levelURL = window.location.hash.substring(1);
+    }
+
     var renderer = new brickdest.graphics.Renderer(canvas);
-    this.brickGame = new game.Game(renderer, "/resources/levels/level0.json");
+    this.brickGame = new game.Game(renderer, levelURL);
   },
   onKeyDown: function(event) {
     if (event.which == brickdest.app.KEY_SHIFT) {
