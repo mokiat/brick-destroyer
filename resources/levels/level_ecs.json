@@ -1,5 +1,5 @@
 {
-  "name" : "ECS",
+  "name" : "ECS (Entity Component Systems)",
   "next" : "/resources/levels/level1.json",
   "images" : {
     "slider_inactive" : "/resources/images/slider_inactive.jpg",
