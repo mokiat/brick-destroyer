@@ -322,3 +322,22 @@ brickdest.ecs.DefeatSystem = oop.class({
     this.triggered = true;
   }
 });
+
+brickdest.ecs.TimerDestroySystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+  },
+  update: function(elapsedSeconds) {
+    var entities = this.manager.filterEntities(["timerDestroy"]);
+    for (var i = 0; i < entities.length; i++) {
+      this.updateEntityTimer(entities[i], elapsedSeconds);
+    }
+  },
+  updateEntityTimer: function(entity, elapsedSeconds) {
+    var timerDestroyComp = entity.getComponent("timerDestroy");
+    timerDestroyComp.timeout -= elapsedSeconds;
+    if (timerDestroyComp.timeout <= 0.0) {
+      entity.destroy();
+    }
+  }
+});

@@ -326,4 +326,28 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("TimerDestroyComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.TimerDestroyComponent();
+      });
+
+      it("has a default timeout of 10 seconds", function() {
+        expect(component.timeout).toBeCloseTo(10.0, decimalPoints);
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.TimerDestroyComponent({
+          timeout: 1.5
+        });
+      });
+
+      it("has timeout set accordingly", function() {
+        expect(component.timeout).toBeCloseTo(1.5, decimalPoints);
+      });
+    });
+  });
 });

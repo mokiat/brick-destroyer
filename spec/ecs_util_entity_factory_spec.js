@@ -273,4 +273,20 @@ describe("EntityFactory", function() {
       expect(entity.hasComponent("shouldNotDestroy")).toBeTruthy();
     });
   });
+
+  describe("when definition has timerDestroy", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "timerDestroy" : {
+          "timeout" : 5.4
+        }
+      });
+    });
+
+    it("an entity with timerDestroy component should have been created", function() {
+      expect(entity.hasComponent("timerDestroy")).toBeTruthy();
+      var component = entity.getComponent("timerDestroy");
+      expect(component.timeout).toBeCloseTo(5.4, decimalPoints);
+    });
+  });
 });

@@ -44,6 +44,9 @@ brickdest.ecs.EntityFactory = oop.class({
     if (typeof definition.shouldNotDestroy !== 'undefined') {
       this.applyShouldNotDestroy(entity, definition.shouldNotDestroy);
     }
+    if (typeof definition.timerDestroy !== 'undefined') {
+      this.applyTimerDestroy(entity, definition.timerDestroy);
+    }
     return entity;
   },
   applyLocation: function(entity, locationData) {
@@ -180,6 +183,13 @@ brickdest.ecs.EntityFactory = oop.class({
   applyShouldNotDestroy: function(entity, shouldNotDestroyData) {
     var component = new brickdest.ecs.ShouldNotDestroyComponent();
     entity.addComponent("shouldNotDestroy", component);
+  },
+  applyTimerDestroy: function(entity, timerDestroyData) {
+    var component = new brickdest.ecs.TimerDestroyComponent();
+    if (typeof timerDestroyData.timeout !== 'undefined') {
+      component.timeout = timerDestroyData.timeout;
+    }
+    entity.addComponent("timerDestroy", component);
   }
 });
 

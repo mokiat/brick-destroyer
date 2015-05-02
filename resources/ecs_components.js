@@ -140,3 +140,14 @@ brickdest.ecs.ShouldDestroyComponent = oop.class({
 
 brickdest.ecs.ShouldNotDestroyComponent = oop.class({
 });
+
+brickdest.ecs.TimerDestroyComponent = oop.class({
+  __create__: function(config) {
+    this.timeout = 10.0;
+    if (typeof config !== 'undefined') {
+      if (typeof config.timeout !== 'undefined') {
+        this.timeout = config.timeout;
+      }
+    }
+  }
+});
