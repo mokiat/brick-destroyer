@@ -23,6 +23,7 @@ brickdest.ecs.SpriteRenderSystem = oop.class({
 });
 
 brickdest.ecs.MaxSpeed = 1000.0;
+brickdest.ecs.StepRatio = 0.25;
 
 brickdest.ecs.CollisionEvent = oop.class({
   __create__: function(data) {
@@ -59,7 +60,7 @@ brickdest.ecs.MotionSystem = oop.class({
 
     if (entity.hasComponent("collision")) {
       // Move a fraction of the smallest dimension of the shape
-      var stepSize = 0.5 * entity.getComponent("collision").shape.getClosestPointDistance();
+      var stepSize = brickdest.ecs.StepRatio * entity.getComponent("collision").shape.getClosestPointDistance();
       if (deltaLocation.getSquaredLength() > stepSize * stepSize) {
         // We have moved way too much for a proper collision detection.
         // Do a two separate half-time moves instead.
