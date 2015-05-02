@@ -151,3 +151,17 @@ brickdest.ecs.TimerDestroyComponent = oop.class({
     }
   }
 });
+
+brickdest.ecs.DestroyOnExplodeComponent = oop.class({
+});
+
+brickdest.ecs.ExplodeOnDestroyComponent = oop.class({
+  __create__: function(config) {
+    this.explosionRadius = 100.0;
+    if (typeof config !== 'undefined') {
+      if (typeof config.explosionRadius !=='undefined') {
+        this.explosionRadius = config.explosionRadius;
+      }
+    }
+  }
+});

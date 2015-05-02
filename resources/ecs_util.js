@@ -47,6 +47,12 @@ brickdest.ecs.EntityFactory = oop.class({
     if (typeof definition.timerDestroy !== 'undefined') {
       this.applyTimerDestroy(entity, definition.timerDestroy);
     }
+    if (typeof definition.destroyOnExplode !== 'undefined') {
+      this.applyDestroyOnExplode(entity, definition.destroyOnExplode);
+    }
+    if (typeof definition.explodeOnDestroy !== 'undefined') {
+      this.applyExplodeOnDestroy(entity, definition.explodeOnDestroy);
+    }
     return entity;
   },
   applyLocation: function(entity, locationData) {
@@ -190,6 +196,17 @@ brickdest.ecs.EntityFactory = oop.class({
       component.timeout = timerDestroyData.timeout;
     }
     entity.addComponent("timerDestroy", component);
+  },
+  applyDestroyOnExplode: function(entity, destroyOnExplodeData) {
+    var component = new brickdest.ecs.DestroyOnExplodeComponent();
+    entity.addComponent("destroyOnExplode", component);
+  },
+  applyExplodeOnDestroy: function(entity, explodeOnDestroyData) {
+    var component = new brickdest.ecs.ExplodeOnDestroyComponent();
+    if (typeof explodeOnDestroyData.explosionRadius !== 'undefined') {
+      component.explosionRadius = explodeOnDestroyData.explosionRadius;
+    }
+    entity.addComponent("explodeOnDestroy", component);
   }
 });
 

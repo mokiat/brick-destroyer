@@ -204,6 +204,16 @@ describe("Entity-Component-System Core", function() {
         var event = listener.onEvent.calls[0].args[1];
         expect(event instanceof brickdest.ecs.DestroyedEvent).toBeTruthy();
       });
+
+      describe("when entity is destroyed again", function() {
+        beforeEach(function() {
+          entity.destroy();
+        });
+
+        it("a second destroy event is not sent", function() {
+          expect(listener.onEvent.calls.length).toEqual(1);
+        });
+      });
     });
 
     describe("when components are added", function() {

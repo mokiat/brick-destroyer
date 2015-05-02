@@ -341,3 +341,35 @@ brickdest.ecs.TimerDestroySystem = oop.class({
     }
   }
 });
+
+brickdest.ecs.ExplosionSystem = oop.class({
+  __create__: function(manager) {
+    this.manager = manager;
+    this.manager.subscribe(["location", "explodeOnDestroy"], $.proxy(this.onEntityEvent, this));
+  },
+  update: function(elapsedSeconds) {
+  },
+  onEntityEvent: function(entity, event) {
+    if (event instanceof brickdest.ecs.DestroyedEvent) {
+      this.onEntityDestroyed(entity, event);
+    }
+  },
+  onEntityDestroyed: function(entity, collisionEvent) {
+    var locationComp = entity.getComponent("location");
+    var explodeComp = entity.getComponent("explodeOnDestroy");
+    var radius = explodeComp.explosionRadius;
+
+    var potentialTargets = this.manager.filterEntities(["location", "destroyOnExplode"]);
+    for (var i = 0; i < potentialTargets.length; i++) {
+      var potentialTarget = potentialTargets[i];
+      if (potentialTarget == entity) {
+        continue;
+      }
+      var potentialLocationComp = potentialTarget.getComponent("location");
+      var delta = potentialLocationComp.location.dec(locationComp.location);
+      if (delta.getSquaredLength() < radius * radius) {
+        potentialTarget.destroy();
+      }
+    }
+  }
+});

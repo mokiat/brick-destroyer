@@ -289,4 +289,32 @@ describe("EntityFactory", function() {
       expect(component.timeout).toBeCloseTo(5.4, decimalPoints);
     });
   });
+
+  describe("when definition has destroyOnExplode", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "destroyOnExplode" : {}
+      });
+    });
+
+    it("an entity with destroyOnExplode component should have been created", function() {
+      expect(entity.hasComponent("destroyOnExplode")).toBeTruthy();
+    });
+  });
+
+  describe("when definition has explodeOnDestroy", function() {
+    beforeEach(function() {
+      entity = factory.createEntity({
+        "explodeOnDestroy" : {
+          "explosionRadius" : 8.2
+        }
+      });
+    });
+
+    it("an entity with explodeOnDestroy component should have been created", function() {
+      expect(entity.hasComponent("explodeOnDestroy")).toBeTruthy();
+      var component = entity.getComponent("explodeOnDestroy");
+      expect(component.explosionRadius).toBeCloseTo(8.2, decimalPoints);
+    });
+  });
 });

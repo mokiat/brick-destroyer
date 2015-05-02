@@ -36,6 +36,7 @@ game.Game = oop.class({
     new brickdest.ecs.DestroyOnHitSystem(this.entityManager);
     var timerDestroySystem = new brickdest.ecs.TimerDestroySystem(this.entityManager);
     this.entityManager.addSystem(timerDestroySystem);
+    new brickdest.ecs.ExplosionSystem(this.entityManager);
     new brickdest.ecs.SpawnOnDestroySystem(this.entityManager, entityFactory);
 
     var motionSystem = new brickdest.ecs.MotionSystem(this.entityManager);

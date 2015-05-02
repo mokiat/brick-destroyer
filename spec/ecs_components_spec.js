@@ -350,4 +350,28 @@ describe("Entity-Component-System Components", function() {
       });
     });
   });
+
+  describe("ExplodeOnDestroyComponent", function() {
+    describe("when a default one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.ExplodeOnDestroyComponent();
+      });
+
+      it("has a default radius of 100", function() {
+        expect(component.explosionRadius).toBeCloseTo(100.0, decimalPoints);
+      });
+    });
+
+    describe("when a config-based one is created", function() {
+      beforeEach(function() {
+        component = new brickdest.ecs.ExplodeOnDestroyComponent({
+          explosionRadius: 15.4
+        });
+      });
+
+      it("has explosion radius set accordingly", function() {
+        expect(component.explosionRadius).toBeCloseTo(15.4, decimalPoints);
+      });
+    });
+  });
 });

@@ -114,6 +114,9 @@ brickdest.ecs.Entity = oop.class({
     return this.destroyed;
   },
   destroy: function() {
+    if (this.isDestroyed()) {
+      return;
+    }
     this.destroyed = true;
     this.manager.deleteEntity(this);
     this.throwEvent(new brickdest.ecs.DestroyedEvent());
