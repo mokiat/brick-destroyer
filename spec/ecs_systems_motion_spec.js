@@ -184,12 +184,13 @@ describe("MotionSystem", function() {
     describe("when obstacle is movable", function() {
       beforeEach(function() {
         obstacle.addComponent("motion", new brickdest.ecs.MotionComponent());
+
+        manager.update(8.0);
       });
 
-      it("should throw an error", function() {
-        expect(function() {
-          manager.update(8.0);
-        }).toThrow();
+      // We don't support collision between moving objects for now
+      it("the two objects should not have collided", function() {
+        expect(listener.onEvent.calls.length).toEqual(0);
       });
     });
   });

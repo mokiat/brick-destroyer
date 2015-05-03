@@ -92,7 +92,7 @@ brickdest.ecs.MotionSystem = oop.class({
       return;
     }
     if (staticEntity.hasComponent("motion")) {
-      throw "Collision between two moving objects not supported!";
+      return;
     }
 
     var movingLocationComp = movingEntity.getComponent("location");
