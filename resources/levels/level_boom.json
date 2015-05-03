@@ -1,13 +1,14 @@
 {
-  "name" : "ECS (Entity Component Systems)",
-  "next" : "/resources/levels/level_boom.json",
+  "name" : "Boom!",
+  "next" : "/resources/levels/level2.json",
   "images" : {
     "slider_inactive" : "/resources/images/slider_inactive.jpg",
     "slider_active" : "/resources/images/slider_active.jpg",
     "ball" : "/resources/images/ball.png",
     "brick_green" : "/resources/images/brick_green.jpg",
     "brick_red" : "/resources/images/brick_red.jpg",
-    "brick_grey" : "/resources/images/brick_grey.jpg"
+    "brick_grey" : "/resources/images/brick_grey.jpg",
+    "brick_star" : "/resources/images/brick_star.jpg"
   },
   "types" : {
     "border" : {
@@ -35,6 +36,7 @@
     },
     "brittle_brick" : {
       "destroyOnHit" : {},
+      "destroyOnExplode" : {},
       "shouldDestroy" : {}
     },
     "green_brick" : {
@@ -56,8 +58,18 @@
     },
     "grey_brick" : {
       "types" : ["brick"],
+      "destroyOnExplode" : {},
       "sprite" : {
         "image" : "brick_grey"
+      }
+    },
+    "star_brick" : {
+      "types" : ["brick", "brittle_brick"],
+      "explodeOnDestroy" : {
+        "explosionRadius" : 76.0
+      },
+      "sprite" : {
+        "image" : "brick_star"
       }
     },
     "ball" : {
@@ -165,112 +177,112 @@
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 37.5,
         "y" : 20.0
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 37.5,
         "y" : 60.0
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 37.5,
         "y" : 100.0
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 37.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 180.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 112.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 112.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 112.5,
-        "y" : 180.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 187.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 187.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 187.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 262.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 262.5,
-        "y" : 180.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 337.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["red_brick"],
-      "location" : {
-        "x" : 337.5,
         "y" : 140.0
       }
     },
     {
       "types" : ["grey_brick"],
+      "location" : {
+        "x" : 37.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
+      "location" : {
+        "x" : 112.5,
+        "y" : 20.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
+      "location" : {
+        "x" : 112.5,
+        "y" : 100.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 112.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["star_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
       "location" : {
         "x" : 412.5,
         "y" : 60.0
@@ -280,18 +292,25 @@
       "types" : ["grey_brick"],
       "location" : {
         "x" : 412.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["star_brick"],
+      "location" : {
+        "x" : 412.5,
         "y" : 180.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 20.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 100.0
@@ -315,7 +334,28 @@
       "types" : ["grey_brick"],
       "location" : {
         "x" : 562.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 562.5,
+        "y" : 100.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 562.5,
         "y" : 140.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 562.5,
+        "y" : 180.0
       }
     },
     {
@@ -332,5 +372,11 @@
         "y" : 397
       }
     }
+  ],
+  "OLD" : [
+    ["grey",   "grey", "grey",  "grey", "grey",     "grey", "grey",    "grey"],
+    ["red",    "grey", "red",   "grey", "red",      "grey", "red",     "grey"],
+    ["bounce", "star", "ball",  "star", "friction", "star", "gravity", "star"],
+    ["green",  "grey", "green", "ball", "green",    "grey", "green",   "grey"]
   ]
 }
