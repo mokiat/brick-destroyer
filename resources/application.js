@@ -12,7 +12,7 @@ brickdest.app.Application = oop.class({
     var canvas = document.getElementById("screen");
     this.canvasPosition = $(canvas).position();
 
-    var levelURL = "/resources/levels/level_ecs.json";
+    var levelURL = "resources/levels/level_ecs.json";
     if (window.location.hash) {
       levelURL = window.location.hash.substring(1);
     }

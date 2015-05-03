@@ -1,16 +1,16 @@
 {
   "name" : "Physics Disaster",
-  "next" : "/resources/levels/level_too_many.json",
+  "next" : "resources/levels/level_too_many.json",
   "images" : {
-    "slider_inactive" : "/resources/images/slider_inactive.jpg",
-    "slider_active" : "/resources/images/slider_active.jpg",
-    "ball" : "/resources/images/ball.png",
-    "brick_green" : "/resources/images/brick_green.jpg",
-    "brick_red" : "/resources/images/brick_red.jpg",
-    "brick_grey" : "/resources/images/brick_grey.jpg",
-    "brick_star" : "/resources/images/brick_star.jpg",
-    "brick_friction" : "/resources/images/brick_friction.jpg",
-    "brick_bounce" : "/resources/images/brick_bounce.jpg"
+    "slider_inactive" : "resources/images/slider_inactive.jpg",
+    "slider_active" : "resources/images/slider_active.jpg",
+    "ball" : "resources/images/ball.png",
+    "brick_green" : "resources/images/brick_green.jpg",
+    "brick_red" : "resources/images/brick_red.jpg",
+    "brick_grey" : "resources/images/brick_grey.jpg",
+    "brick_star" : "resources/images/brick_star.jpg",
+    "brick_friction" : "resources/images/brick_friction.jpg",
+    "brick_bounce" : "resources/images/brick_bounce.jpg"
   },
   "types" : {
     "border" : {
