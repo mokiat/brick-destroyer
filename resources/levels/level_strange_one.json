@@ -1,6 +1,5 @@
 {
-  "name" : "Way Too Many",
-  "next" : "/resources/levels/level_strange_one.json",
+  "name" : "A Strange One",
   "images" : {
     "slider_inactive" : "/resources/images/slider_inactive.jpg",
     "slider_active" : "/resources/images/slider_active.jpg",
@@ -218,155 +217,100 @@
         "y" : 20.0
       }
     },
+
     {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 112.5,
         "y" : 20.0
       }
     },
     {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 112.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
+      "types" : ["red_brick"],
       "location" : {
         "x" : 187.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["bounce_brick"],
-      "location" : {
-        "x" : 187.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["ball_brick"],
-      "location" : {
-        "x" : 187.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 262.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["ball_brick"],
-      "location" : {
-        "x" : 262.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 262.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 337.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["ball_brick"],
-      "location" : {
-        "x" : 337.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 337.5,
-        "y" : 140.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 412.5,
         "y" : 20.0
       }
     },
     {
       "types" : ["friction_brick"],
       "location" : {
-        "x" : 412.5,
-        "y" : 100.0
+        "x" : 187.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 20.0
       }
     },
     {
       "types" : ["ball_brick"],
       "location" : {
+        "x" : 262.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 20.0
+      }
+    },
+    {
+      "types" : ["ball_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
         "x" : 412.5,
-        "y" : 140.0
+        "y" : 20.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["bounce_brick"],
+      "location" : {
+        "x" : 412.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 20.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["star_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 60.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["red_brick"],
       "location" : {
         "x" : 562.5,
         "y" : 20.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 562.5,
         "y" : 60.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["friction_brick"],
       "location" : {
         "x" : 562.5,
         "y" : 100.0
@@ -375,8 +319,50 @@
     {
       "types" : ["grey_brick"],
       "location" : {
+        "x" : 112.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 412.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 487.5,
+        "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
         "x" : 562.5,
-        "y" : 140.0
+        "y" : 180.0
       }
     },
     {
@@ -391,6 +377,16 @@
       "location" : {
         "x" : 300,
         "y" : 397
+      }
+    },
+    {
+      "types" : ["slider"],
+      "location" : {
+        "x" : 300,
+        "y" : 151
+      },
+      "locationBound" : {
+        "minX" : 130.0
       }
     }
   ]
