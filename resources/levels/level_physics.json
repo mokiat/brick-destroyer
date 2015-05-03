@@ -1,6 +1,6 @@
 {
-  "name" : "Boom!",
-  "next" : "/resources/levels/level_physics.json",
+  "name" : "Physics Disaster",
+  "next" : "/resources/levels/level2.json",
   "images" : {
     "slider_inactive" : "/resources/images/slider_inactive.jpg",
     "slider_active" : "/resources/images/slider_active.jpg",
@@ -8,7 +8,9 @@
     "brick_green" : "/resources/images/brick_green.jpg",
     "brick_red" : "/resources/images/brick_red.jpg",
     "brick_grey" : "/resources/images/brick_grey.jpg",
-    "brick_star" : "/resources/images/brick_star.jpg"
+    "brick_star" : "/resources/images/brick_star.jpg",
+    "brick_friction" : "/resources/images/brick_friction.jpg",
+    "brick_bounce" : "/resources/images/brick_bounce.jpg"
   },
   "types" : {
     "border" : {
@@ -72,12 +74,30 @@
         "image" : "brick_star"
       }
     },
+    "friction_brick" : {
+      "types" : ["brick", "brittle_brick"],
+      "collision" : {
+        "friction" : 1.0
+      },
+      "sprite" : {
+        "image" : "brick_friction"
+      }
+    },
+    "bounce_brick" : {
+      "types" : ["brick", "brittle_brick"],
+      "collision" : {
+        "deflection" : 2.0
+      },
+      "sprite" : {
+        "image" : "brick_bounce"
+      }
+    },
     "ball" : {
       "location" : {},
       "motion" : {},
       "collision" : {
         "deflection" : 0.9,
-        "friction" : 0.0,
+        "friction" : 0.9,
         "shape_circle" : {
           "radius" : 13.5
         }
@@ -180,27 +200,6 @@
       "types" : ["grey_brick"],
       "location" : {
         "x" : 37.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
-        "y" : 100.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 37.5,
         "y" : 140.0
       }
     },
@@ -212,136 +211,171 @@
       }
     },
     {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 112.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 112.5,
         "y" : 100.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["friction_brick"],
+      "location" : {
+        "x" : 112.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
       "location" : {
         "x" : 112.5,
         "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["bounce_brick"],
+      "location" : {
+        "x" : 187.5,
+        "y" : 100.0
       }
     },
     {
       "types" : ["red_brick"],
       "location" : {
         "x" : 187.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 187.5,
         "y" : 140.0
       }
     },
     {
-      "types" : ["star_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 187.5,
         "y" : 180.0
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 20.0
+      }
+    },
+    {
+      "types" : ["bounce_brick"],
       "location" : {
         "x" : 262.5,
         "y" : 60.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["friction_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 100.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
+        "x" : 262.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
       "location" : {
         "x" : 262.5,
         "y" : 180.0
       }
     },
     {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 20.0
+      }
+    },
+    {
+      "types" : ["bounce_brick"],
       "location" : {
         "x" : 337.5,
         "y" : 60.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["friction_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 100.0
+      }
+    },
+    {
+      "types" : ["red_brick"],
+      "location" : {
+        "x" : 337.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
       "location" : {
         "x" : 337.5,
         "y" : 180.0
+      }
+    },
+    {
+      "types" : ["grey_brick"],
+      "location" : {
+        "x" : 412.5,
+        "y" : 60.0
+      }
+    },
+    {
+      "types" : ["bounce_brick"],
+      "location" : {
+        "x" : 412.5,
+        "y" : 100.0
       }
     },
     {
       "types" : ["red_brick"],
       "location" : {
         "x" : 412.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 412.5,
         "y" : 140.0
       }
     },
     {
-      "types" : ["star_brick"],
+      "types" : ["green_brick"],
       "location" : {
         "x" : 412.5,
         "y" : 180.0
       }
     },
     {
-      "types" : ["green_brick"],
-      "location" : {
-        "x" : 487.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["green_brick"],
+      "types" : ["grey_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 100.0
       }
     },
     {
-      "types" : ["grey_brick"],
+      "types" : ["friction_brick"],
+      "location" : {
+        "x" : 487.5,
+        "y" : 140.0
+      }
+    },
+    {
+      "types" : ["green_brick"],
       "location" : {
         "x" : 487.5,
         "y" : 180.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 562.5,
-        "y" : 20.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 562.5,
-        "y" : 60.0
-      }
-    },
-    {
-      "types" : ["grey_brick"],
-      "location" : {
-        "x" : 562.5,
-        "y" : 100.0
       }
     },
     {

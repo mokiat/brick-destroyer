@@ -1,6 +1,0 @@
-[
-  ["grey", "grey", "grey",    "grey",  "grey", "grey",    "grey", "grey"],
-  ["grey", "grey", "none",    "none",  "none", "none",    "grey", "grey"],
-  ["grey", "none", "gravity", "ball",  "ball", "gravity", "none", "grey"],
-  ["grey", "none", "ball",    "green", "green", "ball",   "none", "grey"]
-]
