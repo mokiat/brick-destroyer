@@ -1,5 +1,7 @@
 # Brick Destroyer
 
+![](https://travis-ci.org/momchil-atanasov/brick-destroyer.svg?branch=master)
+
 Brick Destroyer is a 2D game written in JavaScript. Its main purpose is to showcase the benefits of using the Entity Component System design in favor of Object Oriented Programming when Game Development is concerned.
 
 ![](https://github.com/momchil-atanasov/brick-destroyer/blob/master/screenshots/brick_destroyer.png)
