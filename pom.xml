@@ -4,12 +4,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.momchil-atanasov</groupId>
-    <artifactId>com.momchil-atanasov.js.brick-destroyer</artifactId>
+    <groupId>com.mokiat</groupId>
+    <artifactId>com.mokiat.js.brick-destroyer</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <url>http://momchil-atanasov.com</url>
+    <url>http://mokiat.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

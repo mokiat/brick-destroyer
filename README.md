@@ -1,12 +1,12 @@
 # Brick Destroyer
 
-![](https://travis-ci.org/momchil-atanasov/brick-destroyer.svg?branch=master)
+![](https://travis-ci.org/mokiat/brick-destroyer.svg?branch=master)
 
 Brick Destroyer is a 2D game written in JavaScript. Its main purpose is to showcase the benefits of using the Entity Component System design in favor of Object Oriented Programming when Game Development is concerned.
 
-![](https://github.com/momchil-atanasov/brick-destroyer/blob/master/screenshots/brick_destroyer.png)
+![](https://github.com/mokiat/brick-destroyer/blob/master/screenshots/brick_destroyer.png)
 
-You can access the game here: **[momchil-atanasov.com/brick-destroyer/](http://momchil-atanasov.com/brick-destroyer/)**
+You can access the game here: **[mokiat.com/brick-destroyer/](http://mokiat.com/brick-destroyer/)**
 
 ## History
 
@@ -44,4 +44,4 @@ Since I am using ECS and all the entities in the Level are just a collection of 
 
 It worked out pretty well and in fact allowed me to extract almost all of the logic of the game inside those JSON levels. Furthermore, now levels can actually be loaded from remote location and one can design their own mechanics in the game just by using the components types that are supported by the engine.
 
-You can load your own custom level by using the following URL scheme: `http://momchil-atanasov/brick-destroyer#<url-to-your-level-json=file>`.
+You can load your own custom level by using the following URL scheme: `http://mokiat/brick-destroyer#<url-to-your-level-json=file>`.
