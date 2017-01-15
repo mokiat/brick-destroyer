@@ -107,9 +107,9 @@ describe("MotionSystem", function() {
       });
 
       it("a collision event should be reported for the moving entity", function() {
-        expect(listener.onEvent.calls.length).toBeGreaterThan(0);
-        expect(listener.onEvent.calls[0].args[0]).toEqual(entity);
-        var event = listener.onEvent.calls[0].args[1];
+        expect(listener.onEvent.calls.count()).toBeGreaterThan(0);
+        expect(listener.onEvent.calls.argsFor(0)[0]).toEqual(entity);
+        var event = listener.onEvent.calls.argsFor(0)[1];
         expect(event instanceof brickdest.ecs.CollisionEvent).toBeTruthy();
         expect(event.obstacle).toEqual(obstacle);
         expect(event.collisionNormal.x).toBeCloseTo(0.0, decimalPoints);
@@ -117,9 +117,9 @@ describe("MotionSystem", function() {
       });
 
       it("a collision event should be reported for the obstacle entity", function() {
-        expect(listener.onEvent.calls.length).toEqual(2);
-        expect(listener.onEvent.calls[1].args[0]).toEqual(obstacle);
-        var event = listener.onEvent.calls[1].args[1];
+        expect(listener.onEvent.calls.count()).toEqual(2);
+        expect(listener.onEvent.calls.argsFor(1)[0]).toEqual(obstacle);
+        var event = listener.onEvent.calls.argsFor(1)[1];
         expect(event instanceof brickdest.ecs.CollisionEvent).toBeTruthy();
         expect(event.obstacle).toEqual(entity);
         expect(event.collisionNormal.x).toBeCloseTo(0.0, decimalPoints);
@@ -190,7 +190,7 @@ describe("MotionSystem", function() {
 
       // We don't support collision between moving objects for now
       it("the two objects should not have collided", function() {
-        expect(listener.onEvent.calls.length).toEqual(0);
+        expect(listener.onEvent.calls.count()).toEqual(0);
       });
     });
   });

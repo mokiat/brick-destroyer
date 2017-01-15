@@ -28,11 +28,13 @@ describe("RemoteJSONResource", function() {
   });
 
   describe("when loaded", function() {
-    beforeEach(function() {
-      waitsFor(function() {
-        return resource.isLoaded();
-      }, "The resource should be loaded.", 2000);
-    });
+    beforeEach(function(done) {
+      setTimeout(function() {
+        if (resource.isLoaded()) {
+          done();
+        }
+      }, 500)
+    }, 1000);
 
     it("should have the proper data", function() {
       expect(resource.getData()).toEqual({

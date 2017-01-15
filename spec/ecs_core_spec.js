@@ -199,9 +199,9 @@ describe("Entity-Component-System Core", function() {
       });
 
       it("a destroy event has been thrown", function() {
-        expect(listener.onEvent.calls.length).toEqual(1);
-        expect(listener.onEvent.calls[0].args[0]).toEqual(entity);
-        var event = listener.onEvent.calls[0].args[1];
+        expect(listener.onEvent.calls.count()).toEqual(1);
+        expect(listener.onEvent.calls.argsFor(0)[0]).toEqual(entity);
+        var event = listener.onEvent.calls.argsFor(0)[1];
         expect(event instanceof brickdest.ecs.DestroyedEvent).toBeTruthy();
       });
 
@@ -211,7 +211,7 @@ describe("Entity-Component-System Core", function() {
         });
 
         it("a second destroy event is not sent", function() {
-          expect(listener.onEvent.calls.length).toEqual(1);
+          expect(listener.onEvent.calls.count()).toEqual(1);
         });
       });
     });

@@ -57,8 +57,8 @@ describe("LevelFactory", function() {
     });
 
     it("EntityManager is called with an empty definition", function() {
-      expect(entityFactory.createEntity.calls.length).toEqual(1);
-      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({});
+      expect(entityFactory.createEntity.calls.count()).toEqual(1);
+      expect(entityFactory.createEntity.calls.argsFor(0)).toEqual([{}]);
     });
   });
 
@@ -79,15 +79,15 @@ describe("LevelFactory", function() {
     });
 
     it("EntityManager is called with the correct definition", function() {
-      expect(entityFactory.createEntity.calls.length).toEqual(1);
-      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+      expect(entityFactory.createEntity.calls.count()).toEqual(1);
+      expect(entityFactory.createEntity.calls.argsFor(0)).toEqual([{
         "location" : {
           "x" : 1.2,
           "y" : 7.4
         },
         "solid" : {
         }
-      });
+      }]);
     });
   });
 
@@ -111,18 +111,18 @@ describe("LevelFactory", function() {
     });
 
     it("EntityManager is called multiple times with the correct definitions", function() {
-      expect(entityFactory.createEntity.calls.length).toEqual(2);
-      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+      expect(entityFactory.createEntity.calls.count()).toEqual(2);
+      expect(entityFactory.createEntity.calls.argsFor(0)).toEqual([{
         "location" : {
           "x" : 1.2,
           "y" : 7.4
         }
-      });
-      expect(entityFactory.createEntity.calls[1].args[0]).toEqual({
+      }]);
+      expect(entityFactory.createEntity.calls.argsFor(1)).toEqual([{
         "sprite" : {
           "image" : "monkey"
         }
-      });
+      }]);
     });
   });
 
@@ -151,8 +151,8 @@ describe("LevelFactory", function() {
     });
 
     it("EntityManager is called with the correct definitions", function() {
-      expect(entityFactory.createEntity.calls.length).toEqual(1);
-      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+      expect(entityFactory.createEntity.calls.count()).toEqual(1);
+      expect(entityFactory.createEntity.calls.argsFor(0)).toEqual([{
         "location" : {
           "x" : 1.2,
           "y" : 7.4
@@ -160,7 +160,7 @@ describe("LevelFactory", function() {
         "sprite" : {
           "image" : "donkey"
         }
-      });
+      }]);
     });
   });
 
@@ -190,8 +190,8 @@ describe("LevelFactory", function() {
     });
 
     it("EntityManager is called with the correct definitions", function() {
-      expect(entityFactory.createEntity.calls.length).toEqual(1);
-      expect(entityFactory.createEntity.calls[0].args[0]).toEqual({
+      expect(entityFactory.createEntity.calls.count()).toEqual(1);
+      expect(entityFactory.createEntity.calls.argsFor(0)).toEqual([{
         "location" : {
           "x" : 1.2,
           "y" : 7.4
@@ -199,7 +199,7 @@ describe("LevelFactory", function() {
         "sprite" : {
           "image" : "donkey"
         }
-      });
+      }]);
     });
   });
 });
