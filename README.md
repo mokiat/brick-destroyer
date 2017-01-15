@@ -1,47 +1,42 @@
 # Brick Destroyer
 
-![](https://travis-ci.org/mokiat/brick-destroyer.svg?branch=master)
+[![Build Status](https://travis-ci.org/mokiat/brick-destroyer.svg?branch=master)](https://travis-ci.org/mokiat/brick-destroyer)
 
-Brick Destroyer is a 2D game written in JavaScript. Its main purpose is to showcase the benefits of using the Entity Component System design in favor of Object Oriented Programming when Game Development is concerned.
+Brick Destroyer is a 2D game written in JavaScript. Its main purpose is to showcase the benefits of using the Entity Component System (ECS for short) design in favor of the OOP inheritance model when describing game entities in the scope of game development.
 
-![](https://github.com/mokiat/brick-destroyer/blob/master/screenshots/brick_destroyer.png)
+[![Screenshot](https://github.com/mokiat/brick-destroyer/blob/master/screenshots/brick_destroyer.png)](http://mokiat.com/brick-destroyer/)
 
-You can access the game here: **[mokiat.com/brick-destroyer/](http://mokiat.com/brick-destroyer/)**
+You can access the game here: **[http://mokiat.com/brick-destroyer/index.html](http://mokiat.com/brick-destroyer/index.html)**
+
 
 ## History
 
-Initially the game was developed in Java and was my attempt at creating an interesting physics-based brick destroyer game using Object Oriented Programming concepts. It was meant to demonstrate good OOP patterns and approaches.
+Initially developed in Java, this game employed OOP principles to model the various entity types (bricks, slider, ball) in the game and their various behaviors (disappear on hit, destroy neighbours on hit, etc.).
 
-The original game was hosted on `code.google.com` and a while back Google stated that they would be shutting down their service. I wasn't quite ready to give up on the game and I decided I would migrate it to GitHub.
+This game and others, however, had shown me that inheritance was not at all an ideal way to model entities that share parts of their behavior, as you would often hit [the diamond problem](https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem).
 
-Looking at the old code, however, showed me that my OOP design skills were not at all good back in the days. The large number of static or singleton `Manager` classes was not something I was proud of and hence had no place on GitHub.
+I had heard of the Entity Component System design and had read a few articles on the internet about it. All of them made the design sound promising but most failed to provide a real-life example of its usage.
 
-My only option was to rewrite the whole game. I would do some improvements along the way.
+Seeing how the Brick Destroyer game is simple in its design, yet contains various entities that share behavior, it seemed like the ideal candidate to try the apporach for myself. I wanted to see how flexible it would be and whether new game ideas could emerge following this design.
 
-First, I would write it in JavaScript instead of Java. It turns out that Java isn't that portable and in fact my game would not work on OS X. JavaScript was supposed to fix that.
-
-Now, I am not the biggest fan of JavaScript, but that language had one additional benefit. I would be able to host it directly on GitHub.
-
-Lastly, I have long wanted to try the Entity Component System design. The mechanics of the game made it perfect for a test run.
 
 ## Entity Component System
 
-As mentioned already, the design of the game is based on the Entity Component System approach. There are a lot of documents on the internet that explain what it is roughly about. However, not all of them agree on the exact details. I have tried to follow the approach I find to be the purest in form.
+There are various approaches to ECS described online. I decided to follow the approach that I find to be the purest in form. It boils down to the following types.
 
-**Entities** are plain objects that contain a set of Components. Entities do not hold any data themselves, except for an ID.
+**Entities** are plain holder objects that contain an ID and a set of Components. They do not have any game logic implemented in them.
 
-**Components** are just data structures. They are assigned to Entities and represent a behavior/feature that an Entity has. Components do not have any methods on them.
+**Components** are just data structures. They are assigned to Entities and represent a behavior/feature that an Entity has. Components do not implement any game logic in them, similar to Entities.
 
-**Systems** operate on Entities and Components. They filter out only Entities that have a specific set of Components and act on them.
+**Systems** operate on Entities and Components. Each System implementation operates on Entities that have a given set of Components and performs some game logic on them.
 
 In my implementation, I have used an **EventBus** type of communication between the Systems in order to maintain loose coupling.
 
-**Note:** Since I have written the ECS framework on my own and this is my first go at it, I cannot guarantee that my implementation is the best example out there. Furthermore, I know for sure that it is not the fastest. Achieving a perfect framework was not my goal. I wanted to see whether ECS does make the design more flexible; whether new Entities can be designed by mixing up Components in an unplanned way; whether all of this would be difficult to apply and develop through TDD.
+It is important to note that I have done a very basic implementation of the ECS design. I was going for simplicity and ease of use, not performance.
 
-## Creating Your Own Level
 
-Since I am using ECS and all the entities in the Level are just a collection of components, I decided that it would be interesting to allow the whole level to be described through a JSON file. The game would parse the JSON file and convert the data there into actual components and entities.
+## Flexible Levels
 
-It worked out pretty well and in fact allowed me to extract almost all of the logic of the game inside those JSON levels. Furthermore, now levels can actually be loaded from remote location and one can design their own mechanics in the game just by using the components types that are supported by the engine.
+To make use of the full potential of ECS, I made use of the fact that objects in the game are just entities with components attached to them, and extracted that mapping into the JSON level file. In theory, this should allow for some very strange game logic to be implemented just by editing the level file.
 
-You can load your own custom level by using the following URL scheme: `http://mokiat/brick-destroyer#<url-to-your-level-json=file>`.
+To make it even easier, I made it possible for external levels to be loaded, by passing them to the URL. You can load your own custom level by using the following URL scheme: `http://mokiat.com/brick-destroyer/index.html#<url-to-your-level-json=file>`.
