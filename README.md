@@ -4,7 +4,7 @@
 
 Brick Destroyer is a 2D game written in JavaScript. Its main purpose is to showcase the benefits of using the Entity Component System (ECS for short) design in favor of the OOP inheritance model when describing game entities in the scope of game development.
 
-[![Screenshot](https://github.com/mokiat/brick-destroyer/blob/master/screenshots/brick_destroyer.png)](http://mokiat.com/brick-destroyer/)
+[![Screenshot](https://github.com/mokiat/brick-destroyer/blob/master/screenshot.png)](http://mokiat.com/brick-destroyer/)
 
 You can access the game here: **[http://mokiat.com/brick-destroyer/index.html](http://mokiat.com/brick-destroyer/index.html)**
 
