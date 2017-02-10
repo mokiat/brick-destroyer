@@ -46,16 +46,16 @@
 				<configuration>
 					<jsSrcDir>resources</jsSrcDir>
 					<sourceIncludes>
-						<include>jquery/*.js</include>
-						<include>oop-js/*.js</include>
-						<include>math.js</include>
-						<include>shape.js</include>
-						<include>resource.js</include>
-						<include>graphics.js</include>
-						<include>ecs_core.js</include>
-						<include>ecs_components.js</include>
-						<include>ecs_util.js</include>
-						<include>ecs_systems.js</include>
+						<include>libs/jquery/*.js</include>
+						<include>libs/oop-js/*.js</include>
+						<include>scripts/math.js</include>
+						<include>scripts/shape.js</include>
+						<include>scripts/resource.js</include>
+						<include>scripts/graphics.js</include>
+						<include>scripts/ecs_core.js</include>
+						<include>scripts/ecs_components.js</include>
+						<include>scripts/ecs_util.js</include>
+						<include>scripts/ecs_systems.js</include>
 					</sourceIncludes>
 					<jsTestSrcDir>spec</jsTestSrcDir>
 					<specIncludes>
