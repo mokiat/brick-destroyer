@@ -1,10 +1,9 @@
-oop.namespace("brickdest.app");
+(function(ns, undefined) {
 
-brickdest.app.KEY_SHIFT = 16;
-brickdest.app.KEY_ESCAPE = 27;
+  ns.KeyShift = 16;
+  ns.KeyEscape = 27;
 
-brickdest.app.Application = oop.class({
-  __create__: function() {
+  ns.Application = function() {
     this.lastUpdate = new Date().getTime();
 
     this.titleElement = $("#message");
@@ -17,35 +16,45 @@ brickdest.app.Application = oop.class({
       levelURL = window.location.hash.substring(1);
     }
 
-    var renderer = new brickdest.graphics.Renderer(canvas);
-    this.brickGame = new game.Game(renderer, levelURL);
-  },
-  onKeyDown: function(event) {
-    if (event.which == brickdest.app.KEY_SHIFT) {
+    var renderer = new graphics.Renderer(canvas);
+    this.brickGame = new game.Controller(renderer, levelURL);
+  };
+
+  ns.Application.prototype.onKeyDown = function(event) {
+    switch (event.which) {
+    case ns.KeyShift:
       this.brickGame.enableSlider();
+      break;
     }
-  },
-  onKeyUp: function(event) {
-    if (event.which == brickdest.app.KEY_SHIFT) {
+  };
+
+  ns.Application.prototype.onKeyUp = function(event) {
+    switch (event.which) {
+    case ns.KeyShift:
       this.brickGame.disableSlider();
-    }
-    if (event.which == brickdest.app.KEY_ESCAPE) {
+      break;
+    case ns.KeyEscape:
       this.brickGame.togglePaused();
+      break;
     }
-  },
-  onMouseMove: function(event) {
+  };
+
+  ns.Application.prototype.onMouseMove = function(event) {
     var x = event.pageX - Math.round(this.canvasPosition.left);
     var y = event.pageY - Math.round(this.canvasPosition.top);
     this.brickGame.onMouseMove(x, y);
-  },
-  onMouseClick: function(event) {
+  };
+
+  ns.Application.prototype.onMouseClick = function(event) {
     this.brickGame.startLevel();
-  },
-  onTimerTick: function() {
+  };
+
+  ns.Application.prototype.onTimerTick = function() {
     this.updateTitle();
     this.updateGame();
-  },
-  updateTitle: function() {
+  };
+
+  ns.Application.prototype.updateTitle = function() {
     switch (this.brickGame.getGameState()) {
       case game.StateLoadingLevel:
         this.setTitle("Loading level...");
@@ -65,22 +74,25 @@ brickdest.app.Application = oop.class({
       default:
         this.setTitle("Level: " + this.brickGame.getLevelName());
     }
-  },
-  setTitle: function(text) {
+  };
+
+  ns.Application.prototype.setTitle = function(text) {
     if (this.titleElement.text() != text) {
       this.titleElement.text(text);
     }
-  },
-  updateGame: function() {
+  };
+
+  ns.Application.prototype.updateGame = function() {
     var currentTime = new Date().getTime();
     var elapsedSeconds = (currentTime - this.lastUpdate) / 1000.0;
     this.brickGame.update(elapsedSeconds);
     this.lastUpdate = currentTime;
-  }
-});
+  };
+
+})(window.app = window.app || {});
 
 $(function() {
-  application = new brickdest.app.Application();
+  var application = new app.Application();
 
   setInterval(function() {
     application.onTimerTick();

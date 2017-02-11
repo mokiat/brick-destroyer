@@ -99,7 +99,7 @@
         "minX" : 55.0,
         "maxX" : 545.0
       },
-      "bounceTogglable" : {
+      "bounceToggleable" : {
         "activeImage" : "slider_active",
         "inactiveImage" : "slider_inactive",
         "deflection" : {

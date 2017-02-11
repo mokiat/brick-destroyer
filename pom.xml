@@ -47,15 +47,15 @@
 					<jsSrcDir>resources</jsSrcDir>
 					<sourceIncludes>
 						<include>libs/jquery/*.js</include>
-						<include>libs/oop-js/*.js</include>
-						<include>scripts/math.js</include>
-						<include>scripts/shape.js</include>
-						<include>scripts/resource.js</include>
-						<include>scripts/graphics.js</include>
-						<include>scripts/ecs_core.js</include>
-						<include>scripts/ecs_components.js</include>
-						<include>scripts/ecs_util.js</include>
-						<include>scripts/ecs_systems.js</include>
+						<include>scripts/core/math.js</include>
+						<include>scripts/core/shapes.js</include>
+						<include>scripts/core/resources.js</include>
+						<include>scripts/core/ecs.js</include>
+						<include>scripts/core/graphics.js</include>
+						<include>scripts/game/components.js</include>
+						<include>scripts/game/collision.js</include>
+						<include>scripts/game/factory.js</include>
+						<include>scripts/game/systems.js</include>
 					</sourceIncludes>
 					<jsTestSrcDir>spec</jsTestSrcDir>
 					<specIncludes>
