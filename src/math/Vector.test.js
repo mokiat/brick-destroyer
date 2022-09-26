@@ -1,12 +1,12 @@
 import Vector from './Vector';
 
 describe('Vector', () => {
-  var vector;
+  let vector;
 
-  function assertVector(vec, expectedX, expectedY) {
+  const assertVector = (vec, expectedX, expectedY) => {
     expect(vec.x).toBeCloseTo(expectedX);
     expect(vec.y).toBeCloseTo(expectedY);
-  }
+  };
 
   beforeEach(() => {
     vector = new Vector(2.0, 3.0);

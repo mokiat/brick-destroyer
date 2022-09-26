@@ -1,7 +1,7 @@
 import Circle from './Circle';
 
 describe('Circle', () => {
-  var circle;
+  let circle;
 
   describe('when default circle is created', () => {
     beforeEach(() => {
