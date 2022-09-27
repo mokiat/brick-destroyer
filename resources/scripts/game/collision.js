@@ -133,7 +133,6 @@
       return null;
     }
 
-    var cornerEscape;
     var cornerOverlapPossible =
           ((candidateLocationComp.location.x < staticLeft) || (candidateLocationComp.location.x > staticRight)) &&
           ((candidateLocationComp.location.y < staticTop) || (candidateLocationComp.location.y > staticBottom));
