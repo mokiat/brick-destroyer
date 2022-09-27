@@ -294,51 +294,6 @@
     otherMotionComp.speed = otherMotionComp.speed.inc(deltaSpeed);
   };
 
-
-  ns.VictorySystem = function(manager) {
-    this.manager = manager;
-    this.triggered = false;
-  };
-
-  ns.VictorySystem.prototype.update = function(elapsedSeconds) {
-    var entities = this.manager.filterEntities(["shouldDestroy"]);
-    this.triggered = (entities.length == 0);
-  };
-
-  ns.VictorySystem.prototype.isTriggered = function() {
-    return this.triggered;
-  };
-
-  ns.VictorySystem.prototype.reset = function() {
-    this.triggered = false;
-  };
-
-
-  ns.DefeatSystem = function(manager) {
-    this.manager = manager;
-    this.manager.subscribe(["shouldNotDestroy"], $.proxy(this.onEntityEvent, this));
-    this.triggered = false;
-  };
-
-  ns.DefeatSystem.prototype.isTriggered = function() {
-    return this.triggered;
-  };
-
-  ns.DefeatSystem.prototype.reset = function() {
-    this.triggered = false;
-  };
-
-  ns.DefeatSystem.prototype.onEntityEvent = function(entity, event) {
-    if (event instanceof ecs.DestroyedEvent) {
-      this.onEntityDestroyed(entity);
-    }
-  };
-
-  ns.DefeatSystem.prototype.onEntityDestroyed = function(entity) {
-    this.triggered = true;
-  };
-
-
   ns.TimerDestroySystem = function(manager) {
     this.manager = manager;
   };
