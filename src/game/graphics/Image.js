@@ -1,6 +1,6 @@
 import Resource from '../asset/Resource';
 
-class Image extends Resource {
+class GraphicsImage extends Resource {
   constructor(path) {
     super();
     this.path = path;
@@ -20,4 +20,4 @@ class Image extends Resource {
   }
 }
 
-export default Image;
+export default GraphicsImage;
