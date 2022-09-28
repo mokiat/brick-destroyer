@@ -1,34 +1,5 @@
 (function(ns, undefined) {
 
-  ns.SpriteRenderSystem = function(manager, renderer) {
-    this.manager = manager;
-    this.renderer = renderer;
-  };
-
-  ns.SpriteRenderSystem.prototype.update = function(elapsedSeconds) {
-    var entities = this.manager.filterEntities(["location", "sprite"]);
-    for (var i = 0; i < entities.length; i++) {
-      this.renderEntity(entities[i]);
-    }
-  };
-
-  ns.SpriteRenderSystem.prototype.renderEntity = function(entity) {
-    var location = entity.getComponent("location");
-    var sprite = entity.getComponent("sprite");
-    var width = sprite.width;
-    var height = sprite.height;
-    var left = Math.floor(location.location.x) - width / 2;
-    var top = Math.floor(location.location.y) - height / 2;
-    this.renderer.drawScaledImage(sprite.image, left, top, width, height);
-  };
-
-
-  ns.CollisionEvent = function(data) {
-    this.obstacle = data.obstacle;
-    this.collisionNormal = data.collisionNormal;
-  };
-
-
   ns.MaxSpeed = 1000.0;
   ns.StepRatio = 0.25;
 
@@ -163,77 +134,6 @@
     }
   };
 
-
-  ns.LocationBoundSystem = function(manager) {
-    this.manager = manager;
-  };
-
-  ns.LocationBoundSystem.prototype.update = function(elapsedSeconds) {
-    var entities = this.manager.filterEntities(["location", "locationBound"]);
-    for (var i = 0; i < entities.length; i++) {
-      this.checkEntityLocation(entities[i]);
-    }
-  };
-
-  ns.LocationBoundSystem.prototype.checkEntityLocation = function(entity) {
-    var locationComp = entity.getComponent("location");
-    var locationBoundComp = entity.getComponent("locationBound");
-    if (locationComp.location.x < locationBoundComp.minX) {
-      locationComp.location.x = locationBoundComp.minX;
-    }
-    if (locationComp.location.x > locationBoundComp.maxX) {
-      locationComp.location.x = locationBoundComp.maxX;
-    }
-    if (locationComp.location.y < locationBoundComp.minY) {
-      locationComp.location.y = locationBoundComp.minY;
-    }
-    if (locationComp.location.y > locationBoundComp.maxY) {
-      locationComp.location.y = locationBoundComp.maxY;
-    }
-  };
-
-
-  ns.DestroyOnHitSystem = function(manager) {
-    manager.subscribe(["collision", "destroyOnHit"], $.proxy(this.onEntityEvent, this));
-  };
-
-  ns.DestroyOnHitSystem.prototype.onEntityEvent = function(entity, event) {
-    if (event instanceof game.CollisionEvent) {
-      this.onEntityCollision(entity);
-    }
-  };
-
-  ns.DestroyOnHitSystem.prototype.onEntityCollision = function(entity) {
-    entity.destroy();
-  };
-
-
-  ns.SpawnOnDestroySystem = function(manager, entityFactory) {
-    this.entityFactory = entityFactory;
-    this.manager = manager;
-    this.manager.subscribe(["location", "spawnOnDestroy"], $.proxy(this.onEntityEvent, this));
-  };
-
-  ns.SpawnOnDestroySystem.prototype.onEntityEvent = function(entity, event) {
-    if (event instanceof ecs.DestroyedEvent) {
-      this.onEntityDestroyed(entity);
-    }
-  };
-
-  ns.SpawnOnDestroySystem.prototype.onEntityDestroyed = function(entity) {
-    var locationComp = entity.getComponent("location");
-    var locationDef = {
-      "location" : {
-        "x" : locationComp.location.x,
-        "y" : locationComp.location.y
-      }
-    }
-    var spawnComp = entity.getComponent("spawnOnDestroy");
-    var definition = $.extend(true, {}, spawnComp.definition, locationDef);
-    this.entityFactory.createEntity(definition);
-  };
-
-
   ns.BounceToggleableSystem = function(manager) {
     this.manager = manager;
     this.manager.subscribe(["location", "collision", "bounceToggleable"], $.proxy(this.onEntityEvent, this));
@@ -294,54 +194,5 @@
     otherMotionComp.speed = otherMotionComp.speed.inc(deltaSpeed);
   };
 
-  ns.TimerDestroySystem = function(manager) {
-    this.manager = manager;
-  };
-
-  ns.TimerDestroySystem.prototype.update = function(elapsedSeconds) {
-    var entities = this.manager.filterEntities(["timerDestroy"]);
-    for (var i = 0; i < entities.length; i++) {
-      this.updateEntityTimer(entities[i], elapsedSeconds);
-    }
-  };
-
-  ns.TimerDestroySystem.prototype.updateEntityTimer = function(entity, elapsedSeconds) {
-    var timerDestroyComp = entity.getComponent("timerDestroy");
-    timerDestroyComp.timeout -= elapsedSeconds;
-    if (timerDestroyComp.timeout <= 0.0) {
-      entity.destroy();
-    }
-  };
-
-
-  ns.ExplosionSystem = function(manager) {
-    this.manager = manager;
-    this.manager.subscribe(["location", "explodeOnDestroy"], $.proxy(this.onEntityEvent, this));
-  };
-
-  ns.ExplosionSystem.prototype.onEntityEvent = function(entity, event) {
-    if (event instanceof ecs.DestroyedEvent) {
-      this.onEntityDestroyed(entity);
-    }
-  };
-
-  ns.ExplosionSystem.prototype.onEntityDestroyed = function(entity) {
-    var locationComp = entity.getComponent("location");
-    var explodeComp = entity.getComponent("explodeOnDestroy");
-    var radius = explodeComp.explosionRadius;
-
-    var potentialTargets = this.manager.filterEntities(["location", "destroyOnExplode"]);
-    for (var i = 0; i < potentialTargets.length; i++) {
-      var potentialTarget = potentialTargets[i];
-      if (potentialTarget == entity) {
-        continue;
-      }
-      var potentialLocationComp = potentialTarget.getComponent("location");
-      var delta = potentialLocationComp.location.dec(locationComp.location);
-      if (delta.getSquaredLength() < radius * radius) {
-        potentialTarget.destroy();
-      }
-    }
-  };
 
 })(window.game = window.game || {});
