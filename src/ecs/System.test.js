@@ -17,7 +17,7 @@ describe('System', () => {
     manager.addSystem(secondSystem);
   });
 
-  it('gets updated when manager is updated', () => {
+  test('gets updated when manager is updated', () => {
     manager.update(1.5);
     expect(firstSystem.update).toHaveBeenCalledWith(1.5);
     expect(secondSystem.update).toHaveBeenCalledWith(1.5);

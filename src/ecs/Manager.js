@@ -26,7 +26,7 @@ class Manager {
 
   listEntities() {
     let result = [];
-    for (let id in this.entities) {
+    for (const id in this.entities) {
       result.push(this.entities[id]);
     }
     return result;
@@ -34,7 +34,7 @@ class Manager {
 
   filterEntities(types) {
     let result = [];
-    for (let id in this.entities) {
+    for (const id in this.entities) {
       const entity = this.entities[id];
       if (entity.hasComponents(types)) {
         result.push(entity);
@@ -60,7 +60,7 @@ class Manager {
   }
 
   notify(entity, event) {
-    for (let subscription of this.subscriptions) {
+    for (const subscription of this.subscriptions) {
       if (entity.hasComponents(subscription.requiredTypes)) {
         subscription.callback(entity, event);
       }
@@ -72,7 +72,7 @@ class Manager {
   }
 
   update(elapsedSeconds) {
-    for (let system of this.systems) {
+    for (const system of this.systems) {
       system.update(elapsedSeconds);
     }
   }

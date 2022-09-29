@@ -29,7 +29,7 @@ class Entity {
   }
 
   hasComponents(types) {
-    for (let type of types) {
+    for (const type of types) {
       if (!this.hasComponent(type)) {
         return false;
       }

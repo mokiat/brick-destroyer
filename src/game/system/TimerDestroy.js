@@ -5,7 +5,7 @@ class TimerDestroy {
 
   update(elapsedSeconds) {
     const entities = this.manager.filterEntities(['timerDestroy']);
-    for (let entity of entities) {
+    for (const entity of entities) {
       this.updateEntityTimer(entity, elapsedSeconds);
     }
   }

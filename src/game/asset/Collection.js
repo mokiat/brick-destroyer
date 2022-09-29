@@ -16,7 +16,7 @@ class Collection {
   }
 
   get isLoaded() {
-    for (let name in this.resources) {
+    for (const name in this.resources) {
       const resource = this.resources[name];
       if (!resource.isLoaded) {
         return false;

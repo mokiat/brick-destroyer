@@ -26,17 +26,17 @@ describe('LocationBoundSystem', () => {
     );
   });
 
-  function placeEntityAt(entity, x, y) {
+  const placeEntityAt = (entity, x, y) => {
     const locationComp = entity.getComponent('location');
     locationComp.location.x = x;
     locationComp.location.y = y;
-  }
+  };
 
-  function assertEntityLocation(entity, expectedX, expectedY) {
+  const assertEntityLocation = (entity, expectedX, expectedY) => {
     const locationComp = entity.getComponent('location');
     expect(locationComp.location.x).toBeCloseTo(expectedX);
     expect(locationComp.location.y).toBeCloseTo(expectedY);
-  }
+  };
 
   describe('when entity is inside bounds', () => {
     beforeEach(() => {

@@ -52,7 +52,7 @@ class LevelFactory {
   expandDefinition(definition, types) {
     let resultDefinition = {};
     if (definition.types !== undefined) {
-      for (let typeName of definition.types) {
+      for (const typeName of definition.types) {
         resultDefinition = {
           ...resultDefinition,
           ...types[typeName],

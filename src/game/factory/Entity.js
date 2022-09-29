@@ -236,7 +236,7 @@ class EntityFactory {
     entity.addComponent('destroyOnExplode', component);
   }
 
-  applyExplodeOnDestroy = function (entity, explodeOnDestroyData) {
+  applyExplodeOnDestroy(entity, explodeOnDestroyData) {
     const component = new ExplodeOnDestroyComponent();
     if (explodeOnDestroyData.explosionRadius !== undefined) {
       component.explosionRadius = explodeOnDestroyData.explosionRadius;

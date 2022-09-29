@@ -6,7 +6,7 @@ class SpriteRender {
 
   update(elapsedSeconds) {
     const entities = this.manager.filterEntities(['location', 'sprite']);
-    for (let entity of entities) {
+    for (const entity of entities) {
       this.renderEntity(entity);
     }
   }

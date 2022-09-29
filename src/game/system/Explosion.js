@@ -26,7 +26,7 @@ class Explosion {
       'location',
       'destroyOnExplode',
     ]);
-    for (let potentialTarget of potentialTargets) {
+    for (const potentialTarget of potentialTargets) {
       if (potentialTarget === entity) {
         continue;
       }
