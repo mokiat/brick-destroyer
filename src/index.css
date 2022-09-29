@@ -45,7 +45,7 @@ small
   color: white;
   font-size: 18px;
   text-align: center;
-  background-image: url('images/background_top.jpg');
+  background-image: url('ui/images/background_top.jpg');
 }
 
 #playgroundMiddle
@@ -58,7 +58,7 @@ small
   float: left;
   width: 20px;
   height: 406px;
-  background-image: url('images/background_left.jpg');
+  background-image: url('ui/images/background_left.jpg');
 }
 
 #screen
@@ -72,7 +72,7 @@ small
   float: left;
   width: 20px;
   height: 406px;
-  background-image: url('images/background_right.jpg');
+  background-image: url('ui/images/background_right.jpg');
 }
 
 #playgroundBottom
@@ -84,7 +84,7 @@ small
 {
   width: 640px;
   height: 20px;
-  background-image: url('images/background_bottom.jpg');
+  background-image: url('ui/images/background_bottom.jpg');
 }
 
 #rules

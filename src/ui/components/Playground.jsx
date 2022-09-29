@@ -16,11 +16,11 @@ const Playground = ({ level }) => {
     return () => {
       controller.release();
     };
-  }, []);
+  }, [controller]);
 
   useEffect(() => {
     controller.changeLevel(level);
-  }, [level]);
+  }, [controller, level]);
 
   const handleClick = () => {
     controller.startLevel();
