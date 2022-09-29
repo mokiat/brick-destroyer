@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Application from './ui/components/App';
-
 import './index.css';
 
 const headless = process.env.REACT_APP_HEADLESS === 'true';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <Application decorations={!headless} />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
