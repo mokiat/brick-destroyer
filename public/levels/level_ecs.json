@@ -1,13 +1,13 @@
 {
   "name" : "ECS (Entity Component System)",
-  "next" : "resources/levels/level_boom.json",
+  "next" : "levels/level_boom.json",
   "images" : {
-    "slider_inactive" : "resources/images/slider_inactive.jpg",
-    "slider_active" : "resources/images/slider_active.jpg",
-    "ball" : "resources/images/ball.png",
-    "brick_green" : "resources/images/brick_green.jpg",
-    "brick_red" : "resources/images/brick_red.jpg",
-    "brick_grey" : "resources/images/brick_grey.jpg"
+    "slider_inactive" : "images/slider_inactive.jpg",
+    "slider_active" : "images/slider_active.jpg",
+    "ball" : "images/ball.png",
+    "brick_green" : "images/brick_green.jpg",
+    "brick_red" : "images/brick_red.jpg",
+    "brick_grey" : "images/brick_grey.jpg"
   },
   "types" : {
     "border" : {
