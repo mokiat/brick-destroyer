@@ -30,11 +30,10 @@ const Application = ({ decorations = true }) => {
   };
 
   useEffect(() => {
-    fetchLevel('levels/level_ecs2.json');
+    fetchLevel('levels/level_ecs.json');
   }, []);
 
   const handleNextLevel = () => {
-    console.log(`CURRENT LEVEL: ${JSON.stringify(level)}`);
     if (level && level.next) {
       fetchLevel(level.next);
     }

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Renderer from '../../game/graphics/Renderer';
-import Controller, { STATE_DEFEAT, STATE_STOPPED } from '../../game/Controller';
+import Controller, {
+  STATE_DEFEAT,
+  STATE_PAUSED,
+  STATE_STOPPED,
+} from '../../game/Controller';
 
 const KEY_SHIFT = 16;
 const KEY_ESCAPE = 27;
@@ -8,10 +12,12 @@ const KEY_ESCAPE = 27;
 const Playground = ({ level, onNextLevel }) => {
   const [title, setTitle] = useState('Welcome!');
 
+  const levelTitle = (level) => {
+    return level ? level.name : 'Welcome!';
+  };
+
   useEffect(() => {
-    if (level) {
-      setTitle(level.name);
-    }
+    setTitle(levelTitle(level));
   }, [level]);
 
   const canvasRef = useRef(null);
@@ -47,7 +53,7 @@ const Playground = ({ level, onNextLevel }) => {
         return;
       case STATE_DEFEAT:
         controller.changeLevel(level);
-        setTitle(level.name);
+        setTitle(levelTitle(level));
         return;
       default:
         return;
@@ -73,6 +79,11 @@ const Playground = ({ level, onNextLevel }) => {
     }
     if (e.which === KEY_ESCAPE) {
       controller.togglePaused();
+      if (controller.state === STATE_PAUSED) {
+        setTitle('Paused');
+      } else {
+        setTitle(levelTitle(level));
+      }
     }
   };
 
