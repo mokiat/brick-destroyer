@@ -1,4 +1,5 @@
 import Image from '../graphics/Image';
+import * as _ from 'lodash';
 
 class LevelFactory {
   constructor(entityFactory, resourceCollection) {
@@ -53,16 +54,10 @@ class LevelFactory {
     let resultDefinition = {};
     if (definition.types !== undefined) {
       for (const typeName of definition.types) {
-        resultDefinition = {
-          ...resultDefinition,
-          ...types[typeName],
-        };
+        resultDefinition = _.merge(resultDefinition, types[typeName]);
       }
     }
-    resultDefinition = {
-      ...resultDefinition,
-      ...definition,
-    };
+    resultDefinition = _.merge(resultDefinition, definition);
     for (const key in resultDefinition) {
       const property = resultDefinition[key];
       if (typeof property === 'object') {
