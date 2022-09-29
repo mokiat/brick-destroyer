@@ -15,16 +15,19 @@ import VictorySystem from './system/Victory';
 import DefeatSystem from './system/Defeat';
 import Vector from '../math/Vector';
 
-const STATE_STOPPED = 'stopped';
-const STATE_LOADING_CONTENT = 'loading-content';
-const STATE_DEFEAT = 'defeat';
-const STATE_VICTORY = 'victory';
-const STATE_RUNNING = 'running';
-const STATE_PAUSED = 'paused';
+export const STATE_UNINITIALIZED = 'uninitilized';
+export const STATE_STOPPED = 'stopped';
+export const STATE_LOADING_CONTENT = 'loading-content';
+export const STATE_DEFEAT = 'defeat';
+export const STATE_VICTORY = 'victory';
+export const STATE_RUNNING = 'running';
+export const STATE_PAUSED = 'paused';
 
 class Controller {
   constructor() {
-    this.gameState = STATE_STOPPED;
+    this.gameState = STATE_UNINITIALIZED;
+    this.onVictory = () => {};
+    this.onDefeat = () => {};
   }
 
   initialize(renderer) {
@@ -85,6 +88,15 @@ class Controller {
     cancelAnimationFrame(this.frameRequest);
   }
 
+  get state() {
+    return this.gameState;
+  }
+
+  notify(onVictory, onDefeat) {
+    this.onVictory = onVictory;
+    this.onDefeat = onDefeat;
+  }
+
   changeLevel(level) {
     this.entityManager.deleteAllEntities();
     this.victorySystem.reset();
@@ -98,7 +110,9 @@ class Controller {
   }
 
   startLevel() {
-    this.gameState = STATE_RUNNING;
+    if (this.gameState === STATE_STOPPED) {
+      this.gameState = STATE_RUNNING;
+    }
   }
 
   togglePaused() {
@@ -115,41 +129,47 @@ class Controller {
   }
 
   moveSlider(x, y) {
-    this.mouseBoundSystem.onMouseMove(x, y);
+    if (this.gameState === STATE_STOPPED || this.gameState === STATE_RUNNING) {
+      this.mouseBoundSystem.onMouseMove(x, y);
+    }
   }
 
   setBounceEnabled(enabled) {
-    this.bounceToggleableSystem.setToggled(enabled);
+    if (this.gameState === STATE_RUNNING) {
+      this.bounceToggleableSystem.setToggled(enabled);
+    }
   }
 
   update(elapsedSeconds) {
     this.renderer.clear();
 
-    if (this.gameState === STATE_VICTORY) {
-      return;
-    }
-
-    if (this.gameState === STATE_LOADING_CONTENT) {
-      if (this.resourceCollection.isLoaded) {
-        this.gameState = STATE_STOPPED;
-      }
-      return;
-    }
-
-    if (this.gameState !== STATE_RUNNING) {
-      elapsedSeconds = 0.0;
-    }
-    this.entityManager.update(elapsedSeconds);
-
-    if (this.victorySystem.isTriggered) {
-      this.gameState = STATE_VICTORY;
-      // TODO: Notify
-      return;
-    }
-    if (this.defeatSystem.isTriggered) {
-      this.gameState = STATE_DEFEAT;
-      // TODO: Notify
-      return;
+    switch (this.gameState) {
+      case STATE_LOADING_CONTENT:
+        if (this.resourceCollection.isLoaded) {
+          this.gameState = STATE_STOPPED;
+        }
+        return;
+      case STATE_STOPPED:
+      case STATE_VICTORY:
+      case STATE_DEFEAT:
+      case STATE_PAUSED:
+        this.entityManager.update(0.0);
+        return;
+      case STATE_RUNNING:
+        this.entityManager.update(elapsedSeconds);
+        if (this.victorySystem.isTriggered) {
+          this.onVictory();
+          this.gameState = STATE_VICTORY;
+          return;
+        }
+        if (this.defeatSystem.isTriggered) {
+          this.onDefeat();
+          this.gameState = STATE_DEFEAT;
+          return;
+        }
+        return;
+      default:
+        return;
     }
   }
 }

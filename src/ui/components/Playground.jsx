@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import Renderer from '../../game/graphics/Renderer';
-import Controller from '../../game/Controller';
+import Controller, { STATE_DEFEAT, STATE_STOPPED } from '../../game/Controller';
 
 const KEY_SHIFT = 16;
 const KEY_ESCAPE = 27;
 
-const Playground = ({ level }) => {
+const Playground = ({ level, onNextLevel }) => {
+  const [title, setTitle] = useState('Welcome!');
+
+  useEffect(() => {
+    if (level) {
+      setTitle(level.name);
+    }
+  }, [level]);
+
   const canvasRef = useRef(null);
   const [controller] = useState(new Controller());
 
@@ -22,8 +30,28 @@ const Playground = ({ level }) => {
     controller.changeLevel(level);
   }, [controller, level]);
 
+  controller.notify(
+    () => {
+      setTitle('Victory!');
+      onNextLevel();
+    },
+    () => {
+      setTitle('Game over!');
+    }
+  );
+
   const handleClick = () => {
-    controller.startLevel();
+    switch (controller.state) {
+      case STATE_STOPPED:
+        controller.startLevel();
+        return;
+      case STATE_DEFEAT:
+        controller.changeLevel(level);
+        setTitle(level.name);
+        return;
+      default:
+        return;
+    }
   };
 
   const handleMouseMove = (e) => {
@@ -52,7 +80,7 @@ const Playground = ({ level }) => {
     <div id="playground">
       <div id="playgroundTop">
         <div id="borderTop">
-          <span id="message"></span>
+          <span id="message">{title}</span>
         </div>
       </div>
       <div id="playgroundMiddle">
