@@ -1,6 +1,7 @@
 body
 {
   font-family: 'Arial';
+  font-weight: bold;
   margin: 0px;
   padding: 0px;
 }
@@ -45,7 +46,9 @@ small
   color: white;
   font-size: 18px;
   text-align: center;
-  background-image: url('ui/images/background_top.jpg');
+  line-height: 5px;
+  background-image: url('ui/images/frame-top.png');
+  background-size: contain;
 }
 
 #playgroundMiddle
@@ -58,7 +61,8 @@ small
   float: left;
   width: 20px;
   height: 406px;
-  background-image: url('ui/images/background_left.jpg');
+  background-image: url('ui/images/frame-left.png');
+  background-size: contain;
 }
 
 #screen
@@ -72,7 +76,8 @@ small
   float: left;
   width: 20px;
   height: 406px;
-  background-image: url('ui/images/background_right.jpg');
+  background-image: url('ui/images/frame-right.png');
+  background-size: contain;
 }
 
 #playgroundBottom
@@ -84,7 +89,8 @@ small
 {
   width: 640px;
   height: 20px;
-  background-image: url('ui/images/background_bottom.jpg');
+  background-image: url('ui/images/frame-bottom.png');
+  background-size: contain;
 }
 
 #rules
