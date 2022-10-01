@@ -1,7 +1,6 @@
 body
 {
   font-family: 'Arial';
-  font-weight: bold;
   margin: 0px;
   padding: 0px;
 }
@@ -34,6 +33,7 @@ small
 #playgroundTop
 {
   height: 54px;
+  font-weight: bold;
 }
 
 #borderTop
@@ -83,6 +83,7 @@ small
 #playgroundBottom
 {
   height: 20px;
+  clear: both;
 }
 
 #borderBottom
@@ -93,25 +94,8 @@ small
   background-size: contain;
 }
 
-#rules
-{
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-hr
-{
-  border-top: 1px solid gray;
-  border-bottom: 0px;
-}
-
-a
-{
-  text-decoration: none;
-  color: navy;
-}
-
 footer
 {
   padding-top: 20px;
+  padding-bottom: 20px;
 }

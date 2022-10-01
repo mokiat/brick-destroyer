@@ -129,7 +129,7 @@ class Controller {
   }
 
   moveSlider(x, y) {
-    if (this.gameState === STATE_STOPPED || this.gameState === STATE_RUNNING) {
+    if (this.gameState === STATE_RUNNING) {
       this.mouseBoundSystem.onMouseMove(x, y);
     }
   }

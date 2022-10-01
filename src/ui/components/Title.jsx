@@ -1,4 +1,4 @@
-const Header = () => {
+const Title = () => {
   return (
     <header>
       <h1>Brick Destroyer</h1>
@@ -6,4 +6,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Title;

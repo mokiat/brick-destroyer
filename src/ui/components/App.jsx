@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Description from './Description';
-import Footer from './Footer';
-import Header from './Header';
+import Title from './Title';
 import Playground from './Playground';
 
 const LEVEL_PATHS = [
@@ -44,6 +43,8 @@ const Application = ({ decorations = true }) => {
   const handleNextLevel = () => {
     if (level && level.next) {
       fetchLevel(level.next);
+    } else {
+      handleRandomLevel();
     }
   };
 
@@ -60,7 +61,7 @@ const Application = ({ decorations = true }) => {
 
   return (
     <article>
-      {decorations && <Header />}
+      {decorations && <Title />}
       <Playground
         level={level}
         onNextLevel={handleNextLevel}
@@ -68,7 +69,6 @@ const Application = ({ decorations = true }) => {
         onRandomLevel={handleRandomLevel}
       />
       {decorations && <Description />}
-      {decorations && <Footer />}
     </article>
   );
 };
