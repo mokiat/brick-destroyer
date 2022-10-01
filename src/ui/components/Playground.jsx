@@ -25,6 +25,10 @@ const Playground = ({ level, onNextLevel, onSpecificLevel, onRandomLevel }) => {
 
   const canvasRef = useRef(null);
   const [controller] = useState(new Controller());
+  const [mouse] = useState({
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -66,20 +70,18 @@ const Playground = ({ level, onNextLevel, onSpecificLevel, onRandomLevel }) => {
     }
   };
 
-  let mouseX;
-  let mouseY;
   const handleMouseMove = (e) => {
     const rect = e.target.getBoundingClientRect();
     if (document.pointerLockElement === canvasRef.current) {
-      mouseX += e.movementX;
-      mouseY += e.movementY;
+      mouse.x += e.movementX;
+      mouse.y += e.movementY;
     } else {
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     }
-    mouseX = Math.min(Math.max(0, mouseX), rect.right - rect.left);
-    mouseY = Math.min(Math.max(0, mouseY), rect.bottom - rect.top);
-    controller.moveSlider(mouseX, mouseY);
+    mouse.x = Math.min(Math.max(0, mouse.x), rect.right - rect.left);
+    mouse.y = Math.min(Math.max(0, mouse.y), rect.bottom - rect.top);
+    controller.moveSlider(mouse.x, mouse.y);
   };
 
   const handleKeyDown = (e) => {

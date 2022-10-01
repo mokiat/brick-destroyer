@@ -4,6 +4,14 @@ import Footer from './Footer';
 import Header from './Header';
 import Playground from './Playground';
 
+const LEVEL_PATHS = [
+  'levels/level_ecs.json',
+  'levels/level_boom.json',
+  'levels/level_physics.json',
+  'levels/level_too_many.json',
+  'levels/level_strange_one.json',
+];
+
 const Application = ({ decorations = true }) => {
   const [level, setLevel] = useState(null);
 
@@ -40,12 +48,14 @@ const Application = ({ decorations = true }) => {
   };
 
   const handleSpecificLevel = (index) => {
-    console.log(`Loading level: ${index}`);
+    if (index >= 0 && index < LEVEL_PATHS.length) {
+      fetchLevel(LEVEL_PATHS[index]);
+    }
   };
 
   const handleRandomLevel = () => {
-    const index = Math.floor(Math.random() * 10);
-    console.log(`Loading level: ${index}`);
+    const index = Math.floor(Math.random() * (LEVEL_PATHS.length - 1));
+    handleSpecificLevel(index);
   };
 
   return (
