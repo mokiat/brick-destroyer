@@ -4,6 +4,7 @@ import Title from './Title';
 import Playground from './Playground';
 
 const LEVEL_PATHS = [
+  'levels/standard-bricks.json',
   'levels/level_ecs.json',
   'levels/level_boom.json',
   'levels/level_physics.json',
@@ -37,7 +38,7 @@ const Application = ({ decorations = true }) => {
   };
 
   useEffect(() => {
-    fetchLevel('levels/level_ecs.json');
+    fetchLevel('levels/standard-bricks.json');
   }, []);
 
   const handleNextLevel = () => {
