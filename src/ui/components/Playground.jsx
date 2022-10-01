@@ -6,10 +6,13 @@ import Controller, {
   STATE_STOPPED,
 } from '../../game/Controller';
 
-const KEY_SHIFT = 16;
-const KEY_ESCAPE = 27;
+const KEY_SHIFT = 'Shift';
+const KEY_SPACE = ' ';
+const KEY_BACKSPACE = 'Backspace';
+const KEY_0 = '0';
+const KEY_9 = '9';
 
-const Playground = ({ level, onNextLevel }) => {
+const Playground = ({ level, onNextLevel, onSpecificLevel, onRandomLevel }) => {
   const [title, setTitle] = useState('Welcome!');
 
   const levelTitle = (level) => {
@@ -47,6 +50,9 @@ const Playground = ({ level, onNextLevel }) => {
   );
 
   const handleClick = () => {
+    if (document.pointerLockElement !== canvasRef.current) {
+      canvasRef.current.requestPointerLock();
+    }
     switch (controller.state) {
       case STATE_STOPPED:
         controller.startLevel();
@@ -60,30 +66,48 @@ const Playground = ({ level, onNextLevel }) => {
     }
   };
 
+  let mouseX;
+  let mouseY;
   const handleMouseMove = (e) => {
     const rect = e.target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    controller.moveSlider(x, y);
+    if (document.pointerLockElement === canvasRef.current) {
+      mouseX += e.movementX;
+      mouseY += e.movementY;
+    } else {
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    }
+    mouseX = Math.min(Math.max(0, mouseX), rect.right - rect.left);
+    mouseY = Math.min(Math.max(0, mouseY), rect.bottom - rect.top);
+    controller.moveSlider(mouseX, mouseY);
   };
 
   const handleKeyDown = (e) => {
-    if (e.which === KEY_SHIFT) {
+    if (e.key === KEY_SHIFT) {
       controller.setBounceEnabled(true);
     }
   };
 
   const handleKeyUp = (e) => {
-    if (e.which === KEY_SHIFT) {
+    if (e.key === KEY_SHIFT) {
       controller.setBounceEnabled(false);
     }
-    if (e.which === KEY_ESCAPE) {
+    if (e.key === KEY_SPACE) {
       controller.togglePaused();
       if (controller.state === STATE_PAUSED) {
         setTitle('Paused');
       } else {
         setTitle(levelTitle(level));
       }
+    }
+    if (e.key === KEY_BACKSPACE) {
+      controller.changeLevel(level);
+    }
+    if (e.key === KEY_0) {
+      onRandomLevel();
+    }
+    if (e.key > KEY_0 && e.key <= KEY_9) {
+      onSpecificLevel(e.key - KEY_0 - 1);
     }
   };
 

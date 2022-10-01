@@ -39,10 +39,24 @@ const Application = ({ decorations = true }) => {
     }
   };
 
+  const handleSpecificLevel = (index) => {
+    console.log(`Loading level: ${index}`);
+  };
+
+  const handleRandomLevel = () => {
+    const index = Math.floor(Math.random() * 10);
+    console.log(`Loading level: ${index}`);
+  };
+
   return (
     <article>
       {decorations && <Header />}
-      <Playground level={level} onNextLevel={handleNextLevel} />
+      <Playground
+        level={level}
+        onNextLevel={handleNextLevel}
+        onSpecificLevel={handleSpecificLevel}
+        onRandomLevel={handleRandomLevel}
+      />
       {decorations && <Description />}
       {decorations && <Footer />}
     </article>
