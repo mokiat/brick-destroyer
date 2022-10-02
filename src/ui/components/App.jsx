@@ -5,11 +5,10 @@ import Playground from './Playground';
 
 const LEVEL_PATHS = [
   'levels/standard-bricks.json',
-  'levels/level_ecs.json',
-  'levels/level_boom.json',
-  'levels/level_physics.json',
-  'levels/level_too_many.json',
-  'levels/level_strange_one.json',
+  'levels/some-go-boom.json',
+  'levels/strange-tunnel.json',
+  'levels/too-many.json',
+  'levels/aisle-two.json',
 ];
 
 const Application = ({ decorations = true }) => {
