@@ -94,7 +94,7 @@ class Motion {
     );
 
     let slideVector = movingMotionComp.speed.dec(penetrationVector);
-    slideVector = slideVector.mul(1.0 - totalFriction);
+    slideVector = slideVector.mul(Math.max(1.0 - totalFriction, 0.0));
 
     let bounceVector = penetrationVector.mul(-1.0);
     bounceVector = bounceVector.mul(totalDeflection);

@@ -59,7 +59,7 @@
       "motion": {},
       "collision": {
         "deflection": 0.9,
-        "friction": 0.0,
+        "friction": 0.1,
         "shape_circle": {
           "radius": 13.5
         }
@@ -74,7 +74,7 @@
       "location": {},
       "collision": {
         "deflection": 1.0,
-        "friction": 0.1,
+        "friction": 0.0,
         "shape_rectangle": {
           "width": 75,
           "height": 40
@@ -131,7 +131,8 @@
     "friction_brick": {
       "types": ["brick", "brittle_brick"],
       "collision": {
-        "friction": 1.0
+        "deflection": 0.0,
+        "friction": 20.0
       },
       "sprite": {
         "image": "brick_friction"
@@ -164,7 +165,7 @@
       "location": {},
       "collision": {
         "deflection": 1.0,
-        "friction": 0.1,
+        "friction": 0.0,
         "shape_rectangle": {
           "width": 110.0,
           "height": 18.0
