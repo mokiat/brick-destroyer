@@ -1,0 +1,638 @@
+{
+  "name": "3. Tunnel of strangeness",
+  "next": "levels/too-many.json",
+  "images": {
+    "marker_horizontal": "images/marker-horizontal.png",
+    "marker_vertical": "images/marker-vertical.png",
+    "ball": "images/ball.png",
+    "slider_inactive": "images/slider-inactive.png",
+    "slider_active": "images/slider-active.png",
+    "brick_green": "images/brick-green.png",
+    "brick_red": "images/brick-red.png",
+    "brick_red_cracked": "images/brick-red-cracked.png",
+    "brick_grey": "images/brick-grey.png",
+    "brick_bomb": "images/brick-bomb.png",
+    "brick_friction": "images/brick-friction.png",
+    "brick_bounce": "images/brick-bounce.png",
+    "brick_ball": "images/brick-ball.png"
+  },
+  "types": {
+    "border": {
+      "location": {},
+      "collision": {
+        "deflection": 1.0,
+        "friction": 0.0,
+        "shape_rectangle": {}
+      }
+    },
+    "horizontal_marker": {
+      "sprite": {
+        "width": 1,
+        "height": 406,
+        "image": "marker_horizontal"
+      },
+      "mouseBound": {
+        "axisX": true,
+        "axisY": false
+      },
+      "location": {
+        "x": 300,
+        "y": 204
+      }
+    },
+    "vertical_marker": {
+      "sprite": {
+        "width": 600,
+        "height": 1,
+        "image": "marker_vertical"
+      },
+      "mouseBound": {
+        "axisX": false,
+        "axisY": true
+      },
+      "location": {
+        "x": 300,
+        "y": 204
+      }
+    },
+    "ball": {
+      "location": {},
+      "motion": {},
+      "collision": {
+        "deflection": 0.9,
+        "friction": 0.1,
+        "shape_circle": {
+          "radius": 13.5
+        }
+      },
+      "sprite": {
+        "width": 28,
+        "height": 28,
+        "image": "ball"
+      }
+    },
+    "brick": {
+      "location": {},
+      "collision": {
+        "deflection": 1.0,
+        "friction": 0.0,
+        "shape_rectangle": {
+          "width": 75,
+          "height": 40
+        }
+      },
+      "destroyOnExplode": {},
+      "sprite": {
+        "width": 75.0,
+        "height": 40.0
+      }
+    },
+    "brittle_brick": {
+      "destroyOnHit": {},
+      "shouldDestroy": {}
+    },
+    "green_brick": {
+      "types": ["brick", "brittle_brick"],
+      "sprite": {
+        "image": "brick_green"
+      }
+    },
+    "red_brick_cracked": {
+      "types": ["brick", "brittle_brick"],
+      "sprite": {
+        "image": "brick_red_cracked"
+      }
+    },
+    "red_brick": {
+      "types": ["brick", "brittle_brick"],
+      "sprite": {
+        "image": "brick_red"
+      },
+      "spawnOnDestroy": {
+        "definition": {
+          "types": ["red_brick_cracked"]
+        }
+      }
+    },
+    "grey_brick": {
+      "types": ["brick"],
+      "sprite": {
+        "image": "brick_grey"
+      }
+    },
+    "bomb_brick": {
+      "types": ["brick", "brittle_brick"],
+      "explodeOnDestroy": {
+        "explosionRadius": 76.0
+      },
+      "sprite": {
+        "image": "brick_bomb"
+      }
+    },
+    "slow_bomb_brick": {
+      "types": ["brick", "brittle_brick"],
+      "spawnOnDestroy": {
+        "definition": {
+          "types": ["bomb_brick"],
+          "timerDestroy": {
+            "timeout": 0.1
+          }
+        }
+      },
+      "sprite": {
+        "image": "brick_bomb"
+      }
+    },
+    "friction_brick": {
+      "types": ["brick", "brittle_brick"],
+      "collision": {
+        "deflection": 0.0,
+        "friction": 20.0
+      },
+      "sprite": {
+        "image": "brick_friction"
+      }
+    },
+    "bounce_brick": {
+      "types": ["brick", "brittle_brick"],
+      "collision": {
+        "deflection": 2.0
+      },
+      "sprite": {
+        "image": "brick_bounce"
+      }
+    },
+    "ball_brick": {
+      "types": ["brick", "brittle_brick"],
+      "spawnOnDestroy": {
+        "definition": {
+          "types": ["ball"],
+          "timerDestroy": {
+            "timeout": 5.0
+          }
+        }
+      },
+      "sprite": {
+        "image": "brick_ball"
+      }
+    },
+    "slider": {
+      "location": {},
+      "collision": {
+        "deflection": 1.0,
+        "friction": 0.0,
+        "shape_rectangle": {
+          "width": 110.0,
+          "height": 18.0
+        }
+      },
+      "sprite": {
+        "width": 110,
+        "height": 18,
+        "image": "slider_inactive"
+      },
+      "mouseBound": {
+        "axisX": true,
+        "axisY": false
+      },
+      "locationBound": {
+        "minX": 55.0,
+        "maxX": 545.0
+      },
+      "bounceToggleable": {
+        "activeImage": "slider_active",
+        "inactiveImage": "slider_inactive",
+        "deflection": {
+          "x": 2.0,
+          "y": 8.0
+        }
+      }
+    }
+  },
+  "entities": [
+    {
+      "types": ["horizontal_marker"]
+    },
+    {
+      "types": ["border"],
+      "location": {
+        "x": 300,
+        "y": -10
+      },
+      "collision": {
+        "shape_rectangle": {
+          "width": 600,
+          "height": 20
+        }
+      }
+    },
+    {
+      "types": ["border"],
+      "location": {
+        "x": 300,
+        "y": 418
+      },
+      "destroyOnHit": {},
+      "shouldNotDestroy": {},
+      "collision": {
+        "shape_rectangle": {
+          "width": 600,
+          "height": 20
+        }
+      }
+    },
+    {
+      "types": ["border"],
+      "location": {
+        "x": -10,
+        "y": 204
+      },
+      "collision": {
+        "shape_rectangle": {
+          "width": 20,
+          "height": 408
+        }
+      }
+    },
+    {
+      "types": ["border"],
+      "location": {
+        "x": 610,
+        "y": 204
+      },
+      "collision": {
+        "shape_rectangle": {
+          "width": 20,
+          "height": 408
+        }
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 37.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 112.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 187.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 262.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["slow_bomb_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["green_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 337.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 412.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 487.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 562.5,
+        "y": 20.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 562.5,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["bounce_brick"],
+      "spawnOnDestroy": {
+        "definition": {
+          "types": ["grey_brick"]
+        }
+      },
+      "location": {
+        "x": 562.5,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["bounce_brick"],
+      "spawnOnDestroy": {
+        "definition": {
+          "types": ["grey_brick"]
+        }
+      },
+      "location": {
+        "x": 562.5,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 562.5,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 562.5,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["grey_brick"],
+      "location": {
+        "x": 562.5,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["ball"],
+      "location": {
+        "x": 300,
+        "y": 300
+      }
+    },
+    {
+      "types": ["slider"],
+      "location": {
+        "x": 300,
+        "y": 397
+      }
+    }
+  ]
+}
