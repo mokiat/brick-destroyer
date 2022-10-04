@@ -10,6 +10,7 @@ const LEVEL_PATHS = [
   'levels/too-many.json',
   'levels/aisle-two.json',
   'levels/use-the-bounce.json',
+  'levels/pass-along.json',
 ];
 
 const Application = ({ decorations = true }) => {
