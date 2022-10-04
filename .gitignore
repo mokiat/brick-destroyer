@@ -1,2 +1,8 @@
-/target
+# NodeJS
+/node_modules
 
+# ReactJS
+/build
+
+# MacOS
+.DS_Store
