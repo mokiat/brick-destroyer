@@ -1,5 +1,6 @@
 {
   "name": "5. Cleanup on aisle two",
+  "next": "levels/use-the-bounce.json",
   "images": {
     "marker_horizontal": "images/marker-horizontal.png",
     "marker_vertical": "images/marker-vertical.png",

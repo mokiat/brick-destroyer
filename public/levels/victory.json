@@ -1,6 +1,5 @@
 {
-  "name": "8. Many ways to fail",
-  "next": "levels/elevator-pitch.json",
+  "name": "You win! Thanks for playing!",
   "images": {
     "marker_horizontal": "images/marker-horizontal.png",
     "marker_vertical": "images/marker-vertical.png",
@@ -197,316 +196,261 @@
   },
   "entities": [
     {
-      "types": ["horizontal_marker"]
-    },
-    {
-      "types": ["border"],
+      "types": ["red_brick"],
       "location": {
-        "x": 300,
-        "y": -10
-      },
-      "collision": {
-        "shape_rectangle": {
-          "width": 600,
-          "height": 20
-        }
-      }
-    },
-    {
-      "types": ["border"],
-      "location": {
-        "x": 300,
-        "y": 418
-      },
-      "destroyOnHit": {},
-      "shouldNotDestroy": {},
-      "collision": {
-        "shape_rectangle": {
-          "width": 600,
-          "height": 20
-        }
-      }
-    },
-    {
-      "types": ["border"],
-      "location": {
-        "x": -10,
-        "y": 204
-      },
-      "collision": {
-        "shape_rectangle": {
-          "width": 20,
-          "height": 408
-        }
-      }
-    },
-    {
-      "types": ["border"],
-      "location": {
-        "x": 610,
-        "y": 204
-      },
-      "collision": {
-        "shape_rectangle": {
-          "width": 20,
-          "height": 408
-        }
-      }
-    },
-    {
-      "types": ["green_brick"],
-      "location": {
-        "x": 37.5,
-        "y": 180.0
-      }
-    },
-    {
-      "types": ["bounce_brick"],
-      "location": {
-        "x": 37.5,
-        "y": 300.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 112.5,
-        "y": 20.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 112.5,
-        "y": 60.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 112.5,
+        "x": 75,
         "y": 100.0
       }
     },
     {
-      "types": ["grey_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 112.5,
+        "x": 75,
         "y": 140.0
       }
     },
     {
-      "types": ["grey_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 112.5,
+        "x": 75,
         "y": 180.0
       }
     },
+
     {
-      "types": ["grey_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 112.5,
-        "y": 300.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 112.5,
-        "y": 340.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 112.5,
-        "y": 380.0
-      }
-    },
-    {
-      "types": ["bomb_brick"],
-      "location": {
-        "x": 187.5,
+        "x": 150,
         "y": 60.0
       }
     },
     {
       "types": ["red_brick"],
       "location": {
-        "x": 187.5,
+        "x": 150,
         "y": 100.0
       }
     },
     {
-      "types": ["ball_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 187.5,
+        "x": 150,
         "y": 140.0
       }
     },
     {
-      "types": ["green_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 187.5,
+        "x": 150,
         "y": 180.0
       }
     },
     {
-      "types": ["friction_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 187.5,
+        "x": 150,
         "y": 220.0
       }
     },
     {
-      "types": ["green_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 262.5,
-        "y": 20.0
+        "x": 150,
+        "y": 260.0
+      }
+    },
+
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 225,
+        "y": 100.0
       }
     },
     {
-      "types": ["green_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 262.5,
-        "y": 60.0
-      }
-    },
-    {
-      "types": ["bomb_brick"],
-      "location": {
-        "x": 262.5,
+        "x": 225,
         "y": 140.0
       }
     },
     {
       "types": ["red_brick"],
       "location": {
-        "x": 262.5,
+        "x": 225,
         "y": 180.0
       }
     },
     {
-      "types": ["bomb_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 337.5,
-        "y": 20.0
+        "x": 225,
+        "y": 220.0
       }
     },
     {
       "types": ["red_brick"],
       "location": {
-        "x": 337.5,
-        "y": 60.0
-      }
-    },
-    {
-      "types": ["ball_brick"],
-      "location": {
-        "x": 337.5,
-        "y": 100.0
-      }
-    },
-    {
-      "types": ["green_brick"],
-      "location": {
-        "x": 412.5,
-        "y": 20.0
-      }
-    },
-    {
-      "types": ["green_brick"],
-      "location": {
-        "x": 412.5,
-        "y": 100.0
-      }
-    },
-    {
-      "types": ["bounce_brick"],
-      "location": {
-        "x": 412.5,
-        "y": 140.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
-        "y": 20.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
-        "y": 60.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
-        "y": 100.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
-        "y": 140.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
+        "x": 225,
         "y": 260.0
       }
     },
     {
-      "types": ["grey_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 487.5,
+        "x": 225,
         "y": 300.0
       }
     },
+
     {
-      "types": ["grey_brick"],
+      "types": ["red_brick"],
       "location": {
-        "x": 487.5,
-        "y": 340.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 487.5,
-        "y": 380.0
-      }
-    },
-    {
-      "types": ["grey_brick"],
-      "location": {
-        "x": 562.5,
+        "x": 300,
         "y": 140.0
       }
     },
     {
-      "types": ["ball"],
+      "types": ["red_brick"],
       "location": {
         "x": 300,
-        "y": 240
+        "y": 180.0
       }
     },
     {
-      "types": ["slider"],
-      "locationBound": {
-        "minX": 205.0,
-        "maxX": 395.0
-      },
+      "types": ["red_brick"],
       "location": {
         "x": 300,
-        "y": 397
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 300,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 300,
+        "y": 300.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 300,
+        "y": 340.0
+      }
+    },
+
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 260.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 375,
+        "y": 300.0
+      }
+    },
+
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 60.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 180.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 220.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 450,
+        "y": 260.0
+      }
+    },
+
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 525,
+        "y": 100.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 525,
+        "y": 140.0
+      }
+    },
+    {
+      "types": ["red_brick"],
+      "location": {
+        "x": 525,
+        "y": 180.0
       }
     }
   ]

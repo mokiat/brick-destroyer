@@ -12,7 +12,7 @@ const KEY_BACKSPACE = 'Backspace';
 const KEY_0 = '0';
 const KEY_9 = '9';
 
-const Playground = ({ level, onNextLevel, onSpecificLevel, onRandomLevel }) => {
+const Playground = ({ level, onNextLevel, onSpecificLevel }) => {
   const [title, setTitle] = useState('Welcome!');
 
   const levelTitle = (level) => {
@@ -104,9 +104,6 @@ const Playground = ({ level, onNextLevel, onSpecificLevel, onRandomLevel }) => {
     }
     if (e.key === KEY_BACKSPACE) {
       controller.changeLevel(level);
-    }
-    if (e.key === KEY_0) {
-      onRandomLevel();
     }
     if (e.key > KEY_0 && e.key <= KEY_9) {
       onSpecificLevel(e.key - KEY_0 - 1);

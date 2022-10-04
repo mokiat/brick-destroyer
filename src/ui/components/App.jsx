@@ -12,6 +12,7 @@ const LEVEL_PATHS = [
   'levels/use-the-bounce.json',
   'levels/pass-along.json',
   'levels/many-ways-to-fail.json',
+  'levels/elevator-pitch.json',
 ];
 
 const Application = ({ decorations = true }) => {
@@ -40,14 +41,12 @@ const Application = ({ decorations = true }) => {
   };
 
   useEffect(() => {
-    fetchLevel('levels/standard-bricks.json');
+    fetchLevel('levels/victory.json');
   }, []);
 
   const handleNextLevel = () => {
     if (level && level.next) {
       fetchLevel(level.next);
-    } else {
-      handleRandomLevel();
     }
   };
 
@@ -57,11 +56,6 @@ const Application = ({ decorations = true }) => {
     }
   };
 
-  const handleRandomLevel = () => {
-    const index = Math.floor(Math.random() * (LEVEL_PATHS.length - 1));
-    handleSpecificLevel(index);
-  };
-
   return (
     <article>
       {decorations && <Title />}
@@ -69,7 +63,6 @@ const Application = ({ decorations = true }) => {
         level={level}
         onNextLevel={handleNextLevel}
         onSpecificLevel={handleSpecificLevel}
-        onRandomLevel={handleRandomLevel}
       />
       {decorations && <Description />}
     </article>
