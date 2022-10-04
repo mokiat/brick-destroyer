@@ -7,23 +7,21 @@ const Description = () => {
         </strong>
       </p>
       <p>
-        <strong>Rules:</strong>
+        <strong>RULES</strong>
         <br />
         The goal of the game is to hit all destroyable bricks with the ball
         without allowing it to fall to the bottom. Some bricks have special
         behavior that needs to be taken into consideration.
       </p>
       <p>
-        <strong>Levels:</strong>
+        <strong>LEVELS</strong>
         <br />
-        The game features a number of introductory levels. Once those levels are
-        completed, the game presents random levels from a larger pool. Use{' '}
-        <strong>1-5</strong> to jump to a specific introductory level. Use{' '}
-        <strong>0</strong> to pick a random level. Use{' '}
-        <strong>BACKSPACE</strong> to restart a level if you ever get stuck.
+        The game features 9 levels that play in sequence. You can use{' '}
+        <strong>1-9</strong> on your keyboard to jump to a specific level. Use{' '}
+        <strong>BACKSPACE</strong> to restart a level.
       </p>
       <p>
-        <strong>Controls:</strong>
+        <strong>CONTROLS</strong>
         <br />
         Start each level by <strong>CLICKING</strong> with the{' '}
         <strong>MOUSE CURSOR</strong> inside the game area. <br />

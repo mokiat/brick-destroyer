@@ -45,7 +45,7 @@ const Playground = ({ level, onNextLevel, onSpecificLevel }) => {
 
   controller.notify(
     () => {
-      setTitle('Victory!');
+      setTitle('Level completed! Loading next level...');
       onNextLevel();
     },
     () => {
