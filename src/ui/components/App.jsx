@@ -41,7 +41,7 @@ const Application = ({ decorations = true }) => {
   };
 
   useEffect(() => {
-    fetchLevel('levels/victory.json');
+    fetchLevel('levels/standard-bricks.json');
   }, []);
 
   const handleNextLevel = () => {
