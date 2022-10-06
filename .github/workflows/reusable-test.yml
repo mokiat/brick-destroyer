@@ -19,5 +19,5 @@ jobs:
       - name: Fetch Dependencies
         run: yarn install
 
-      - name: Build
+      - name: Run Tests
         run: yarn test
